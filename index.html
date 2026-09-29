@@ -3,277 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kuiz Interaktif PKSK - 100 Soalan</title>
+    <title>Ujian Simulasi PKSK Aras Tinggi</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .fade-in { animation: fadeIn 0.3s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .option-btn:hover { transform: scale(1.02); }
-        .option-btn { transition: all 0.2s; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
+        .option-btn { transition: all 0.2s ease-in-out; }
+        .option-btn:hover { transform: translateY(-2px); }
+        .selected { background-color: #3b82f6 !important; color: white !important; border-color: #2563eb !important; }
     </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 font-sans text-slate-800">
+<body class="flex items-center justify-center min-h-screen p-4">
 
-    <div id="app-container" class="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden min-h-[500px] flex flex-col">
-        
-        <!-- Header -->
-        <div class="bg-blue-600 text-white p-6 text-center">
-            <h1 class="text-2xl md:text-3xl font-bold">Latihan Interaktif PKSK</h1>
-            <p class="text-blue-100 mt-2 text-sm md:text-base">Pentaksiran Kemasukan Sekolah Khusus (100 Soalan)</p>
-        </div>
-
-        <!-- Start Screen -->
-        <div id="start-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
-            <h2 class="text-xl font-semibold mb-4">Selamat Datang ke Simulasi PKSK</h2>
-            <p class="mb-6 text-slate-600 max-w-lg">
-                Ujian ini mengandungi <strong>100 soalan</strong> yang merangkumi:
-                <br><br>
-                🧠 Kecerdasan Intelek (IQ / Matematik)<br>
-                ❤️ Kecerdasan Insaniah (EQ / Sahsiah)<br>
-                🌍 Pengetahuan Am & Semasa<br>
-                📚 Penguasaan Bahasa
-            </p>
-            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
+    <div class="max-w-3xl w-full bg-white rounded-xl shadow-lg p-8" id="app-container">
+        <!-- Skrin Mula -->
+        <div id="start-screen" class="text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">Simulasi PKSK (Aras Tinggi)</h1>
+            <p class="text-gray-600 mb-6">Ujian ini mengandungi 100 soalan yang merangkumi Kecerdasan Insaniah (EQ), Pengetahuan Am, Bahasa, Sains, dan Kecerdasan Intelek (IQ/Logik). Masa dicadangkan: 90 Minit.</p>
+            <div class="grid grid-cols-2 gap-4 text-left bg-blue-50 p-4 rounded-lg mb-6">
+                <div>🧠 Bahagian A: Kecerdasan Insaniah</div>
+                <div>🌍 Bahagian B: Pengetahuan Am</div>
+                <div>📚 Bahagian C: Kefahaman Bahasa</div>
+                <div>🧩 Bahagian D: Logik & IQ</div>
+            </div>
+            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg transition duration-300">
                 Mula Ujian Sekarang
             </button>
         </div>
 
-        <!-- Quiz Screen -->
-        <div id="quiz-screen" class="hidden flex-1 flex-col p-6 md:p-8 fade-in">
+        <!-- Skrin Kuiz -->
+        <div id="quiz-screen" class="hidden">
             <div class="flex justify-between items-center mb-6">
-                <span id="question-counter" class="text-sm font-bold text-blue-600 bg-blue-100 py-1 px-3 rounded-full">Soalan 1 / 100</span>
-                <span id="score-display" class="text-sm font-semibold text-slate-500">Markah: 0</span>
+                <span class="text-sm font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full" id="category-badge">Kategori</span>
+                <span class="text-lg font-bold text-blue-600">Soalan <span id="current-q">1</span>/100</span>
             </div>
             
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
-                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 1%"></div>
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
+                <div class="bg-blue-600 h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
             </div>
 
-            <div class="flex-1">
-                <h3 id="question-text" class="text-lg md:text-xl font-medium mb-6 text-slate-800 leading-relaxed"></h3>
-                <div id="options-container" class="space-y-3">
-                    <!-- Options will be injected here -->
-                </div>
+            <h2 class="text-xl font-semibold text-gray-800 mb-6 leading-relaxed" id="question-text">Soalan dimuatkan...</h2>
+
+            <div class="space-y-3" id="options-container">
+                <!-- Pilihan jawapan dijana di sini -->
+            </div>
+
+            <div class="mt-8 flex justify-between">
+                <button onclick="prevQuestion()" id="prev-btn" class="hidden px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 font-semibold">Kembali</button>
+                <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold ml-auto">Seterusnya</button>
             </div>
         </div>
 
-        <!-- Result Screen -->
-        <div id="result-screen" class="hidden flex-1 flex-col items-center justify-center p-8 text-center fade-in">
-            <h2 class="text-3xl font-bold text-slate-800 mb-2">Ujian Tamat!</h2>
-            <p class="text-slate-500 mb-8">Berikut adalah keputusan simulasi PKSK anda.</p>
+        <!-- Skrin Keputusan -->
+        <div id="result-screen" class="hidden text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-2">Ujian Tamat!</h1>
+            <p class="text-gray-600 mb-6">Berikut adalah analisis keputusan anda.</p>
             
-            <div class="bg-blue-50 border-4 border-blue-200 rounded-full w-40 h-40 flex items-center justify-center mb-6 shadow-inner">
-                <span id="final-score" class="text-4xl font-black text-blue-600">0%</span>
-            </div>
-            
-            <h3 id="grade-text" class="text-2xl font-bold mb-2"></h3>
-            <p id="feedback-text" class="text-slate-600 mb-8 max-w-md"></p>
-            
-            <button onclick="resetQuiz()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
+            <div class="text-6xl font-bold text-blue-600 mb-2" id="score-text">0%</div>
+            <p class="text-xl text-gray-700 mb-8 font-medium" id="remark-text">Tahniah!</p>
+
+            <button onclick="location.reload()" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg shadow transition duration-300">
                 Cuba Lagi
             </button>
         </div>
-
     </div>
 
     <script>
-        // Array to hold 100 questions
-        let questions = [];
+        // Koleksi Soalan Manual Aras Tinggi (PKSK Standard)
+        const manualQuestions = [
+            // EQ (Kecerdasan Insaniah) - Tiada betul/salah mutlak, tetapi mencari tindakan paling positif/rasional
+            { q: "Rakan sekelas anda didapati membawa telefon pintar ke asrama yang merupakan satu kesalahan disiplin. Dia merayu agar anda tidak melaporkannya. Apakah tindakan terbaik anda?", options: ["Pura-pura tidak tahu untuk menjaga persahabatan", "Menasihatinya untuk menyerahkan kepada warden secara sukarela", "Melaporkan terus kepada warden tanpa pengetahuannya", "Meminta rasuah supaya anda mendiamkan diri"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Anda dilantik sebagai ketua kumpulan, namun salah seorang ahli kumpulan sentiasa membantah idea anda dan enggan bekerjasama. Bagaimana anda menguruskannya?", options: ["Membuangnya dari kumpulan", "Memarahi dan memaksanya ikut arahan", "Berbincang secara peribadi untuk memahami masalahnya", "Membiarkan sahaja asalkan kerja siap"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Dalam satu pertandingan, pasukan anda tewas pada peringkat akhir akibat kesilapan kecil yang dilakukan oleh anda sendiri. Pasukan anda amat kecewa. Tindakan anda?", options: ["Menyalahkan keadaan padang/fasiliti", "Meminta maaf secara terbuka dan berjanji memperbaiki diri", "Mendiamkan diri dan menjauhkan diri dari pasukan", "Menyatakan bahawa itu bukan salah anda sepenuhnya"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Anda terjumpa dompet berisi wang tunai RM500 di kawasan rehat sekolah, tetapi tiada sebarang kad pengenalan di dalamnya. Apa yang anda patut buat?", options: ["Mengambil wang tersebut kerana tiada identiti", "Menderma wang tersebut ke tabung masjid", "Menyerahkan dompet kepada guru disiplin/pejabat sekolah", "Menyimpan wang tersebut dan menunggu jika ada yang mencari"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Rakan anda sedang mengalami tekanan (stres) yang teruk akibat masalah keluarga dan mula ponteng sekolah. Sebagai rakan yang baik, anda patut:", options: ["Menasihatinya supaya berhenti sekolah", "Mendengar luahannya dan memujuknya berjumpa guru kaunseling", "Menceritakan masalahnya kepada rakan-rakan lain", "Menjauhkan diri supaya tidak terpengaruh"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
 
-        // Hardcoded Questions (Mix of EQ, General Knowledge, Language)
-        const hardcodedQuestions = [
-            // Pengetahuan Am & Tokoh
-            { q: "Siapakah Bapa Pemodenan Malaysia?", options: ["Tunku Abdul Rahman", "Tun Dr. Mahathir Mohamad", "Tun Abdul Razak", "Tan Sri Muhyiddin Yassin"], answer: 1 },
-            { q: "Bunga kebangsaan Malaysia, Bunga Raya mempunyai berapa kelopak yang melambangkan Rukun Negara?", options: ["4", "5", "6", "7"], answer: 1 },
-            { q: "Ibu negeri bagi negeri Sabah ialah...", options: ["Sandakan", "Tawau", "Kota Kinabalu", "Kudat"], answer: 2 },
-            { q: "Apakah gelaran untuk bendera Malaysia?", options: ["Jalur Lebar", "Jalur Gemilang", "Harimau Malaya", "Bintang Kejora"], answer: 1 },
-            { q: "Rukun Negara yang ketiga ialah...", options: ["Kesetiaan kepada Raja dan Negara", "Keluhuran Perlembagaan", "Kedaulatan Undang-undang", "Kepercayaan kepada Tuhan"], answer: 1 },
-            { q: "Bilakah Malaysia menyambut Hari Kemerdekaan?", options: ["31 Ogos 1957", "16 September 1963", "31 Ogos 1963", "16 Ogos 1957"], answer: 0 },
-            { q: "Gunung tertinggi di Asia Tenggara terletak di...", options: ["Indonesia", "Malaysia", "Filipina", "Thailand"], answer: 1 }, // Gunung Kinabalu (often cited as highest in Malay Archipelago/Malaysia, sometimes Hkakabo Razi in Myanmar is SEA highest, but in Msian syllabus Kinabalu is highlighted) -> Let's refine to Msia
-            { q: "Gunung tertinggi di Malaysia ialah...", options: ["Gunung Tahan", "Gunung Mulu", "Gunung Kinabalu", "Gunung Jerai"], answer: 2 },
-            { q: "Lagu kebangsaan negara kita ialah...", options: ["Negaraku", "Jalur Gemilang", "Malaysia Boleh", "Sehati Sejiwa"], answer: 0 },
-            { q: "Warna kuning pada bendera Malaysia melambangkan...", options: ["Kesucian", "Keberanian", "Perpaduan", "Kedaulatan Raja-Raja Melayu"], answer: 3 },
-            
-            // Bahasa Melayu (Simpulan Bahasa / Tatabahasa)
-            { q: "Pilih simpulan bahasa yang bermaksud 'orang yang cepat marah'.", options: ["Kaki bangku", "Telinga nipis", "Hati batu", "Ulat buku"], answer: 1 },
-            { q: "Peribahasa 'Bagai aur dengan tebing' bermaksud...", options: ["Saling tolong-menolong", "Sangat rapat", "Selalu bergaduh", "Sangat cantik"], answer: 0 },
-            { q: "Pilih ejaan yang betul.", options: ["Motosikal", "Motorbasikal", "Motorsikal", "Motosyikal"], answer: 0 },
-            { q: "Apakah maksud simpulan bahasa 'makan angin'?", options: ["Makan dengan banyak", "Bercuti atau bersiar-siar", "Marah yang teramat", "Bercakap kosong"], answer: 1 },
-            { q: "Lawan kata bagi perkataan 'Rajin' ialah...", options: ["Pandai", "Malas", "Bodoh", "Lembap"], answer: 1 },
-            
-            // Kecerdasan Insaniah (EQ / Sahsiah) - Pilih tindakan paling positif
-            { q: "Rakan anda didapati menangis kerana gagal dalam ujian. Apakah tindakan anda?", options: ["Mengejeknya kerana tidak pandai", "Membiarkannya keseorangan", "Memujuk dan menawarkan bantuan untuk belajar bersama", "Melaporkan kepada guru disiplin"], answer: 2 },
-            { q: "Anda terjumpa dompet di kawasan kantin sekolah. Apa yang patut anda lakukan?", options: ["Mengambil wang di dalamnya dan membuang dompet", "Menyerahkan dompet tersebut kepada guru bertugas", "Membiarkan sahaja dompet itu di situ", "Menyimpan dompet itu untuk diri sendiri"], answer: 1 },
-            { q: "Cikgu meminta bantuan untuk mengangkat buku ke bilik guru, tetapi anda sedang rehat. Tindakan anda?", options: ["Meminta kawan lain yang buat", "Segera membantu cikgu tersebut", "Berpura-pura tidak dengar", "Memberitahu cikgu anda sedang sibuk"], answer: 1 },
-            { q: "Anda melihat seorang murid junior dibuli oleh rakan sekelas anda. Tindakan terbaik anda ialah...", options: ["Menyertai rakan sekelas membuli", "Merakam kejadian tersebut dengan telefon bimbit", "Melaporkan kejadian itu kepada guru disiplin segera", "Menyorak rakan sekelas anda"], answer: 2 },
-            { q: "Dalam kerja kumpulan, seorang ahli tidak menjalankan tugasnya. Anda patut...", options: ["Memarahinya di hadapan rakan lain", "Menyingkirkannya dari kumpulan secara diam-diam", "Menegur secara berhemah dan bertanya jika dia perlukan bantuan", "Melakukan semua kerja untuknya supaya cepat siap"], answer: 2 },
-            { q: "Ibu bapa anda sibuk mengemas rumah pada hujung minggu. Tindakan anda?", options: ["Tidur sepanjang hari", "Keluar bermain bersama rakan", "Menawarkan diri untuk membantu mereka", "Menonton televisyen"], answer: 2 },
-            { q: "Anda telah berjanji untuk hadir ke perjumpaan kokurikulum, tetapi anda berasa penat. Apa yang anda buat?", options: ["Tidak hadir tanpa sebarang notis", "Hadir dan cuba melibatkan diri sebaik mungkin", "Hadir tetapi tidur di bilik darjah", "Menyuruh rakan menipu kehadiran anda"], answer: 1 },
-            
-            // Sains (Asas)
-            { q: "Proses tumbuhan membuat makanannya sendiri dipanggil...", options: ["Respirasi", "Kondensasi", "Fotosintesis", "Transpirasi"], answer: 2 },
-            { q: "Planet ketiga dari Matahari dalam sistem suria kita ialah...", options: ["Marikh", "Bumi", "Zuhrah", "Musytari"], answer: 1 },
-            { q: "Haiwan yang makan tumbuh-tumbuhan sahaja dikenali sebagai...", options: ["Karnivor", "Herbivor", "Omnivor", "Dinosaur"], answer: 1 },
-            { q: "Apakah gas yang disedut oleh manusia untuk bernafas?", options: ["Karbon dioksida", "Oksigen", "Nitrogen", "Hidrogen"], answer: 1 },
-            { q: "Air bertukar menjadi ais pada suhu...", options: ["100 darjah Celcius", "50 darjah Celcius", "0 darjah Celcius", "-10 darjah Celcius"], answer: 2 }
+            // Pengetahuan Am & Kenegaraan
+            { q: "Apakah gas penyumbang utama kepada fenomena kesan rumah hijau di bumi?", options: ["Oksigen", "Nitrogen", "Karbon Dioksida", "Hidrogen"], answer: 2, category: "Pengetahuan Am & Sains" },
+            { q: "Perlembagaan Persekutuan Tanah Melayu mula dikuatkuasakan pada tahun?", options: ["1957", "1963", "1948", "1969"], answer: 0, category: "Kenegaraan" },
+            { q: "Siapakah tokoh yang digelar sebagai Bapa Pemodenan Malaysia?", options: ["Tunku Abdul Rahman", "Tun Abdul Razak", "Tun Hussein Onn", "Tun Dr. Mahathir Mohamad"], answer: 3, category: "Kenegaraan" },
+            { q: "Antara berikut, yang manakah BUKAN ahli Pertubuhan Negara-Negara Asia Tenggara (ASEAN)?", options: ["Kemboja", "Timor-Leste", "Sri Lanka", "Myanmar"], answer: 2, category: "Pengetahuan Am" },
+            { q: "Di manakah letaknya ibu pejabat Pertubuhan Bangsa-Bangsa Bersatu (PBB)?", options: ["Geneva", "New York", "London", "Paris"], answer: 1, category: "Pengetahuan Am" },
+            { q: "Apakah nama lapisan atmosfera bumi yang paling hampir dengan permukaan bumi, di mana berlaku fenomena cuaca?", options: ["Stratosfera", "Troposfera", "Mesosfera", "Eksosfera"], answer: 1, category: "Sains" },
+            { q: "Proses tumbuhan hijau membuat makanan sendiri menggunakan cahaya matahari dipanggil:", options: ["Respirasi", "Transpirasi", "Fotosintesis", "Kondensasi"], answer: 2, category: "Sains" },
+
+            // Bahasa Melayu & Inggeris (Kefahaman & Peribahasa)
+            { q: "Pilih peribahasa yang paling sesuai untuk situasi: 'Ali seorang yang pendiam, tetapi dia sebenarnya sangat bijak dan sering mendapat tempat pertama.'", options: ["Katak di bawah tempurung", "Diam-diam ubi berisi", "Seperti anjing dengan kucing", "Batu loncatan"], answer: 1, category: "Bahasa Melayu" },
+            { q: "Perkataan 'Eksploitasi' membawa maksud...", options: ["Penerokaan kawasan baru", "Penggunaan sesuatu untuk keuntungan diri sendiri secara tidak adil", "Eksperimen sains di makmal", "Penghantaran barangan ke luar negara"], answer: 1, category: "Bahasa Melayu" },
+            { q: "Ayat manakah yang betul penggunaan tatabahasanya?", options: ["Saling tolong-menolong amalan mulia.", "Mereka saling bantu-membantu membersihkan kelas.", "Kita hendaklah saling menolong antara satu sama lain.", "Mereka saling membantu dalam menyiapkan tugasan itu."], answer: 3, category: "Bahasa Melayu" },
+            { q: "Choose the correct synonym for the word 'VITAL':", options: ["Optional", "Important", "Trivial", "Complex"], answer: 1, category: "Bahasa Inggeris" },
+            { q: "If it rains tomorrow, we _______ the picnic.", options: ["cancel", "will cancel", "canceled", "canceling"], answer: 1, category: "Bahasa Inggeris" },
+
+            // IQ, Logik & Analitikal (Bukan sekadar kira-kira)
+            { q: "Jika HARI = 81189, dan MALAM = 13112113, apakah pengekodan yang digunakan?", options: ["Susunan abjad (A=1, B=2...)", "Nombor rawak", "Susunan abjad terbalik (Z=1, Y=2...)", "Sifir darab abjad"], answer: 0, category: "Kecerdasan Intelek (Logik)" },
+            { q: "Ahmad lebih tinggi daripada Bakar. Chandran lebih rendah daripada Bakar tetapi lebih tinggi daripada Daud. Siapakah yang paling rendah?", options: ["Ahmad", "Bakar", "Chandran", "Daud"], answer: 3, category: "Kecerdasan Intelek (Logik)" },
+            { q: "Sebuah lif bermula di tingkat 3. Ia naik 5 tingkat, turun 2 tingkat, naik 6 tingkat, dan turun 4 tingkat. Di tingkat berapakah lif itu sekarang?", options: ["Tingkat 6", "Tingkat 8", "Tingkat 10", "Tingkat 12"], answer: 1, category: "Kecerdasan Intelek (Logik)" },
+            { q: "Berapakah bilangan segi empat sama yang ada pada papan catur yang berukuran 8x8 (termasuk segi empat pelbagai saiz)?", options: ["64", "128", "204", "256"], answer: 2, category: "Kecerdasan Intelek (Logik)" }
         ];
 
-        // Function to generate Math & Logic (IQ) questions to fill up to 100
-        function generateQuestions() {
-            // Add hardcoded questions first
-            hardcodedQuestions.forEach(q => questions.push(q));
+        let questions = [];
+        let currentQuestionIndex = 0;
+        let userAnswers = new Array(100).fill(null);
 
-            // Generate remaining questions until we hit 100
-            let qNum = questions.length;
-            while(questions.length < 100) {
-                qNum++;
-                let type = Math.floor(Math.random() * 4); // 0: Addition, 1: Subtraction, 2: Multiplication, 3: Sequence
-                
+        // Enjin Penjana Soalan IQ & Logik (Bagi mencukupkan 100 soalan)
+        function generateIQQuestions(count) {
+            let generated = [];
+            for (let i = 0; i < count; i++) {
+                let type = Math.floor(Math.random() * 4);
+                let qText, options, answer;
+
                 if (type === 0) {
-                    let a = Math.floor(Math.random() * 50) + 15;
-                    let b = Math.floor(Math.random() * 50) + 15;
-                    let ans = a + b;
-                    let options = [ans, ans + Math.floor(Math.random()*5)+1, ans - Math.floor(Math.random()*5)-1, ans + 10].sort(() => Math.random() - 0.5);
-                    questions.push({ q: `Selesaikan: ${a} + ${b} = ?`, options: options.map(String), answer: options.indexOf(ans) });
+                    // Pola Nombor (Fibonacci / Lompatan bertingkat)
+                    let start = Math.floor(Math.random() * 5) + 1;
+                    let diff = Math.floor(Math.random() * 4) + 2;
+                    let seq = [start];
+                    for(let j=1; j<4; j++) seq.push(seq[j-1] + (diff * j)); // Pola meningkat
+                    let nextNum = seq[3] + (diff * 4);
+                    
+                    qText = `Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ...?`;
+                    options = [nextNum - 2, nextNum, nextNum + 3, nextNum + diff].sort(() => Math.random() - 0.5);
+                    answer = options.indexOf(nextNum);
                 } 
                 else if (type === 1) {
-                    let a = Math.floor(Math.random() * 100) + 50;
-                    let b = Math.floor(Math.random() * 40) + 10;
-                    let ans = a - b;
-                    let options = [ans, ans + 2, ans - 5, ans + 10].sort(() => Math.random() - 0.5);
-                    questions.push({ q: `Selesaikan: ${a} - ${b} = ?`, options: options.map(String), answer: options.indexOf(ans) });
+                    // Logik Abjad (Lompatan huruf)
+                    let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                    let startIdx = Math.floor(Math.random() * 15);
+                    let skip = Math.floor(Math.random() * 3) + 2;
+                    let seq = [letters[startIdx], letters[startIdx + skip], letters[startIdx + skip*2]];
+                    let nextLetter = letters[startIdx + skip*3];
+                    
+                    qText = `Lengkapkan siri abjad ini: ${seq.join(', ')}, ...?`;
+                    options = [letters[startIdx + skip*3 + 1], nextLetter, letters[startIdx + skip*3 - 1], letters[startIdx + skip*3 + 2]].sort(() => Math.random() - 0.5);
+                    answer = options.indexOf(nextLetter);
                 }
                 else if (type === 2) {
-                    let a = Math.floor(Math.random() * 12) + 2;
-                    let b = Math.floor(Math.random() * 12) + 2;
-                    let ans = a * b;
-                    let options = [ans, ans + a, ans - b, ans + 5].sort(() => Math.random() - 0.5);
-                    questions.push({ q: `Berapakah hasil darab ${a} dan ${b}?`, options: options.map(String), answer: options.indexOf(ans) });
+                    // Soalan Analogi Kiasan
+                    const analogies = [
+                        { q: "Mata : Melihat = Telinga : ?", a: "Mendengar", w: ["Menghidu", "Merasa", "Bercakap"] },
+                        { q: "Buku : Membaca = Pen : ?", a: "Menulis", w: ["Melukis", "Menyimpan", "Mewarna"] },
+                        { q: "Siang : Matahari = Malam : ?", a: "Bulan", w: ["Bintang", "Gelap", "Awan"] },
+                        { q: "Doktor : Hospital = Guru : ?", a: "Sekolah", w: ["Kelas", "Pejabat", "Kantin"] }
+                    ];
+                    let r = analogies[Math.floor(Math.random() * analogies.length)];
+                    qText = `Selesaikan analogi ini: ${r.q}`;
+                    options = [r.a, ...r.w].sort(() => Math.random() - 0.5);
+                    answer = options.indexOf(r.a);
                 }
                 else {
-                    // Sequence (e.g. 2, 4, 6, 8...)
-                    let start = Math.floor(Math.random() * 10) + 1;
-                    let step = Math.floor(Math.random() * 5) + 2;
-                    let seq = [start, start + step, start + (step*2), start + (step*3)];
-                    let ans = start + (step*4);
-                    let options = [ans, ans + 1, ans - 1, ans + step].sort(() => Math.random() - 0.5);
-                    questions.push({ q: `Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ... ?`, options: options.map(String), answer: options.indexOf(ans) });
+                    // Matematik Logik (Masalah berpusing)
+                    let a = Math.floor(Math.random() * 10) + 10;
+                    let b = Math.floor(Math.random() * 5) + 3;
+                    let c = (a * b) - 5;
+                    qText = `Sebuah kotak mengandungi ${a} biji epal. Jika setiap epal dipotong kepada ${b} bahagian, dan 5 bahagian telah dimakan, berapa bahagian epal yang tinggal?`;
+                    options = [c, c+5, c-b, a*b].sort(() => Math.random() - 0.5);
+                    answer = options.indexOf(c);
                 }
+
+                generated.push({ q: qText, options: options, answer: answer, category: "Kecerdasan Intelek (IQ/Logik)" });
             }
-
-            // Optional: Shuffle the entire 100 questions for randomness
-            questions = questions.sort(() => Math.random() - 0.5);
+            return generated;
         }
-
-        // Quiz State
-        let currentQuestionIndex = 0;
-        let score = 0;
-
-        // DOM Elements
-        const startScreen = document.getElementById('start-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
-        const questionText = document.getElementById('question-text');
-        const optionsContainer = document.getElementById('options-container');
-        const progressbar = document.getElementById('progress-bar');
-        const questionCounter = document.getElementById('question-counter');
-        const scoreDisplay = document.getElementById('score-display');
 
         function startQuiz() {
-            questions = []; // reset array
-            generateQuestions(); // fill 100 questions
-            currentQuestionIndex = 0;
-            score = 0;
+            document.getElementById('start-screen').classList.add('hidden');
+            document.getElementById('quiz-screen').classList.remove('hidden');
             
-            startScreen.classList.add('hidden');
-            resultScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            quizScreen.classList.add('flex');
+            // Gabungkan soalan manual dan jana baki sehingga 100
+            let needed = 100 - manualQuestions.length;
+            let dynamicQuestions = generateIQQuestions(needed);
             
-            updateScoreDisplay();
-            showQuestion();
+            // Campurkan (Shuffle) soalan supaya tidak tersusun mengikut kategori
+            questions = [...manualQuestions, ...dynamicQuestions].sort(() => Math.random() - 0.5);
+            
+            loadQuestion();
         }
 
-        function showQuestion() {
-            const currentQuestion = questions[currentQuestionIndex];
+        function loadQuestion() {
+            let qData = questions[currentQuestionIndex];
             
-            // Update Progress & Counter
-            questionCounter.innerText = `Soalan ${currentQuestionIndex + 1} / 100`;
-            const progressPct = ((currentQuestionIndex) / 100) * 100;
-            progressbar.style.width = `${progressPct}%`;
+            // Update UI
+            document.getElementById('current-q').innerText = currentQuestionIndex + 1;
+            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / 100) * 100}%`;
+            document.getElementById('category-badge').innerText = qData.category;
+            document.getElementById('question-text').innerText = qData.q;
             
-            // Update Question Text
-            questionText.innerText = currentQuestion.q;
+            // Navigasi
+            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestionIndex === 0);
             
-            // Render Options
-            optionsContainer.innerHTML = '';
-            currentQuestion.options.forEach((option, index) => {
-                const btn = document.createElement('button');
-                btn.className = 'option-btn w-full text-left bg-white border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50 text-slate-700 font-medium py-4 px-6 rounded-xl cursor-pointer shadow-sm';
-                btn.innerText = `${String.fromCharCode(65 + index)}. ${option}`; // A. B. C. D.
-                btn.onclick = () => selectAnswer(index);
-                optionsContainer.appendChild(btn);
+            if(currentQuestionIndex === 99) {
+                document.getElementById('next-btn').innerText = "Hantar Jawapan";
+                document.getElementById('next-btn').classList.replace('bg-blue-600', 'bg-green-600');
+                document.getElementById('next-btn').classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+            } else {
+                document.getElementById('next-btn').innerText = "Seterusnya";
+                document.getElementById('next-btn').classList.replace('bg-green-600', 'bg-blue-600');
+                document.getElementById('next-btn').classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+            }
+
+            // Load Options
+            const container = document.getElementById('options-container');
+            container.innerHTML = "";
+            
+            qData.options.forEach((opt, index) => {
+                let isSelected = userAnswers[currentQuestionIndex] === index;
+                let btn = document.createElement('button');
+                btn.className = `option-btn w-full text-left p-4 border-2 rounded-lg font-medium ${isSelected ? 'selected' : 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'}`;
+                btn.innerText = opt;
+                btn.onclick = () => selectOption(index);
+                container.appendChild(btn);
             });
         }
 
-        function selectAnswer(selectedIndex) {
-            const currentQuestion = questions[currentQuestionIndex];
-            
-            // Check if correct
-            if (selectedIndex === currentQuestion.answer) {
-                score++;
+        function selectOption(index) {
+            userAnswers[currentQuestionIndex] = index;
+            loadQuestion(); // Reload untuk paparkan pilihan
+        }
+
+        function nextQuestion() {
+            if(userAnswers[currentQuestionIndex] === null) {
+                alert("Sila pilih jawapan terlebih dahulu!");
+                return;
             }
-            
-            currentQuestionIndex++;
-            updateScoreDisplay();
-            
-            // Check if end of quiz
-            if (currentQuestionIndex < 100) {
-                showQuestion();
+
+            if (currentQuestionIndex < 99) {
+                currentQuestionIndex++;
+                loadQuestion();
             } else {
-                endQuiz();
+                showResults();
             }
         }
 
-        function updateScoreDisplay() {
-            scoreDisplay.innerText = `Markah: ${score}`;
-        }
-
-        function endQuiz() {
-            quizScreen.classList.remove('flex');
-            quizScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
-            resultScreen.classList.add('flex');
-            
-            const percentage = (score / 100) * 100;
-            document.getElementById('final-score').innerText = `${percentage}%`;
-            
-            let grade = '';
-            let feedback = '';
-            
-            if (percentage >= 80) {
-                grade = 'Cemerlang!';
-                feedback = 'Tahniah! Anda mempunyai potensi yang sangat tinggi untuk melepasi ujian PKSK. Teruskan usaha cemerlang ini.';
-            } else if (percentage >= 60) {
-                grade = 'Baik';
-                feedback = 'Pencapaian yang bagus, namun ada ruang untuk pembaikan terutamanya dalam aspek ketepatan dan kelajuan. Banyakkan latihan!';
-            } else if (percentage >= 40) {
-                grade = 'Sederhana';
-                feedback = 'Anda perlukan lebih banyak pendedahan kepada bentuk-bentuk soalan PKSK. Jangan putus asa dan teruskan mengulang kaji.';
-            } else {
-                grade = 'Perlu Banyak Usaha';
-                feedback = 'Jangan bersedih. Jadikan ini sebagai titik tolak untuk membuat persediaan yang lebih rapi sebelum peperiksaan sebenar.';
+        function prevQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                loadQuestion();
             }
-            
-            document.getElementById('grade-text').innerText = grade;
-            document.getElementById('feedback-text').innerText = feedback;
         }
 
-        function resetQuiz() {
-            startScreen.classList.remove('hidden');
-            startScreen.classList.add('flex');
-            resultScreen.classList.remove('flex');
-            resultScreen.classList.add('hidden');
+        function showResults() {
+            document.getElementById('quiz-screen').classList.add('hidden');
+            document.getElementById('result-screen').classList.remove('hidden');
+
+            let score = 0;
+            for (let i = 0; i < 100; i++) {
+                if (userAnswers[i] === questions[i].answer) {
+                    score++;
+                }
+            }
+
+            let percentage = score; // Sbb ada 100 soalan, skor = peratus
+            document.getElementById('score-text').innerText = `${percentage}%`;
+
+            let remark = "";
+            if (percentage >= 85) remark = "Cemerlang! Anda sangat bersedia untuk PKSK yang sebenar. Pemikiran analitikal dan EQ anda sangat tinggi.";
+            else if (percentage >= 65) remark = "Baik. Anda mempunyai asas pengetahuan umum dan logik yang mantap. Teruskan latihan untuk soalan KBAT.";
+            else if (percentage >= 40) remark = "Sederhana. Anda perlu banyakkan membaca isu semasa dan melatih kemahiran deduksi logik (IQ).";
+            else remark = "Jangan putus asa. Kertas PKSK memerlukan latihan membiasakan diri dengan soalan logikal dan penyelesaian masalah di luar kotak.";
+
+            document.getElementById('remark-text').innerText = remark;
         }
     </script>
 </body>
