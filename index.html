@@ -126,7 +126,7 @@
         </main>
 
         <!-- ================= SKRIN KUIZ & NAVIGASI ================= -->
-        <main id="screen-quiz" class="hidden flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <main id="screen-quiz" class="hidden flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
             
             <!-- Main Question Area (Left - 3 Cols) -->
             <div class="lg:col-span-3 bg-white rounded-2xl shadow-xl border border-slate-200/80 p-5 sm:p-8 flex flex-col justify-between min-h-[500px]">
@@ -180,12 +180,12 @@
                 </div>
             </div>
 
-            <!-- Sidebar Grid Navigation (Right - 1 Col on Desktop, Drawer on Mobile) -->
+            <!-- Sidebar Grid Navigation (Right - 1 Col on Desktop, Fixed height & Sticky) -->
             <div id="grid-drawer-container" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:relative lg:inset-auto lg:bg-transparent lg:block">
-                <div class="bg-white h-full lg:h-auto rounded-2xl shadow-xl border border-slate-200/80 p-5 flex flex-col max-h-[85vh] lg:max-h-none w-80 max-w-full ml-auto lg:w-full">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-5 flex flex-col h-full max-h-[85vh] lg:max-h-[580px] w-80 max-w-full ml-auto lg:w-full lg:sticky lg:top-20">
                     
                     <!-- Sidebar Header -->
-                    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3 flex-shrink-0">
                         <h4 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
                             <i class="fa-solid fa-table-cells text-indigo-600"></i> Papan Soalan
                         </h4>
@@ -195,7 +195,7 @@
                     </div>
 
                     <!-- Counter Stats -->
-                    <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-3">
+                    <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-3 flex-shrink-0">
                         <div class="bg-slate-100 p-1.5 rounded-lg border border-slate-200"><span id="count-unanswered" class="text-slate-700 block text-xs">100</span>Belum</div>
                         <div class="bg-amber-50 p-1.5 rounded-lg border border-amber-200 text-amber-800"><span id="count-skipped" class="block text-xs">0</span>Pass</div>
                         <div class="bg-emerald-50 p-1.5 rounded-lg border border-emerald-200 text-emerald-800"><span id="count-correct" class="block text-xs">0</span>Betul</div>
@@ -203,16 +203,18 @@
                     </div>
 
                     <!-- Grid Numbers 1 - 100 -->
-                    <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
+                    <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 min-h-0">
                         <div id="box-grid-numbers" class="grid grid-cols-5 gap-2">
                             <!-- 1 to 100 injected dynamically -->
                         </div>
                     </div>
 
                     <!-- Finish Quiz Button -->
-                    <button onclick="confirmFinishQuiz()" class="mt-4 w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow">
-                        <i class="fa-solid fa-flag-checkered"></i> Tamatkan Ujian Sekarang
-                    </button>
+                    <div class="pt-3 mt-2 border-t border-slate-100 flex-shrink-0">
+                        <button onclick="confirmFinishQuiz()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow">
+                            <i class="fa-solid fa-flag-checkered"></i> Tamatkan Ujian Sekarang
+                        </button>
+                    </div>
                 </div>
             </div>
         </main>
@@ -510,7 +512,7 @@
                 let btn = document.createElement('button');
                 btn.id = `grid-item-${i}`;
                 btn.innerText = i + 1;
-                btn.className = `grid-nav-item h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition `;
+                btn.className = `grid-nav-item h-8 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition `;
                 btn.onclick = () => jumpToQuestion(i);
                 gridBox.appendChild(btn);
             }
@@ -528,7 +530,7 @@
                 let isCurrent = i === currentQuestionIndex;
 
                 // Base classes
-                btn.className = `grid-nav-item h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition ${isCurrent ? 'ring-2 ring-indigo-600 ring-offset-2 z-10' : ''} `;
+                btn.className = `grid-nav-item h-8 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition ${isCurrent ? 'ring-2 ring-indigo-600 ring-offset-2 z-10' : ''} `;
 
                 if (st === null) {
                     countUnans++;
