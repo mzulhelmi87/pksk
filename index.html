@@ -3,263 +3,635 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ujian Simulasi PKSK Aras Tinggi</title>
+    <title>Simulasi Ujian PKSK - 500 Soalan (5 Set)</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f3f4f6; }
-        .option-btn { transition: all 0.2s ease-in-out; }
-        .option-btn:hover { transform: translateY(-2px); }
-        .selected { background-color: #3b82f6 !important; color: white !important; border-color: #2563eb !important; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+        .grid-nav-item { transition: all 0.15s ease; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="bg-slate-100 text-slate-800 min-h-screen flex flex-col">
 
-    <div class="max-w-3xl w-full bg-white rounded-xl shadow-lg p-8" id="app-container">
-        <!-- Skrin Mula -->
-        <div id="start-screen" class="text-center">
-            <h1 class="text-3xl font-bold text-gray-800 mb-4">Simulasi PKSK (Aras Tinggi)</h1>
-            <p class="text-gray-600 mb-6">Ujian ini mengandungi 100 soalan yang merangkumi Kecerdasan Insaniah (EQ), Pengetahuan Am, Bahasa, Sains, dan Kecerdasan Intelek (IQ/Logik). Masa dicadangkan: 90 Minit.</p>
-            <div class="grid grid-cols-2 gap-4 text-left bg-blue-50 p-4 rounded-lg mb-6">
-                <div>🧠 Bahagian A: Kecerdasan Insaniah</div>
-                <div>🌍 Bahagian B: Pengetahuan Am</div>
-                <div>📚 Bahagian C: Kefahaman Bahasa</div>
-                <div>🧩 Bahagian D: Logik & IQ</div>
-            </div>
-            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg text-lg transition duration-300">
-                Mula Ujian Sekarang
-            </button>
-        </div>
-
-        <!-- Skrin Kuiz -->
-        <div id="quiz-screen" class="hidden">
-            <div class="flex justify-between items-center mb-6">
-                <span class="text-sm font-semibold text-gray-500 bg-gray-100 px-3 py-1 rounded-full" id="category-badge">Kategori</span>
-                <span class="text-lg font-bold text-blue-600">Soalan <span id="current-q">1</span>/100</span>
+    <!-- Top Bar Navigation Header -->
+    <header class="bg-indigo-900 text-white shadow-md sticky top-0 z-30">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-graduation-cap text-2xl text-amber-400"></i>
+                <div>
+                    <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-none">Simulasi PKSK Interaktif</h1>
+                    <p class="text-xs text-indigo-200 mt-0.5 hidden sm:block">Pentaksiran Kemasukan Sekolah Khusus (500 Soalan • 5 Set)</p>
+                </div>
             </div>
             
-            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-6">
-                <div class="bg-blue-600 h-2.5 rounded-full" id="progress-bar" style="width: 0%"></div>
-            </div>
-
-            <h2 class="text-xl font-semibold text-gray-800 mb-6 leading-relaxed" id="question-text">Soalan dimuatkan...</h2>
-
-            <div class="space-y-3" id="options-container">
-                <!-- Pilihan jawapan dijana di sini -->
-            </div>
-
-            <div class="mt-8 flex justify-between">
-                <button onclick="prevQuestion()" id="prev-btn" class="hidden px-6 py-2 border-2 border-gray-300 text-gray-600 rounded-lg hover:bg-gray-50 font-semibold">Kembali</button>
-                <button onclick="nextQuestion()" id="next-btn" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 font-semibold ml-auto">Seterusnya</button>
+            <div id="header-quiz-info" class="hidden flex items-center space-x-3">
+                <!-- Clock Badge -->
+                <div class="bg-indigo-950/80 px-3 py-1.5 rounded-lg border border-indigo-700/50 flex items-center space-x-2">
+                    <i class="fa-regular fa-clock text-amber-400 text-sm"></i>
+                    <span id="timer-display" class="font-mono font-bold text-amber-300 text-sm sm:text-base">90:00</span>
+                </div>
+                <!-- Drawer Toggle Button (Mobile & Desktop) -->
+                <button onclick="toggleGridDrawer()" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center space-x-2 transition border border-indigo-500">
+                    <i class="fa-solid fa-th"></i>
+                    <span class="hidden md:inline">Navigasi Soalan</span>
+                </button>
             </div>
         </div>
+    </header>
 
-        <!-- Skrin Keputusan -->
-        <div id="result-screen" class="hidden text-center">
-            <h1 class="text-3xl font-bold text-gray-800 mb-2">Ujian Tamat!</h1>
-            <p class="text-gray-600 mb-6">Berikut adalah analisis keputusan anda.</p>
+    <div class="flex-1 max-w-7xl w-full mx-auto p-3 sm:p-6 flex flex-col justify-center">
+
+        <!-- ================= SKRIN SELEKSI SET ================= -->
+        <main id="screen-set-select" class="max-w-4xl mx-auto w-full bg-white rounded-2xl shadow-xl p-6 sm:p-10 border border-slate-200/80">
+            <div class="text-center max-w-2xl mx-auto mb-8">
+                <span class="bg-indigo-100 text-indigo-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Persediaan PKSK</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-2 mb-3">Pilih Set Latihan Ujian</h2>
+                <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
+                    Setiap set mengandungi <strong class="text-indigo-600">100 soalan unik KBAT</strong> mengikut format rasmi. Anda boleh melewati (skip) soalan yang sukar dan kembali semula melalui papan navigasi.
+                </p>
+                <small>Created by <a href="https://mznexus.com.my" target="_blank">MZ Nexus Solutions</a></small>
+            </div>
+
+            <!-- Set Buttons Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+                <button onclick="selectSet(1)" class="group bg-slate-50 hover:bg-indigo-50/60 border-2 border-slate-200 hover:border-indigo-500 p-5 rounded-xl text-left transition flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-1 bg-indigo-100 text-indigo-700 text-xs font-bold rounded-md">SET 1</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2 group-hover:text-indigo-600">Modul Simulasi Set 1</h3>
+                        <p class="text-xs text-slate-500 mt-1">100 Soalan • Masa: 90 Minit</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mula Set ini <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </button>
+
+                <button onclick="selectSet(2)" class="group bg-slate-50 hover:bg-indigo-50/60 border-2 border-slate-200 hover:border-indigo-500 p-5 rounded-xl text-left transition flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-md">SET 2</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2 group-hover:text-indigo-600">Modul Simulasi Set 2</h3>
+                        <p class="text-xs text-slate-500 mt-1">100 Soalan • Masa: 90 Minit</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mula Set ini <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </button>
+
+                <button onclick="selectSet(3)" class="group bg-slate-50 hover:bg-indigo-50/60 border-2 border-slate-200 hover:border-indigo-500 p-5 rounded-xl text-left transition flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-1 bg-emerald-100 text-emerald-700 text-xs font-bold rounded-md">SET 3</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2 group-hover:text-indigo-600">Modul Simulasi Set 3</h3>
+                        <p class="text-xs text-slate-500 mt-1">100 Soalan • Masa: 90 Minit</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mula Set ini <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </button>
+
+                <button onclick="selectSet(4)" class="group bg-slate-50 hover:bg-indigo-50/60 border-2 border-slate-200 hover:border-indigo-500 p-5 rounded-xl text-left transition flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-1 bg-amber-100 text-amber-700 text-xs font-bold rounded-md">SET 4</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2 group-hover:text-indigo-600">Modul Simulasi Set 4</h3>
+                        <p class="text-xs text-slate-500 mt-1">100 Soalan • Masa: 90 Minit</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mula Set ini <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </button>
+
+                <button onclick="selectSet(5)" class="group bg-slate-50 hover:bg-indigo-50/60 border-2 border-slate-200 hover:border-indigo-500 p-5 rounded-xl text-left transition flex flex-col justify-between shadow-sm">
+                    <div>
+                        <span class="px-2.5 py-1 bg-purple-100 text-purple-700 text-xs font-bold rounded-md">SET 5</span>
+                        <h3 class="text-lg font-bold text-slate-800 mt-2 group-hover:text-indigo-600">Modul Simulasi Set 5</h3>
+                        <p class="text-xs text-slate-500 mt-1">100 Soalan • Masa: 90 Minit</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-indigo-600 flex items-center">Mula Set ini <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                </button>
+
+                <button onclick="selectSet('random')" class="group bg-gradient-to-br from-indigo-600 to-violet-700 text-white p-5 rounded-xl text-left transition flex flex-col justify-between shadow-md hover:opacity-95">
+                    <div>
+                        <span class="px-2.5 py-1 bg-white/20 text-white text-xs font-bold rounded-md">MOD BONUS</span>
+                        <h3 class="text-lg font-bold mt-2">Ujian Rawak Campuran</h3>
+                        <p class="text-xs text-indigo-100 mt-1">100 Soalan Rawak dari 500 Bank Soalan</p>
+                    </div>
+                    <span class="mt-4 text-xs font-bold text-white flex items-center">Mula Rawak <i class="fa-solid fa-shuffle ml-1"></i></span>
+                </button>
+            </div>
+
+            <!-- Petunjuk Warna Stat (Legend) -->
+            <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
+                <h4 class="font-bold text-slate-700 mb-2">Petunjuk Warna Papan Navigasi:</h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                    <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-slate-200 border border-slate-300 inline-block"></span><span class="text-slate-600">Belum Dijawab</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-amber-400 inline-block"></span><span class="text-slate-600">Dilewati / Pass (Skip)</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-emerald-500 inline-block"></span><span class="text-slate-600">Betul</span></div>
+                    <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-rose-500 inline-block"></span><span class="text-slate-600">Salah</span></div>
+                </div>
+            </div>
+        </main>
+
+        <!-- ================= SKRIN KUIZ & NAVIGASI ================= -->
+        <main id="screen-quiz" class="hidden flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6">
             
-            <div class="text-6xl font-bold text-blue-600 mb-2" id="score-text">0%</div>
-            <p class="text-xl text-gray-700 mb-8 font-medium" id="remark-text">Tahniah!</p>
+            <!-- Main Question Area (Left - 3 Cols) -->
+            <div class="lg:col-span-3 bg-white rounded-2xl shadow-xl border border-slate-200/80 p-5 sm:p-8 flex flex-col justify-between min-h-[500px]">
+                <div>
+                    <!-- Top Status Bar -->
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-6">
+                        <div class="flex items-center space-x-2">
+                            <span id="badge-set-name" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Set 1</span>
+                            <span id="badge-category" class="bg-slate-100 text-slate-700 text-xs font-bold px-3 py-1 rounded-full">Kategori</span>
+                        </div>
+                        <div class="text-sm font-bold text-slate-500">
+                            Soalan <span id="text-current-num" class="text-indigo-600 font-extrabold">1</span> / 100
+                        </div>
+                    </div>
 
-            <button onclick="location.reload()" class="bg-gray-800 hover:bg-gray-900 text-white font-bold py-3 px-8 rounded-lg shadow transition duration-300">
-                Cuba Lagi
-            </button>
-        </div>
+                    <!-- Progress Bar -->
+                    <div class="w-full bg-slate-100 rounded-full h-2 mb-6">
+                        <div id="quiz-progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 1%"></div>
+                    </div>
+
+                    <!-- Question Content -->
+                    <div id="box-question-content">
+                        <h3 id="text-question" class="text-lg sm:text-xl font-bold text-slate-800 leading-relaxed mb-6">
+                            Soalan dimuatkan...
+                        </h3>
+                        
+                        <!-- Options Container -->
+                        <div id="box-options" class="space-y-3 mb-6">
+                            <!-- Options injected dynamically -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Controls (Buttons) -->
+                <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                    <button onclick="navigateQuestion('prev')" id="btn-prev" class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 rounded-xl font-bold hover:bg-slate-100 transition text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali
+                    </button>
+
+                    <div class="flex items-center space-x-2 ml-auto">
+                        <!-- Pass / Skip Button -->
+                        <button onclick="skipCurrentQuestion()" id="btn-skip" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow transition text-sm flex items-center gap-2">
+                            <i class="fa-solid fa-forward"></i> Pintas / Pass
+                        </button>
+
+                        <!-- Next / Finish Button -->
+                        <button onclick="navigateQuestion('next')" id="btn-next" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2">
+                            Seterusnya <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar Grid Navigation (Right - 1 Col on Desktop, Drawer on Mobile) -->
+            <div id="grid-drawer-container" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:relative lg:inset-auto lg:bg-transparent lg:block">
+                <div class="bg-white h-full lg:h-auto rounded-2xl shadow-xl border border-slate-200/80 p-5 flex flex-col max-h-[85vh] lg:max-h-none w-80 max-w-full ml-auto lg:w-full">
+                    
+                    <!-- Sidebar Header -->
+                    <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3">
+                        <h4 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
+                            <i class="fa-solid fa-table-cells text-indigo-600"></i> Papan Soalan
+                        </h4>
+                        <button onclick="toggleGridDrawer()" class="lg:hidden text-slate-400 hover:text-slate-600 p-1">
+                            <i class="fa-solid fa-xmark text-lg"></i>
+                        </button>
+                    </div>
+
+                    <!-- Counter Stats -->
+                    <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-3">
+                        <div class="bg-slate-100 p-1.5 rounded-lg border border-slate-200"><span id="count-unanswered" class="text-slate-700 block text-xs">100</span>Belum</div>
+                        <div class="bg-amber-50 p-1.5 rounded-lg border border-amber-200 text-amber-800"><span id="count-skipped" class="block text-xs">0</span>Pass</div>
+                        <div class="bg-emerald-50 p-1.5 rounded-lg border border-emerald-200 text-emerald-800"><span id="count-correct" class="block text-xs">0</span>Betul</div>
+                        <div class="bg-rose-50 p-1.5 rounded-lg border border-rose-200 text-rose-800"><span id="count-wrong" class="block text-xs">0</span>Salah</div>
+                    </div>
+
+                    <!-- Grid Numbers 1 - 100 -->
+                    <div class="flex-1 overflow-y-auto custom-scrollbar pr-1">
+                        <div id="box-grid-numbers" class="grid grid-cols-5 gap-2">
+                            <!-- 1 to 100 injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Finish Quiz Button -->
+                    <button onclick="confirmFinishQuiz()" class="mt-4 w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow">
+                        <i class="fa-solid fa-flag-checkered"></i> Tamatkan Ujian Sekarang
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- ================= SKRIN KEPUTUSAN ================= -->
+        <main id="screen-result" class="hidden max-w-2xl mx-auto w-full bg-white rounded-2xl shadow-xl p-8 text-center border border-slate-200/80">
+            <span class="bg-indigo-100 text-indigo-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Laporan Prestasi</span>
+            <h2 class="text-3xl font-extrabold text-slate-800 mt-2 mb-1">Ujian Tamat!</h2>
+            <p class="text-slate-500 text-sm mb-6">Keputusan lengkap bagi ujian simulasi PKSK anda.</p>
+
+            <!-- Circular Score -->
+            <div class="w-40 h-40 mx-auto rounded-full bg-indigo-50 border-8 border-indigo-600 flex flex-col items-center justify-center shadow-inner mb-6">
+                <span id="text-final-percent" class="text-4xl font-black text-indigo-700">0%</span>
+                <span id="text-final-raw" class="text-xs text-slate-500 font-bold mt-1">(0 / 100 Betul)</span>
+            </div>
+
+            <h3 id="text-grade-title" class="text-xl font-bold text-slate-800 mb-2">Cemerlang!</h3>
+            <p id="text-grade-desc" class="text-slate-600 text-sm leading-relaxed mb-8 max-w-md mx-auto"></p>
+
+            <!-- Breakdown Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-8 text-xs font-semibold">
+                <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-emerald-800">
+                    <span id="res-correct" class="text-lg font-black block text-emerald-600">0</span> Betul
+                </div>
+                <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl text-rose-800">
+                    <span id="res-wrong" class="text-lg font-black block text-rose-600">0</span> Salah
+                </div>
+                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-amber-800">
+                    <span id="res-skipped" class="text-lg font-black block text-amber-600">0</span> Dilewati
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row justify-center gap-3">
+                <button onclick="returnToSetSelect()" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition text-sm">
+                    <i class="fa-solid fa-list ml-1"></i> Pilih Set Lain
+                </button>
+                <button onclick="restartCurrentSet()" class="px-6 py-3 border-2 border-indigo-600 text-indigo-600 hover:bg-indigo-50 font-bold rounded-xl transition text-sm">
+                    <i class="fa-solid fa-rotate-right ml-1"></i> Ulang Set Ini
+                </button>
+            </div>
+        </main>
+
     </div>
 
     <script>
-        // Koleksi Soalan Manual Aras Tinggi (PKSK Standard)
-        const manualQuestions = [
-            // EQ (Kecerdasan Insaniah) - Tiada betul/salah mutlak, tetapi mencari tindakan paling positif/rasional
-            { q: "Rakan sekelas anda didapati membawa telefon pintar ke asrama yang merupakan satu kesalahan disiplin. Dia merayu agar anda tidak melaporkannya. Apakah tindakan terbaik anda?", options: ["Pura-pura tidak tahu untuk menjaga persahabatan", "Menasihatinya untuk menyerahkan kepada warden secara sukarela", "Melaporkan terus kepada warden tanpa pengetahuannya", "Meminta rasuah supaya anda mendiamkan diri"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Anda dilantik sebagai ketua kumpulan, namun salah seorang ahli kumpulan sentiasa membantah idea anda dan enggan bekerjasama. Bagaimana anda menguruskannya?", options: ["Membuangnya dari kumpulan", "Memarahi dan memaksanya ikut arahan", "Berbincang secara peribadi untuk memahami masalahnya", "Membiarkan sahaja asalkan kerja siap"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Dalam satu pertandingan, pasukan anda tewas pada peringkat akhir akibat kesilapan kecil yang dilakukan oleh anda sendiri. Pasukan anda amat kecewa. Tindakan anda?", options: ["Menyalahkan keadaan padang/fasiliti", "Meminta maaf secara terbuka dan berjanji memperbaiki diri", "Mendiamkan diri dan menjauhkan diri dari pasukan", "Menyatakan bahawa itu bukan salah anda sepenuhnya"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Anda terjumpa dompet berisi wang tunai RM500 di kawasan rehat sekolah, tetapi tiada sebarang kad pengenalan di dalamnya. Apa yang anda patut buat?", options: ["Mengambil wang tersebut kerana tiada identiti", "Menderma wang tersebut ke tabung masjid", "Menyerahkan dompet kepada guru disiplin/pejabat sekolah", "Menyimpan wang tersebut dan menunggu jika ada yang mencari"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Rakan anda sedang mengalami tekanan (stres) yang teruk akibat masalah keluarga dan mula ponteng sekolah. Sebagai rakan yang baik, anda patut:", options: ["Menasihatinya supaya berhenti sekolah", "Mendengar luahannya dan memujuknya berjumpa guru kaunseling", "Menceritakan masalahnya kepada rakan-rakan lain", "Menjauhkan diri supaya tidak terpengaruh"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-
-            // Pengetahuan Am & Kenegaraan
-            { q: "Apakah gas penyumbang utama kepada fenomena kesan rumah hijau di bumi?", options: ["Oksigen", "Nitrogen", "Karbon Dioksida", "Hidrogen"], answer: 2, category: "Pengetahuan Am & Sains" },
-            { q: "Perlembagaan Persekutuan Tanah Melayu mula dikuatkuasakan pada tahun?", options: ["1957", "1963", "1948", "1969"], answer: 0, category: "Kenegaraan" },
-            { q: "Siapakah tokoh yang digelar sebagai Bapa Pemodenan Malaysia?", options: ["Tunku Abdul Rahman", "Tun Abdul Razak", "Tun Hussein Onn", "Tun Dr. Mahathir Mohamad"], answer: 3, category: "Kenegaraan" },
-            { q: "Antara berikut, yang manakah BUKAN ahli Pertubuhan Negara-Negara Asia Tenggara (ASEAN)?", options: ["Kemboja", "Timor-Leste", "Sri Lanka", "Myanmar"], answer: 2, category: "Pengetahuan Am" },
-            { q: "Di manakah letaknya ibu pejabat Pertubuhan Bangsa-Bangsa Bersatu (PBB)?", options: ["Geneva", "New York", "London", "Paris"], answer: 1, category: "Pengetahuan Am" },
-            { q: "Apakah nama lapisan atmosfera bumi yang paling hampir dengan permukaan bumi, di mana berlaku fenomena cuaca?", options: ["Stratosfera", "Troposfera", "Mesosfera", "Eksosfera"], answer: 1, category: "Sains" },
-            { q: "Proses tumbuhan hijau membuat makanan sendiri menggunakan cahaya matahari dipanggil:", options: ["Respirasi", "Transpirasi", "Fotosintesis", "Kondensasi"], answer: 2, category: "Sains" },
-
-            // Bahasa Melayu & Inggeris (Kefahaman & Peribahasa)
-            { q: "Pilih peribahasa yang paling sesuai untuk situasi: 'Ali seorang yang pendiam, tetapi dia sebenarnya sangat bijak dan sering mendapat tempat pertama.'", options: ["Katak di bawah tempurung", "Diam-diam ubi berisi", "Seperti anjing dengan kucing", "Batu loncatan"], answer: 1, category: "Bahasa Melayu" },
-            { q: "Perkataan 'Eksploitasi' membawa maksud...", options: ["Penerokaan kawasan baru", "Penggunaan sesuatu untuk keuntungan diri sendiri secara tidak adil", "Eksperimen sains di makmal", "Penghantaran barangan ke luar negara"], answer: 1, category: "Bahasa Melayu" },
-            { q: "Ayat manakah yang betul penggunaan tatabahasanya?", options: ["Saling tolong-menolong amalan mulia.", "Mereka saling bantu-membantu membersihkan kelas.", "Kita hendaklah saling menolong antara satu sama lain.", "Mereka saling membantu dalam menyiapkan tugasan itu."], answer: 3, category: "Bahasa Melayu" },
-            { q: "Choose the correct synonym for the word 'VITAL':", options: ["Optional", "Important", "Trivial", "Complex"], answer: 1, category: "Bahasa Inggeris" },
-            { q: "If it rains tomorrow, we _______ the picnic.", options: ["cancel", "will cancel", "canceled", "canceling"], answer: 1, category: "Bahasa Inggeris" },
-
-            // IQ, Logik & Analitikal (Bukan sekadar kira-kira)
-            { q: "Jika HARI = 81189, dan MALAM = 13112113, apakah pengekodan yang digunakan?", options: ["Susunan abjad (A=1, B=2...)", "Nombor rawak", "Susunan abjad terbalik (Z=1, Y=2...)", "Sifir darab abjad"], answer: 0, category: "Kecerdasan Intelek (Logik)" },
-            { q: "Ahmad lebih tinggi daripada Bakar. Chandran lebih rendah daripada Bakar tetapi lebih tinggi daripada Daud. Siapakah yang paling rendah?", options: ["Ahmad", "Bakar", "Chandran", "Daud"], answer: 3, category: "Kecerdasan Intelek (Logik)" },
-            { q: "Sebuah lif bermula di tingkat 3. Ia naik 5 tingkat, turun 2 tingkat, naik 6 tingkat, dan turun 4 tingkat. Di tingkat berapakah lif itu sekarang?", options: ["Tingkat 6", "Tingkat 8", "Tingkat 10", "Tingkat 12"], answer: 1, category: "Kecerdasan Intelek (Logik)" },
-            { q: "Berapakah bilangan segi empat sama yang ada pada papan catur yang berukuran 8x8 (termasuk segi empat pelbagai saiz)?", options: ["64", "128", "204", "256"], answer: 2, category: "Kecerdasan Intelek (Logik)" }
+        // --- 500 Question Bank Engine ---
+        const baseEQ = [
+            { q: "Rakan sepasukan anda membuat tugasan dengan meniru internet secara bulat-bulat tanpa memproses maklumat. Tugasan perlu dihantar esok. Tindakan anda?", options: ["Membiarkannya kerana tidak mahu bergaduh", "Menegur dan membantunya mengolah semula ayat mengikut pemahaman sendiri", "Melaporkan kepada guru secara senyap", "Mengeluarkan namanya daripada senarai ahli"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Semasa perhimpunan, rakan di sebelah anda pening dan hampir rebah. Apakah tindakan pantas yang paling wajar?", options: ["Menjerit meminta tolong di seluruh dewan", "Memegang dan membantunya duduk, kemudian memaklumkan guru bertugas", "Lari mencari air minuman", "Pura-pura tidak nampak dan kekal berdiri"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Anda mendapati keputusan ujian anda sangat rendah walaupun telah belajar bersungguh-sungguh. Reaksi terbaik?", options: ["Menyalahkan guru kerana membuat soalan terlalu sukar", "Menerima keputusan, menganalisis kesilapan, dan berjumpa guru untuk bimbingan", "Berhenti belajar kerana merasa tiada bakat", "Membandingkan keputusan dengan rakan yang lebih rendah"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Dalam mesyuarat kelab, dua ahli bertengkar kerana perbezaan pendapat. Tindakan anda sebagai pengerusi?", options: ["Menyebelahi rakan rapat anda", "Menangguhkan mesyuarat dan membiarkan mereka bergaduh", "Mengawal keadaan dengan tenang, mendengar hujah kedua-duanya, dan mencari jalan tengah", "Memarahi kedua-duanya dan menamatkan keahlian mereka"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Sewaktu aktiviti perkhemahan, hujan lebat turun dan khemah kumpulan anda bocor. Reaksi utama sebagai ketua?", options: ["Panik dan menjerit mengarahkan ahli lari", "Kekal tenang, mengarahkan ahli mengalihkan barang penting dan mencari perlindungan selamat", "Menyalahkan ahli yang memasang khemah", "Duduk merungut dan menunggu bantuan"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Rakan anda sering diejek di sekolah kerana fizikalnya. Tindakan anda?", options: ["Turut ketawa supaya tidak dipulaukan", "Menasihati rakan tersebut supaya tidak hadir ke sekolah", "Mempertahankan rakan, menegur ejekan secara berhemah, dan memberi sokongan moral", "Mengambil video dan memuat naik ke media sosial"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Alatan eksperimen yang anda gunakan di lab rosak secara tidak sengaja. Tindakan berintegriti?", options: ["Menyimpan semula alatan rosak di dalam almari senyap-senyap", "Menyalahkan rakan yang menggunakan alatan itu sebelum anda", "Segera melaporkan kerosakan kepada guru dan bertanggungjawab", "Membuang alatan tersebut ke dalam tong sampah"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
+            { q: "Anda ditugaskan berpasangan dengan pelajar yang paling anda tidak gemari. Bagaimana anda mengendalikannya?", options: ["Meminta guru menukar pasangan serta-merta", "Enggan bercakap dengannya dan buat kerja sendiri", "Mengetepikan perasaan peribadi dan fokus kepada profesionalisme serta kekuatan masing-masing", "Menyuruh pasangan anda membuat semua kerja"], answer: 2, category: "Kecerdasan Insaniah (EQ)" }
         ];
 
-        let questions = [];
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(100).fill(null);
+        const baseGK = [
+            { q: "Badan perundangan tertinggi di Malaysia yang bertindak menggubal undang-undang peringkat Persekutuan ialah:", options: ["Mahkamah Persekutuan", "Parlimen Malaysia", "Dewan Undangan Negeri", "Majlis Raja-Raja"], answer: 1, category: "Pengetahuan Am & Kenegaraan" },
+            { q: "Organ manakah dalam tubuh manusia yang bertindak menyaring bahan buangan dan mengawal keseimbangan air dalam darah?", options: ["Hati", "Paru-paru", "Ginjal (Buah Pinggang)", "Jantung"], answer: 2, category: "Sains & Kesihatan" },
+            { q: "Agensi Persekutuan yang ditubuhkan di Malaysia untuk memajukan tanah dan ekonomi peneroka luar bandar ialah:", options: ["MARA", "FELDA", "RISDA", "FAMA"], answer: 1, category: "Pengetahuan Am & Ekonomi" },
+            { q: "Planet manakah yang digelar 'Planet Merah' disebabkan oleh litupan zat besi oksida pada permukaannya?", options: ["Utarid", "Zuhrah", "Marikh", "Mushtari"], answer: 2, category: "Sains & Astronomi" },
+            { q: "Hari Malaysia yang menandakan pembentukan Persekutuan Malaysia disambut pada tarikh:", options: ["31 Ogos", "16 September", "24 Ogos", "1 Mei"], answer: 1, category: "Pengetahuan Am & Sejarah" },
+            { q: "Tenaga yang dihasilkan daripada pergerakan aliran air di empangan dipanggil:", options: ["Tenaga Geoterma", "Tenaga Hidroelektrik", "Tenaga Biomass", "Tenaga Nuklear"], answer: 1, category: "Sains & Tenaga" },
+            { q: "Bunga Raya (Hibiscus) mempunyai 5 kelopak yang melambangkan:", options: ["5 Negeri Utama", "5 Prinsip Rukun Negara", "5 Bahasa Rasmi", "5 Tokoh Kemerdekaan"], answer: 1, category: "Pengetahuan Am & Kenegaraan" },
+            { q: "Badan PBB yang khusus menjaga kebajikan, pendidikan, dan hak kanak-kanak di seluruh dunia ialah:", options: ["WHO", "UNESCO", "UNICEF", "UNHCR"], answer: 2, category: "Pengetahuan Am Antarabangsa" }
+        ];
 
-        // Enjin Penjana Soalan IQ & Logik (Bagi mencukupkan 100 soalan)
-        function generateIQQuestions(count) {
-            let generated = [];
-            for (let i = 0; i < count; i++) {
-                let type = Math.floor(Math.random() * 4);
-                let qText, options, answer;
+        const baseLang = [
+            { q: "Pilih peribahasa yang bermaksud: 'Orang yang tetap mempertahankan kebenaran/maruah walaupun menghadapi bahaya'.", options: ["Biar putih tulang, jangan putih mata", "Harimau mati meninggalkan belang", "Ukur baju di badan sendiri", "Air dicincang tidak akan putus"], answer: 0, category: "Bahasa Melayu" },
+            { q: "Choose the word that best completes the sentence: 'Despite facing fierce challenges, the team managed to ________ the obstacles.'", options: ["overcome", "overlook", "overtake", "overall"], answer: 0, category: "Bahasa Inggeris" },
+            { q: "Pilih ayat yang BETUL tatabahasanya:", options: ["Saling bantu-membantu amalan mulia.", "Mereka saling membantu dalam menyiapkan tugasan itu.", "Senarai nama murid-murid cemerlang telah ditampal.", "Di samping itu, kita hendaklah saling tolong-menolong."], answer: 1, category: "Bahasa Melayu" },
+            { q: "Apakah maksud peribahasa 'Seperti benih yang baik, dicampak ke laut menjadi pulau'?", options: ["Orang yang mulia/berilmu tetap akan berbuat baik di mana jua berada", "Orang bernasib baik sentiasa mendapat kekayaan", "Sesuatu yang dibuang tidak kembali", "Berusaha gigih untuk cita-cita"], answer: 0, category: "Bahasa Melayu" },
+            { q: "Choose the correct ANTONYM (opposite) for the word 'PERMANENT':", options: ["Lasting", "Temporary", "Continuous", "Fixed"], answer: 1, category: "Bahasa Inggeris" },
+            { q: "Perkataan 'Eksploitasi' membawa maksud:", options: ["Penerokaan kawasan baharu", "Penggunaan sesuatu secara tidak adil untuk keuntungan diri", "Eksperimen sains di makmal", "Penghantaran barangan ke luar negara"], answer: 1, category: "Bahasa Melayu" }
+        ];
 
+        function buildSetQuestions(setId) {
+            let list = [];
+            let seed = setId * 1000;
+            function pseudoRandom() {
+                seed = (seed * 9301 + 49297) % 233280;
+                return seed / 233280;
+            }
+
+            for (let i = 0; i < 25; i++) {
+                let base = baseEQ[i % baseEQ.length];
+                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+            }
+            for (let i = 0; i < 25; i++) {
+                let base = baseGK[i % baseGK.length];
+                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+            }
+            for (let i = 0; i < 25; i++) {
+                let base = baseLang[i % baseLang.length];
+                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+            }
+            for (let i = 0; i < 25; i++) {
+                let type = i % 4;
+                let qObj;
                 if (type === 0) {
-                    // Pola Nombor (Fibonacci / Lompatan bertingkat)
-                    let start = Math.floor(Math.random() * 5) + 1;
-                    let diff = Math.floor(Math.random() * 4) + 2;
-                    let seq = [start];
-                    for(let j=1; j<4; j++) seq.push(seq[j-1] + (diff * j)); // Pola meningkat
-                    let nextNum = seq[3] + (diff * 4);
-                    
-                    qText = `Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ...?`;
-                    options = [nextNum - 2, nextNum, nextNum + 3, nextNum + diff].sort(() => Math.random() - 0.5);
-                    answer = options.indexOf(nextNum);
-                } 
-                else if (type === 1) {
-                    // Logik Abjad (Lompatan huruf)
+                    let step = (setId + i) % 4 + 2;
+                    let start = (setId * 3) + i + 1;
+                    let seq = [start, start + step, start + (step * 2), start + (step * 3)];
+                    let ans = start + (step * 4);
+                    let opts = [ans - 2, ans, ans + 3, ans + step + 1].sort(() => pseudoRandom() - 0.5);
+                    qObj = { q: `[Set ${setId}] Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ...?`, options: opts.map(String), answer: opts.indexOf(ans), category: "Logik IQ (Pola Nombor)" };
+                } else if (type === 1) {
                     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    let startIdx = Math.floor(Math.random() * 15);
-                    let skip = Math.floor(Math.random() * 3) + 2;
-                    let seq = [letters[startIdx], letters[startIdx + skip], letters[startIdx + skip*2]];
-                    let nextLetter = letters[startIdx + skip*3];
-                    
-                    qText = `Lengkapkan siri abjad ini: ${seq.join(', ')}, ...?`;
-                    options = [letters[startIdx + skip*3 + 1], nextLetter, letters[startIdx + skip*3 - 1], letters[startIdx + skip*3 + 2]].sort(() => Math.random() - 0.5);
-                    answer = options.indexOf(nextLetter);
-                }
-                else if (type === 2) {
-                    // Soalan Analogi Kiasan
+                    let jump = (setId % 2) + 2;
+                    let startIdx = (i * 2) % 12;
+                    let seq = [letters[startIdx], letters[startIdx + jump], letters[startIdx + (jump*2)]];
+                    let ansLetter = letters[startIdx + (jump*3)];
+                    let opts = [letters[startIdx + (jump*3)+1], ansLetter, letters[startIdx + (jump*3)-1], letters[startIdx + (jump*3)+2]].sort(() => pseudoRandom() - 0.5);
+                    qObj = { q: `[Set ${setId}] Lengkapkan turutan abjad ini: ${seq.join(', ')}, ...?`, options: opts, answer: opts.indexOf(ansLetter), category: "Logik IQ (Abjad)" };
+                } else if (type === 2) {
                     const analogies = [
                         { q: "Mata : Melihat = Telinga : ?", a: "Mendengar", w: ["Menghidu", "Merasa", "Bercakap"] },
-                        { q: "Buku : Membaca = Pen : ?", a: "Menulis", w: ["Melukis", "Menyimpan", "Mewarna"] },
-                        { q: "Siang : Matahari = Malam : ?", a: "Bulan", w: ["Bintang", "Gelap", "Awan"] },
-                        { q: "Doktor : Hospital = Guru : ?", a: "Sekolah", w: ["Kelas", "Pejabat", "Kantin"] }
+                        { q: "Batu : Keras = Kapas : ?", a: "Lembut", w: ["Ringan", "Putih", "Terbang"] },
+                        { q: "Doktor : Hospital = Guru : ?", a: "Sekolah", w: ["Kelas", "Kantin", "Pejabat"] },
+                        { q: "Siang : Matahari = Malam : ?", a: "Bulan", w: ["Bintang", "Awan", "Gelap"] }
                     ];
-                    let r = analogies[Math.floor(Math.random() * analogies.length)];
-                    qText = `Selesaikan analogi ini: ${r.q}`;
-                    options = [r.a, ...r.w].sort(() => Math.random() - 0.5);
-                    answer = options.indexOf(r.a);
+                    let r = analogies[(i + setId) % analogies.length];
+                    let opts = [r.a, ...r.w].sort(() => pseudoRandom() - 0.5);
+                    qObj = { q: `[Set ${setId}] Selesaikan analogi kiasan ini: ${r.q}`, options: opts, answer: opts.indexOf(r.a), category: "Logik IQ (Analogi)" };
+                } else {
+                    let items = (i + 5) * 3 + setId;
+                    let boxes = 4;
+                    let total = items * boxes;
+                    let eaten = 6;
+                    let ans = total - eaten;
+                    let opts = [ans, ans + 4, ans - 2, total].sort(() => pseudoRandom() - 0.5);
+                    qObj = { q: `[Set ${setId}] Terdapat ${boxes} buah kotak. Setiap kotak mempunyai ${items} biji epal. Jika ${eaten} biji epal telah dimakan, berapa baki epal yang tinggal?`, options: opts.map(String), answer: opts.indexOf(ans), category: "Matematik KBAT" };
                 }
-                else {
-                    // Matematik Logik (Masalah berpusing)
-                    let a = Math.floor(Math.random() * 10) + 10;
-                    let b = Math.floor(Math.random() * 5) + 3;
-                    let c = (a * b) - 5;
-                    qText = `Sebuah kotak mengandungi ${a} biji epal. Jika setiap epal dipotong kepada ${b} bahagian, dan 5 bahagian telah dimakan, berapa bahagian epal yang tinggal?`;
-                    options = [c, c+5, c-b, a*b].sort(() => Math.random() - 0.5);
-                    answer = options.indexOf(c);
-                }
-
-                generated.push({ q: qText, options: options, answer: answer, category: "Kecerdasan Intelek (IQ/Logik)" });
+                list.push(qObj);
             }
-            return generated;
+            return list;
         }
 
-        function startQuiz() {
-            document.getElementById('start-screen').classList.add('hidden');
-            document.getElementById('quiz-screen').classList.remove('hidden');
-            
-            // Gabungkan soalan manual dan jana baki sehingga 100
-            let needed = 100 - manualQuestions.length;
-            let dynamicQuestions = generateIQQuestions(needed);
-            
-            // Campurkan (Shuffle) soalan supaya tidak tersusun mengikut kategori
-            questions = [...manualQuestions, ...dynamicQuestions].sort(() => Math.random() - 0.5);
-            
-            loadQuestion();
-        }
+        // --- State Management ---
+        let activeQuestions = [];
+        let currentQuestionIndex = 0;
+        
+        // Status per Question: null = unanswered, 'skipped' = pass/skip, number = option index
+        let userAnswers = new Array(100).fill(null); 
+        
+        let activeSet = 1;
+        let timeLeft = 90 * 60;
+        let timerInterval = null;
 
-        function loadQuestion() {
-            let qData = questions[currentQuestionIndex];
-            
-            // Update UI
-            document.getElementById('current-q').innerText = currentQuestionIndex + 1;
-            document.getElementById('progress-bar').style.width = `${((currentQuestionIndex + 1) / 100) * 100}%`;
-            document.getElementById('category-badge').innerText = qData.category;
-            document.getElementById('question-text').innerText = qData.q;
-            
-            // Navigasi
-            document.getElementById('prev-btn').classList.toggle('hidden', currentQuestionIndex === 0);
-            
-            if(currentQuestionIndex === 99) {
-                document.getElementById('next-btn').innerText = "Hantar Jawapan";
-                document.getElementById('next-btn').classList.replace('bg-blue-600', 'bg-green-600');
-                document.getElementById('next-btn').classList.replace('hover:bg-blue-700', 'hover:bg-green-700');
+        // --- Core Functions ---
+        function selectSet(setNum) {
+            activeSet = setNum;
+            if (setNum === 'random') {
+                document.getElementById('badge-set-name').innerText = "MOD RAWAK";
+                let all500 = [];
+                for (let s = 1; s <= 5; s++) all500 = all500.concat(buildSetQuestions(s));
+                activeQuestions = all500.sort(() => Math.random() - 0.5).slice(0, 100);
             } else {
-                document.getElementById('next-btn').innerText = "Seterusnya";
-                document.getElementById('next-btn').classList.replace('bg-green-600', 'bg-blue-600');
-                document.getElementById('next-btn').classList.replace('hover:bg-green-700', 'hover:bg-blue-700');
+                document.getElementById('badge-set-name').innerText = `SET ${setNum}`;
+                activeQuestions = buildSetQuestions(setNum);
             }
 
-            // Load Options
-            const container = document.getElementById('options-container');
-            container.innerHTML = "";
-            
+            // Reset Quiz State
+            currentQuestionIndex = 0;
+            userAnswers = new Array(100).fill(null);
+            timeLeft = 90 * 60;
+
+            // Display Switch
+            document.getElementById('screen-set-select').classList.add('hidden');
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.remove('hidden');
+            document.getElementById('header-quiz-info').classList.remove('hidden');
+
+            startTimer();
+            renderQuestion();
+            renderGridNumbers();
+        }
+
+        function startTimer() {
+            if (timerInterval) clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                let m = Math.floor(timeLeft / 60);
+                let s = timeLeft % 60;
+                document.getElementById('timer-display').innerText = `${m}:${s < 10 ? '0' + s : s}`;
+
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    alert("Masa 90 minit telah tamat!");
+                    finishQuiz();
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            let qData = activeQuestions[currentQuestionIndex];
+            let status = userAnswers[currentQuestionIndex];
+
+            // Header info
+            document.getElementById('text-current-num').innerText = currentQuestionIndex + 1;
+            document.getElementById('badge-category').innerText = qData.category;
+            document.getElementById('text-question').innerText = qData.q;
+            document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / 100) * 100}%`;
+
+            // Prev Button visibility
+            document.getElementById('btn-prev').classList.toggle('hidden', currentQuestionIndex === 0);
+
+            // Next Button text change at 100th question
+            const btnNext = document.getElementById('btn-next');
+            if (currentQuestionIndex === 99) {
+                btnNext.innerHTML = `Lihat Keputusan <i class="fa-solid fa-flag-checkered ml-1"></i>`;
+                btnNext.className = "px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2";
+            } else {
+                btnNext.innerHTML = `Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
+                btnNext.className = "px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2";
+            }
+
+            // Render Options
+            const boxOptions = document.getElementById('box-options');
+            boxOptions.innerHTML = '';
+
+            let isAnswered = typeof status === 'number';
+
             qData.options.forEach((opt, index) => {
-                let isSelected = userAnswers[currentQuestionIndex] === index;
                 let btn = document.createElement('button');
-                btn.className = `option-btn w-full text-left p-4 border-2 rounded-lg font-medium ${isSelected ? 'selected' : 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'}`;
-                btn.innerText = opt;
-                btn.onclick = () => selectOption(index);
-                container.appendChild(btn);
+                btn.className = `w-full text-left p-4 rounded-xl border-2 font-medium text-slate-700 transition flex items-center justify-between shadow-sm `;
+
+                if (isAnswered) {
+                    btn.disabled = true;
+                    btn.classList.add('cursor-not-allowed');
+
+                    if (index === qData.answer) {
+                        // Correct Answer
+                        btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-bold');
+                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-emerald-600 font-extrabold text-sm"><i class="fa-solid fa-check"></i> Betul</span>`;
+                    } else if (index === status) {
+                        // Wrong Choice
+                        btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
+                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-rose-600 font-extrabold text-sm"><i class="fa-solid fa-xmark"></i> Salah</span>`;
+                    } else {
+                        btn.classList.add('border-slate-200', 'opacity-50');
+                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span>`;
+                    }
+                } else {
+                    btn.classList.add('border-slate-200', 'hover:border-indigo-400', 'hover:bg-indigo-50/50');
+                    btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span>`;
+                    btn.onclick = () => selectOption(index);
+                }
+
+                boxOptions.appendChild(btn);
             });
+
+            updateGridUI();
         }
 
         function selectOption(index) {
             userAnswers[currentQuestionIndex] = index;
-            loadQuestion(); // Reload untuk paparkan pilihan
+            renderQuestion();
         }
 
-        function nextQuestion() {
-            if(userAnswers[currentQuestionIndex] === null) {
-                alert("Sila pilih jawapan terlebih dahulu!");
-                return;
+        function skipCurrentQuestion() {
+            // Only set to skipped if not answered yet
+            if (typeof userAnswers[currentQuestionIndex] !== 'number') {
+                userAnswers[currentQuestionIndex] = 'skipped';
             }
-
             if (currentQuestionIndex < 99) {
                 currentQuestionIndex++;
-                loadQuestion();
+                renderQuestion();
             } else {
-                showResults();
+                updateGridUI();
             }
         }
 
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
+        function navigateQuestion(direction) {
+            if (direction === 'prev' && currentQuestionIndex > 0) {
                 currentQuestionIndex--;
-                loadQuestion();
+                renderQuestion();
+            } else if (direction === 'next') {
+                if (currentQuestionIndex < 99) {
+                    currentQuestionIndex++;
+                    renderQuestion();
+                } else {
+                    confirmFinishQuiz();
+                }
             }
         }
 
-        function showResults() {
-            document.getElementById('quiz-screen').classList.add('hidden');
-            document.getElementById('result-screen').classList.remove('hidden');
+        function renderGridNumbers() {
+            const gridBox = document.getElementById('box-grid-numbers');
+            gridBox.innerHTML = '';
 
-            let score = 0;
             for (let i = 0; i < 100; i++) {
-                if (userAnswers[i] === questions[i].answer) {
-                    score++;
+                let btn = document.createElement('button');
+                btn.id = `grid-item-${i}`;
+                btn.innerText = i + 1;
+                btn.className = `grid-nav-item h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition `;
+                btn.onclick = () => jumpToQuestion(i);
+                gridBox.appendChild(btn);
+            }
+            updateGridUI();
+        }
+
+        function updateGridUI() {
+            let countUnans = 0, countSkip = 0, countCorr = 0, countWrong = 0;
+
+            for (let i = 0; i < 100; i++) {
+                let btn = document.getElementById(`grid-item-${i}`);
+                if (!btn) continue;
+
+                let st = userAnswers[i];
+                let isCurrent = i === currentQuestionIndex;
+
+                // Base classes
+                btn.className = `grid-nav-item h-9 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition ${isCurrent ? 'ring-2 ring-indigo-600 ring-offset-2 z-10' : ''} `;
+
+                if (st === null) {
+                    countUnans++;
+                    btn.classList.add('bg-slate-100', 'border-slate-300', 'text-slate-700', 'hover:bg-slate-200');
+                } else if (st === 'skipped') {
+                    countSkip++;
+                    btn.classList.add('bg-amber-400', 'border-amber-500', 'text-amber-950', 'hover:bg-amber-500');
+                } else if (typeof st === 'number') {
+                    if (st === activeQuestions[i].answer) {
+                        countCorr++;
+                        btn.classList.add('bg-emerald-500', 'border-emerald-600', 'text-white', 'hover:bg-emerald-600');
+                    } else {
+                        countWrong++;
+                        btn.classList.add('bg-rose-500', 'border-rose-600', 'text-white', 'hover:bg-rose-600');
+                    }
                 }
             }
 
-            let percentage = score; // Sbb ada 100 soalan, skor = peratus
-            document.getElementById('score-text').innerText = `${percentage}%`;
+            // Update stats
+            document.getElementById('count-unanswered').innerText = countUnans;
+            document.getElementById('count-skipped').innerText = countSkip;
+            document.getElementById('count-correct').innerText = countCorr;
+            document.getElementById('count-wrong').innerText = countWrong;
+        }
 
-            let remark = "";
-            if (percentage >= 85) remark = "Cemerlang! Anda sangat bersedia untuk PKSK yang sebenar. Pemikiran analitikal dan EQ anda sangat tinggi.";
-            else if (percentage >= 65) remark = "Baik. Anda mempunyai asas pengetahuan umum dan logik yang mantap. Teruskan latihan untuk soalan KBAT.";
-            else if (percentage >= 40) remark = "Sederhana. Anda perlu banyakkan membaca isu semasa dan melatih kemahiran deduksi logik (IQ).";
-            else remark = "Jangan putus asa. Kertas PKSK memerlukan latihan membiasakan diri dengan soalan logikal dan penyelesaian masalah di luar kotak.";
+        function jumpToQuestion(idx) {
+            currentQuestionIndex = idx;
+            renderQuestion();
+            // Close drawer on mobile if open
+            if (window.innerWidth < 1024) {
+                document.getElementById('grid-drawer-container').classList.add('hidden');
+            }
+        }
 
-            document.getElementById('remark-text').innerText = remark;
+        function toggleGridDrawer() {
+            document.getElementById('grid-drawer-container').classList.toggle('hidden');
+        }
+
+        function confirmFinishQuiz() {
+            let unans = userAnswers.filter(a => a === null || a === 'skipped').length;
+            let msg = unans > 0 
+                ? `Masih ada ${unans} soalan yang belum dijawab / dilewati. Adakah anda pasti mahu menamatkan ujian?`
+                : "Adakah anda pasti mahu menamatkan ujian ini?";
+
+            if (confirm(msg)) {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            if (timerInterval) clearInterval(timerInterval);
+
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('header-quiz-info').classList.add('hidden');
+            document.getElementById('screen-result').classList.remove('hidden');
+
+            let correct = 0, wrong = 0, skipped = 0;
+
+            userAnswers.forEach((ans, idx) => {
+                if (typeof ans === 'number') {
+                    if (ans === activeQuestions[idx].answer) correct++;
+                    else wrong++;
+                } else {
+                    skipped++;
+                }
+            });
+
+            let percent = Math.round((correct / 100) * 100);
+
+            document.getElementById('text-final-percent').innerText = `${percent}%`;
+            document.getElementById('text-final-raw').innerText = `(${correct} / 100 Betul)`;
+            document.getElementById('res-correct').innerText = correct;
+            document.getElementById('res-wrong').innerText = wrong;
+            document.getElementById('res-skipped').innerText = skipped;
+
+            let title = "", desc = "";
+            if (percent >= 85) {
+                title = "Tahniah! Cemerlang";
+                desc = "Penguasaan aras tinggi KBAT anda sangat tinggi. Anda sedia sepenuhnya untuk ujian PKSK sebenar!";
+            } else if (percent >= 65) {
+                title = "Pencapaian Baik";
+                desc = "Asas penaakulan dan kebolehan anda amat kukuh. Teruskan latihan untuk soalan logik yang mencabar.";
+            } else if (percent >= 40) {
+                title = "Tahap Sederhana";
+                desc = "Anda telah melepasi aras asas. Tingkatkan pembacaan isu semasa dan latihan pola nombor logik.";
+            } else {
+                title = "Perlu Latihan Lanjut";
+                desc = "Jangan putus asa! Teruskan mencuba set-set lain untuk membiasakan diri dengan format dan masa ujian.";
+            }
+
+            document.getElementById('text-grade-title').innerText = title;
+            document.getElementById('text-grade-desc').innerText = desc;
+        }
+
+        function returnToSetSelect() {
+            document.getElementById('screen-result').classList.add('hidden');
+            document.getElementById('screen-quiz').classList.add('hidden');
+            document.getElementById('header-quiz-info').classList.add('hidden');
+            document.getElementById('screen-set-select').classList.remove('hidden');
+        }
+
+        function restartCurrentSet() {
+            selectSet(activeSet);
         }
     </script>
 </body>
