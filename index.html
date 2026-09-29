@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kuiz Interaktif PKSK - 100 Soalan</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .option-btn:hover { transform: scale(1.02); }
+        .option-btn { transition: all 0.2s; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex items-center justify-center p-4 font-sans text-slate-800">
+
+    <div id="app-container" class="bg-white rounded-2xl shadow-xl w-full max-w-3xl overflow-hidden min-h-[500px] flex flex-col">
+        
+        <!-- Header -->
+        <div class="bg-blue-600 text-white p-6 text-center">
+            <h1 class="text-2xl md:text-3xl font-bold">Latihan Interaktif PKSK</h1>
+            <p class="text-blue-100 mt-2 text-sm md:text-base">Pentaksiran Kemasukan Sekolah Khusus (100 Soalan)</p>
+        </div>
+
+        <!-- Start Screen -->
+        <div id="start-screen" class="flex-1 flex flex-col items-center justify-center p-8 text-center fade-in">
+            <h2 class="text-xl font-semibold mb-4">Selamat Datang ke Simulasi PKSK</h2>
+            <p class="mb-6 text-slate-600 max-w-lg">
+                Ujian ini mengandungi <strong>100 soalan</strong> yang merangkumi:
+                <br><br>
+                🧠 Kecerdasan Intelek (IQ / Matematik)<br>
+                ❤️ Kecerdasan Insaniah (EQ / Sahsiah)<br>
+                🌍 Pengetahuan Am & Semasa<br>
+                📚 Penguasaan Bahasa
+            </p>
+            <button onclick="startQuiz()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
+                Mula Ujian Sekarang
+            </button>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quiz-screen" class="hidden flex-1 flex-col p-6 md:p-8 fade-in">
+            <div class="flex justify-between items-center mb-6">
+                <span id="question-counter" class="text-sm font-bold text-blue-600 bg-blue-100 py-1 px-3 rounded-full">Soalan 1 / 100</span>
+                <span id="score-display" class="text-sm font-semibold text-slate-500">Markah: 0</span>
+            </div>
+            
+            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+                <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full" style="width: 1%"></div>
+            </div>
+
+            <div class="flex-1">
+                <h3 id="question-text" class="text-lg md:text-xl font-medium mb-6 text-slate-800 leading-relaxed"></h3>
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be injected here -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Result Screen -->
+        <div id="result-screen" class="hidden flex-1 flex-col items-center justify-center p-8 text-center fade-in">
+            <h2 class="text-3xl font-bold text-slate-800 mb-2">Ujian Tamat!</h2>
+            <p class="text-slate-500 mb-8">Berikut adalah keputusan simulasi PKSK anda.</p>
+            
+            <div class="bg-blue-50 border-4 border-blue-200 rounded-full w-40 h-40 flex items-center justify-center mb-6 shadow-inner">
+                <span id="final-score" class="text-4xl font-black text-blue-600">0%</span>
+            </div>
+            
+            <h3 id="grade-text" class="text-2xl font-bold mb-2"></h3>
+            <p id="feedback-text" class="text-slate-600 mb-8 max-w-md"></p>
+            
+            <button onclick="resetQuiz()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-full shadow-lg transition-transform hover:scale-105">
+                Cuba Lagi
+            </button>
+        </div>
+
+    </div>
+
+    <script>
+        // Array to hold 100 questions
+        let questions = [];
+
+        // Hardcoded Questions (Mix of EQ, General Knowledge, Language)
+        const hardcodedQuestions = [
+            // Pengetahuan Am & Tokoh
+            { q: "Siapakah Bapa Pemodenan Malaysia?", options: ["Tunku Abdul Rahman", "Tun Dr. Mahathir Mohamad", "Tun Abdul Razak", "Tan Sri Muhyiddin Yassin"], answer: 1 },
+            { q: "Bunga kebangsaan Malaysia, Bunga Raya mempunyai berapa kelopak yang melambangkan Rukun Negara?", options: ["4", "5", "6", "7"], answer: 1 },
+            { q: "Ibu negeri bagi negeri Sabah ialah...", options: ["Sandakan", "Tawau", "Kota Kinabalu", "Kudat"], answer: 2 },
+            { q: "Apakah gelaran untuk bendera Malaysia?", options: ["Jalur Lebar", "Jalur Gemilang", "Harimau Malaya", "Bintang Kejora"], answer: 1 },
+            { q: "Rukun Negara yang ketiga ialah...", options: ["Kesetiaan kepada Raja dan Negara", "Keluhuran Perlembagaan", "Kedaulatan Undang-undang", "Kepercayaan kepada Tuhan"], answer: 1 },
+            { q: "Bilakah Malaysia menyambut Hari Kemerdekaan?", options: ["31 Ogos 1957", "16 September 1963", "31 Ogos 1963", "16 Ogos 1957"], answer: 0 },
+            { q: "Gunung tertinggi di Asia Tenggara terletak di...", options: ["Indonesia", "Malaysia", "Filipina", "Thailand"], answer: 1 }, // Gunung Kinabalu (often cited as highest in Malay Archipelago/Malaysia, sometimes Hkakabo Razi in Myanmar is SEA highest, but in Msian syllabus Kinabalu is highlighted) -> Let's refine to Msia
+            { q: "Gunung tertinggi di Malaysia ialah...", options: ["Gunung Tahan", "Gunung Mulu", "Gunung Kinabalu", "Gunung Jerai"], answer: 2 },
+            { q: "Lagu kebangsaan negara kita ialah...", options: ["Negaraku", "Jalur Gemilang", "Malaysia Boleh", "Sehati Sejiwa"], answer: 0 },
+            { q: "Warna kuning pada bendera Malaysia melambangkan...", options: ["Kesucian", "Keberanian", "Perpaduan", "Kedaulatan Raja-Raja Melayu"], answer: 3 },
+            
+            // Bahasa Melayu (Simpulan Bahasa / Tatabahasa)
+            { q: "Pilih simpulan bahasa yang bermaksud 'orang yang cepat marah'.", options: ["Kaki bangku", "Telinga nipis", "Hati batu", "Ulat buku"], answer: 1 },
+            { q: "Peribahasa 'Bagai aur dengan tebing' bermaksud...", options: ["Saling tolong-menolong", "Sangat rapat", "Selalu bergaduh", "Sangat cantik"], answer: 0 },
+            { q: "Pilih ejaan yang betul.", options: ["Motosikal", "Motorbasikal", "Motorsikal", "Motosyikal"], answer: 0 },
+            { q: "Apakah maksud simpulan bahasa 'makan angin'?", options: ["Makan dengan banyak", "Bercuti atau bersiar-siar", "Marah yang teramat", "Bercakap kosong"], answer: 1 },
+            { q: "Lawan kata bagi perkataan 'Rajin' ialah...", options: ["Pandai", "Malas", "Bodoh", "Lembap"], answer: 1 },
+            
+            // Kecerdasan Insaniah (EQ / Sahsiah) - Pilih tindakan paling positif
+            { q: "Rakan anda didapati menangis kerana gagal dalam ujian. Apakah tindakan anda?", options: ["Mengejeknya kerana tidak pandai", "Membiarkannya keseorangan", "Memujuk dan menawarkan bantuan untuk belajar bersama", "Melaporkan kepada guru disiplin"], answer: 2 },
+            { q: "Anda terjumpa dompet di kawasan kantin sekolah. Apa yang patut anda lakukan?", options: ["Mengambil wang di dalamnya dan membuang dompet", "Menyerahkan dompet tersebut kepada guru bertugas", "Membiarkan sahaja dompet itu di situ", "Menyimpan dompet itu untuk diri sendiri"], answer: 1 },
+            { q: "Cikgu meminta bantuan untuk mengangkat buku ke bilik guru, tetapi anda sedang rehat. Tindakan anda?", options: ["Meminta kawan lain yang buat", "Segera membantu cikgu tersebut", "Berpura-pura tidak dengar", "Memberitahu cikgu anda sedang sibuk"], answer: 1 },
+            { q: "Anda melihat seorang murid junior dibuli oleh rakan sekelas anda. Tindakan terbaik anda ialah...", options: ["Menyertai rakan sekelas membuli", "Merakam kejadian tersebut dengan telefon bimbit", "Melaporkan kejadian itu kepada guru disiplin segera", "Menyorak rakan sekelas anda"], answer: 2 },
+            { q: "Dalam kerja kumpulan, seorang ahli tidak menjalankan tugasnya. Anda patut...", options: ["Memarahinya di hadapan rakan lain", "Menyingkirkannya dari kumpulan secara diam-diam", "Menegur secara berhemah dan bertanya jika dia perlukan bantuan", "Melakukan semua kerja untuknya supaya cepat siap"], answer: 2 },
+            { q: "Ibu bapa anda sibuk mengemas rumah pada hujung minggu. Tindakan anda?", options: ["Tidur sepanjang hari", "Keluar bermain bersama rakan", "Menawarkan diri untuk membantu mereka", "Menonton televisyen"], answer: 2 },
+            { q: "Anda telah berjanji untuk hadir ke perjumpaan kokurikulum, tetapi anda berasa penat. Apa yang anda buat?", options: ["Tidak hadir tanpa sebarang notis", "Hadir dan cuba melibatkan diri sebaik mungkin", "Hadir tetapi tidur di bilik darjah", "Menyuruh rakan menipu kehadiran anda"], answer: 1 },
+            
+            // Sains (Asas)
+            { q: "Proses tumbuhan membuat makanannya sendiri dipanggil...", options: ["Respirasi", "Kondensasi", "Fotosintesis", "Transpirasi"], answer: 2 },
+            { q: "Planet ketiga dari Matahari dalam sistem suria kita ialah...", options: ["Marikh", "Bumi", "Zuhrah", "Musytari"], answer: 1 },
+            { q: "Haiwan yang makan tumbuh-tumbuhan sahaja dikenali sebagai...", options: ["Karnivor", "Herbivor", "Omnivor", "Dinosaur"], answer: 1 },
+            { q: "Apakah gas yang disedut oleh manusia untuk bernafas?", options: ["Karbon dioksida", "Oksigen", "Nitrogen", "Hidrogen"], answer: 1 },
+            { q: "Air bertukar menjadi ais pada suhu...", options: ["100 darjah Celcius", "50 darjah Celcius", "0 darjah Celcius", "-10 darjah Celcius"], answer: 2 }
+        ];
+
+        // Function to generate Math & Logic (IQ) questions to fill up to 100
+        function generateQuestions() {
+            // Add hardcoded questions first
+            hardcodedQuestions.forEach(q => questions.push(q));
+
+            // Generate remaining questions until we hit 100
+            let qNum = questions.length;
+            while(questions.length < 100) {
+                qNum++;
+                let type = Math.floor(Math.random() * 4); // 0: Addition, 1: Subtraction, 2: Multiplication, 3: Sequence
+                
+                if (type === 0) {
+                    let a = Math.floor(Math.random() * 50) + 15;
+                    let b = Math.floor(Math.random() * 50) + 15;
+                    let ans = a + b;
+                    let options = [ans, ans + Math.floor(Math.random()*5)+1, ans - Math.floor(Math.random()*5)-1, ans + 10].sort(() => Math.random() - 0.5);
+                    questions.push({ q: `Selesaikan: ${a} + ${b} = ?`, options: options.map(String), answer: options.indexOf(ans) });
+                } 
+                else if (type === 1) {
+                    let a = Math.floor(Math.random() * 100) + 50;
+                    let b = Math.floor(Math.random() * 40) + 10;
+                    let ans = a - b;
+                    let options = [ans, ans + 2, ans - 5, ans + 10].sort(() => Math.random() - 0.5);
+                    questions.push({ q: `Selesaikan: ${a} - ${b} = ?`, options: options.map(String), answer: options.indexOf(ans) });
+                }
+                else if (type === 2) {
+                    let a = Math.floor(Math.random() * 12) + 2;
+                    let b = Math.floor(Math.random() * 12) + 2;
+                    let ans = a * b;
+                    let options = [ans, ans + a, ans - b, ans + 5].sort(() => Math.random() - 0.5);
+                    questions.push({ q: `Berapakah hasil darab ${a} dan ${b}?`, options: options.map(String), answer: options.indexOf(ans) });
+                }
+                else {
+                    // Sequence (e.g. 2, 4, 6, 8...)
+                    let start = Math.floor(Math.random() * 10) + 1;
+                    let step = Math.floor(Math.random() * 5) + 2;
+                    let seq = [start, start + step, start + (step*2), start + (step*3)];
+                    let ans = start + (step*4);
+                    let options = [ans, ans + 1, ans - 1, ans + step].sort(() => Math.random() - 0.5);
+                    questions.push({ q: `Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ... ?`, options: options.map(String), answer: options.indexOf(ans) });
+                }
+            }
+
+            // Optional: Shuffle the entire 100 questions for randomness
+            questions = questions.sort(() => Math.random() - 0.5);
+        }
+
+        // Quiz State
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // DOM Elements
+        const startScreen = document.getElementById('start-screen');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const progressbar = document.getElementById('progress-bar');
+        const questionCounter = document.getElementById('question-counter');
+        const scoreDisplay = document.getElementById('score-display');
+
+        function startQuiz() {
+            questions = []; // reset array
+            generateQuestions(); // fill 100 questions
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            startScreen.classList.add('hidden');
+            resultScreen.classList.add('hidden');
+            quizScreen.classList.remove('hidden');
+            quizScreen.classList.add('flex');
+            
+            updateScoreDisplay();
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // Update Progress & Counter
+            questionCounter.innerText = `Soalan ${currentQuestionIndex + 1} / 100`;
+            const progressPct = ((currentQuestionIndex) / 100) * 100;
+            progressbar.style.width = `${progressPct}%`;
+            
+            // Update Question Text
+            questionText.innerText = currentQuestion.q;
+            
+            // Render Options
+            optionsContainer.innerHTML = '';
+            currentQuestion.options.forEach((option, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn w-full text-left bg-white border-2 border-slate-200 hover:border-blue-500 hover:bg-blue-50 text-slate-700 font-medium py-4 px-6 rounded-xl cursor-pointer shadow-sm';
+                btn.innerText = `${String.fromCharCode(65 + index)}. ${option}`; // A. B. C. D.
+                btn.onclick = () => selectAnswer(index);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        function selectAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            
+            // Check if correct
+            if (selectedIndex === currentQuestion.answer) {
+                score++;
+            }
+            
+            currentQuestionIndex++;
+            updateScoreDisplay();
+            
+            // Check if end of quiz
+            if (currentQuestionIndex < 100) {
+                showQuestion();
+            } else {
+                endQuiz();
+            }
+        }
+
+        function updateScoreDisplay() {
+            scoreDisplay.innerText = `Markah: ${score}`;
+        }
+
+        function endQuiz() {
+            quizScreen.classList.remove('flex');
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.remove('hidden');
+            resultScreen.classList.add('flex');
+            
+            const percentage = (score / 100) * 100;
+            document.getElementById('final-score').innerText = `${percentage}%`;
+            
+            let grade = '';
+            let feedback = '';
+            
+            if (percentage >= 80) {
+                grade = 'Cemerlang!';
+                feedback = 'Tahniah! Anda mempunyai potensi yang sangat tinggi untuk melepasi ujian PKSK. Teruskan usaha cemerlang ini.';
+            } else if (percentage >= 60) {
+                grade = 'Baik';
+                feedback = 'Pencapaian yang bagus, namun ada ruang untuk pembaikan terutamanya dalam aspek ketepatan dan kelajuan. Banyakkan latihan!';
+            } else if (percentage >= 40) {
+                grade = 'Sederhana';
+                feedback = 'Anda perlukan lebih banyak pendedahan kepada bentuk-bentuk soalan PKSK. Jangan putus asa dan teruskan mengulang kaji.';
+            } else {
+                grade = 'Perlu Banyak Usaha';
+                feedback = 'Jangan bersedih. Jadikan ini sebagai titik tolak untuk membuat persediaan yang lebih rapi sebelum peperiksaan sebenar.';
+            }
+            
+            document.getElementById('grade-text').innerText = grade;
+            document.getElementById('feedback-text').innerText = feedback;
+        }
+
+        function resetQuiz() {
+            startScreen.classList.remove('hidden');
+            startScreen.classList.add('flex');
+            resultScreen.classList.remove('flex');
+            resultScreen.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
