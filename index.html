@@ -113,9 +113,8 @@
 
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
                 <h4 class="font-bold text-slate-700 mb-2">Petunjuk Warna Papan Navigasi:</h4>
-                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div class="grid grid-cols-3 gap-2">
                     <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-slate-200 border border-slate-300 inline-block"></span><span class="text-slate-600">Belum Dijawab</span></div>
-                    <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-amber-400 inline-block"></span><span class="text-slate-600">Dilewati / Pass (Skip)</span></div>
                     <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-emerald-500 inline-block"></span><span class="text-slate-600">Betul</span></div>
                     <div class="flex items-center space-x-2"><span class="w-3.5 h-3.5 rounded bg-rose-500 inline-block"></span><span class="text-slate-600">Salah</span></div>
                 </div>
@@ -150,20 +149,14 @@
                     </div>
                 </div>
 
-                <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
+                <div class="pt-4 border-t border-slate-100 flex items-center justify-between">
                     <button onclick="navigateQuestion('prev')" id="btn-prev" class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 rounded-xl font-bold hover:bg-slate-100 transition text-sm flex items-center gap-2">
                         <i class="fa-solid fa-arrow-left"></i> Kembali
                     </button>
 
-                    <div class="flex items-center space-x-2 ml-auto">
-                        <button onclick="skipCurrentQuestion()" id="btn-skip" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow transition text-sm flex items-center gap-2">
-                            <i class="fa-solid fa-forward"></i> Pintas / Pass
-                        </button>
-
-                        <button onclick="navigateQuestion('next')" id="btn-next" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2">
-                            Seterusnya <i class="fa-solid fa-arrow-right"></i>
-                        </button>
-                    </div>
+                    <button onclick="navigateQuestion('next')" id="btn-next" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2 ml-auto">
+                        Seterusnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
                 </div>
             </div>
 
@@ -180,9 +173,8 @@
                         </button>
                     </div>
 
-                    <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-3 flex-shrink-0">
+                    <div class="grid grid-cols-3 gap-1.5 text-center text-[10px] font-bold mb-3 flex-shrink-0">
                         <div class="bg-slate-100 p-1.5 rounded-lg border border-slate-200"><span id="count-unanswered" class="text-slate-700 block text-xs">100</span>Belum</div>
-                        <div class="bg-amber-50 p-1.5 rounded-lg border border-amber-200 text-amber-800"><span id="count-skipped" class="block text-xs">0</span>Pass</div>
                         <div class="bg-emerald-50 p-1.5 rounded-lg border border-emerald-200 text-emerald-800"><span id="count-correct" class="block text-xs">0</span>Betul</div>
                         <div class="bg-rose-50 p-1.5 rounded-lg border border-rose-200 text-rose-800"><span id="count-wrong" class="block text-xs">0</span>Salah</div>
                     </div>
@@ -221,8 +213,8 @@
                 <div class="bg-rose-50 border border-rose-200 p-3 rounded-xl text-rose-800">
                     <span id="res-wrong" class="text-lg font-black block text-rose-600">0</span> Salah
                 </div>
-                <div class="bg-amber-50 border border-amber-200 p-3 rounded-xl text-amber-800">
-                    <span id="res-skipped" class="text-lg font-black block text-amber-600">0</span> Dilewati
+                <div class="bg-slate-100 border border-slate-200 p-3 rounded-xl text-slate-700">
+                    <span id="res-unanswered" class="text-lg font-black block text-slate-600">0</span> Belum Jawab
                 </div>
             </div>
 
@@ -239,13 +231,10 @@
     </div>
 
     <script>
-        // --- PROSE PENJANAAN 500 SOALAN UNIK TANPA PENGULANGAN ---
-        
-        // Dynamic Question Generators for unique non-repetitive items
+        // --- DATA 500 SOALAN UNIK ---
         function getUniqueEQQuestions(setId) {
-            const list = [];
             const eqData = [
-                // Set 1 Unique EQ
+                // Set 1 EQ
                 [
                     ["rakan sepasukan meniru kerja rumah dari internet secara bulat-bulat", "Menegur dan membantunya mengolah semula ayat mengikut pemahaman sendiri", "Membiarkannya kerana tidak mahu bergaduh", "Melaporkan kepada guru secara senyap", "Mengeluarkannya dari senarai ahli"],
                     ["anda dituduh merosakkan harta sekolah yang dilakukan murid lain", "Menerangkan situasi sebenar secara tenang bersama bukti atau saksi", "Menjerit dan memarahi orang yang menuduh", "Melarikan diri dari kawasan tersebut", "Menuduh orang lain secara melulu"],
@@ -258,7 +247,7 @@
                     ["anda tersilap memadam maklumat tugasan penting rakan", "Meminta maaf secara jujur dan membantunya menyiapkan semula", "Pura-pura tidak tahu mengenai kejadian itu", "Menyalahkan komputer", "Melarikan diri"],
                     ["alatan eksperimen yang anda guna di makmal rosak secara tidak sengaja", "Segera melaporkan kerosakan kepada guru dan bertanggungjawab", "Menyimpan alatan rosak di dalam almari senyap-senyap", "Menyalahkan rakan yang guna sebelum ini", "Membuang alatan tersebut"]
                 ],
-                // Set 2 Unique EQ
+                // Set 2 EQ
                 [
                     ["rakan anda kelihatan murung dan mendiamkan diri sepanjang hari", "Mendengar luahannya dengan empati dan mengajak berjumpa kaunselor jika perlu", "Mengejeknya kerana kelihatan lemah", "Menjauhkan diri daripadanya", "Menceritakan keadaannya di media sosial"],
                     ["anda dikritik secara terbuka oleh guru tentang hasil kerja anda", "Menerima teguran dengan tenang dan memperbaiki kesalahan tersebut", "Marah dan merungut di hadapan rakan lain", "Menolak untuk menyiapkan kerja sekolah lagi", "Pura-pura tidak mendengar"],
@@ -271,7 +260,7 @@
                     ["guru meminta sukarelawan untuk membersihkan kawasan sekolah", "Tampil secara sukarela dengan penuh semangat", "Pura-pura sakit untuk mengelak", "Menyorok di dalam tandas", "Menyuruh rakan menggantikan anda"],
                     ["khemah kumpulan anda bocor semasa aktiviti perkhemahan hujan lebat", "Kekal tenang, mengarahkan ahli mengalihkan barang dan mencari perlindungan", "Panik dan menjerit mengarahkan ahli lari", "Menyalahkan ahli yang memasang khemah", "Duduk merungut menunggu bantuan"]
                 ],
-                // Set 3 Unique EQ
+                // Set 3 EQ
                 [
                     ["rakan anda mengantuk di dalam kelas sewaktu guru sedang mengajar", "Menegurnya secara perlahan dan menyuruhnya memohon izin mencuci muka", "Mentertawakannya di hadapan guru", "Turut tidur bersama rakan tersebut", "Menjerit memberitahu guru"],
                     ["anda mendapati keputusan ujian anda sangat rendah walaupun sudah belajar", "Menganalisis kesilapan, berjumpa guru untuk bimbingan dan berusaha semula", "Menyalahkan guru kerana memberi soalan sukar", "Berhenti belajar kerana berasa tiada bakat", "Membandingkan diri dengan rakan lebih rendah"],
@@ -284,7 +273,7 @@
                     ["rakan anda secara tidak sengaja menjatuhkan makanan anda ke tanah", "Memaafkannya dan membersihkan makanan tersebut bersama-sama", "Meminta ganti rugi berbentuk wang yang tinggi", "Memukul rakan tersebut", "Menjerit memarahinya di kantin"],
                     ["anda melihat pelajar tingkatan atas merokok di dalam tandas sekolah", "Melaporkan kejadian tersebut kepada guru disiplin secara berhemah", "Turut mencuba merokok bersama mereka", "Memaafkan perbuatan mereka", "Merakam gambar untuk diugut"]
                 ],
-                // Set 4 Unique EQ
+                // Set 4 EQ
                 [
                     ["anda diberikan tugasan projek bersama pelajar yang tidak anda gemari", "Mengetepikan perasaan peribadi dan fokus bekerja secara profesional", "Enggan bercakap dengannya sepanjang projek", "Meminta guru menukar ahli kumpulan", "Menyuruhnya membuat semua kerja"],
                     ["rakan anda ingin meminjam nota penting peperiksaan anda esok hari", "Meminjamkan nota tersebut atau berkongsi salinan dengannya", "Enggan meminjamkan kerana takut dia mendapat markah lebih tinggi", "Mengenakan bayaran sewa nota", "Pura-pura menyorokkan nota"],
@@ -297,7 +286,7 @@
                     ["rakan sekelas terlupa membawa baju sukan untuk PJPK", "Membantunya memohon kebenaran guru atau meminjamkan baju sukan ekstra", "Ketawakannya semasa perhimpunan", "Menuduhnya malas", "Membiarkannya dihukum guru"],
                     ["anda tidak bersetuju dengan pendapat pengerusi kelab semasa mesyuarat", "Suarakan pandangan anda secara sopan berserta cadangan penambahbaikan", "Menjerit memotong percakapan pengerusi", "Keluar dari bilik mesyuarat secara mendadak", "Mengutuk pengerusi di belakangnya"]
                 ],
-                // Set 5 Unique EQ
+                // Set 5 EQ
                 [
                     ["anda ternampak rakan sekelas mengambil barang milik guru tanpa izin", "Menegurnya secara peribadi dan memujuknya memulangkan barang tersebut", "Turut mengambil barang guru lain", "Mendiamkan diri untuk menjaga persahabatan", "Mengugut untuk meminta wang daripadanya"],
                     ["rakan sepasukan anda membuat kesilapan semasa persembahan pentas", "Memberi kata-kata semangat dan menenangkannya selepas persembahan", "Menyalahkan rakan di hadapan penonton", "Mengejek kesilapannya di media sosial", "Menyesal membuat persembahan bersamanya"],
@@ -313,6 +302,7 @@
             ];
 
             const chosenEQSet = eqData[(setId - 1) % 5];
+            const list = [];
             for (let i = 0; i < 20; i++) {
                 let eq = chosenEQSet[i % chosenEQSet.length];
                 list.push({
@@ -550,7 +540,7 @@
                     ["Sel darah putih berfungsi untuk...", "Melawan jangkitan penyakit", "Membawa oksigen", "Membekukan darah", "Menyalur nutrien"],
                     ["Bahan yang tidak membenarkan elektrik mengalir melaluinya dipanggil...", "Penebat Elektrik", "Konduktor Elektrik", "Semikonduktor", "Elektrolit"],
                     ["Berapakah bilangan tulang pada rangka tubuh manusia dewasa?", "206 tulang", "300 tulang", "150 tulang", "100 tulang"],
-                    ["Petua memelihara makanan dengan pemanasan suhu tinggi kemudian didinginkan cepat dipanggil...", "Pemerulihan / Pemasakan", "Pempasteruan", "Pengeringan", "Pengasinan"]
+                    ["Petua memelihara makanan dengan pemanasan suhu tinggi kemudian didinginkan cepat dipanggil...", "Pempasteruan", "Pemerulihan", "Pengeringan", "Pengasinan"]
                 ],
                 // Set 5 Science
                 [
@@ -731,7 +721,6 @@
                 let qText, options, ansIndex;
 
                 if (type === 0) {
-                    // Pola Nombor
                     let step = (setId * 3) + (i % 4) + 2;
                     let start = (setId * 7) + (i * 3);
                     let seq = [start, start + step, start + (step * 2), start + (step * 3)];
@@ -741,7 +730,6 @@
                     options = opts.map(String);
                     ansIndex = options.indexOf(String(next));
                 } else if (type === 1) {
-                    // Turutan Abjad
                     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
                     let jump = (setId % 2) + 2;
                     let startIdx = (i * 3 + setId) % 12;
@@ -752,7 +740,6 @@
                     options = opts;
                     ansIndex = options.indexOf(nextL);
                 } else if (type === 2) {
-                    // Matematik KBAT Epal/Kotak
                     let items = (i + 3) * 3 + setId;
                     let count = 4 + (setId % 2);
                     let eaten = 5;
@@ -762,7 +749,6 @@
                     options = opts.map(String);
                     ansIndex = options.indexOf(String(ans));
                 } else {
-                    // Pergerakan Lif
                     let lif = 1 + setId;
                     let naik1 = 5 + (i % 3), turun1 = 2, naik2 = 3;
                     let ans = lif + naik1 - turun1 + naik2;
@@ -791,7 +777,6 @@
             });
         }
 
-        // Cantumkan 5 Bahagian menjadi 100 Soalan Penuh per Set (20 EQ + 20 GK + 20 Sains + 20 Bahasa + 20 Logik = 100)
         function buildFull100QuestionSet(setId) {
             const eq = getUniqueEQQuestions(setId);
             const gk = generateUniqueGKSet(setId);
@@ -867,31 +852,31 @@
             const btnNext = document.getElementById('btn-next');
             if (currentQuestionIndex === 99) {
                 btnNext.innerHTML = `Lihat Keputusan <i class="fa-solid fa-flag-checkered ml-1"></i>`;
-                btnNext.className = "px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2";
+                btnNext.className = "px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2 ml-auto";
             } else {
                 btnNext.innerHTML = `Seterusnya <i class="fa-solid fa-arrow-right ml-1"></i>`;
-                btnNext.className = "px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2";
+                btnNext.className = "px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2 ml-auto";
             }
 
             const boxOptions = document.getElementById('box-options');
             boxOptions.innerHTML = '';
 
-            let isAnswered = typeof status === 'number';
+            let isEvaluated = typeof status === 'number'; 
 
             qData.options.forEach((opt, index) => {
                 let btn = document.createElement('button');
                 btn.className = `w-full text-left p-4 rounded-xl border-2 font-medium text-slate-700 transition flex items-center justify-between shadow-sm `;
 
-                if (isAnswered) {
+                if (isEvaluated) {
                     btn.disabled = true;
                     btn.classList.add('cursor-not-allowed');
 
                     if (index === qData.answer) {
                         btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-bold');
-                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-emerald-600 font-extrabold text-sm"><i class="fa-solid fa-check"></i> Betul</span>`;
+                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-emerald-600 font-extrabold text-sm"><i class="fa-solid fa-check"></i> Jawapan Sebenar</span>`;
                     } else if (index === status) {
                         btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
-                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-rose-600 font-extrabold text-sm"><i class="fa-solid fa-xmark"></i> Salah</span>`;
+                        btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-rose-600 font-extrabold text-sm"><i class="fa-solid fa-xmark"></i> Jawapan Anda (Salah)</span>`;
                     } else {
                         btn.classList.add('border-slate-200', 'opacity-50');
                         btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span>`;
@@ -911,18 +896,6 @@
         function selectOption(index) {
             userAnswers[currentQuestionIndex] = index;
             renderQuestion();
-        }
-
-        function skipCurrentQuestion() {
-            if (typeof userAnswers[currentQuestionIndex] !== 'number') {
-                userAnswers[currentQuestionIndex] = 'skipped';
-            }
-            if (currentQuestionIndex < 99) {
-                currentQuestionIndex++;
-                renderQuestion();
-            } else {
-                updateGridUI();
-            }
         }
 
         function navigateQuestion(direction) {
@@ -955,7 +928,7 @@
         }
 
         function updateGridUI() {
-            let countUnans = 0, countSkip = 0, countCorr = 0, countWrong = 0;
+            let countUnans = 0, countCorr = 0, countWrong = 0;
 
             for (let i = 0; i < 100; i++) {
                 let btn = document.getElementById(`grid-item-${i}`);
@@ -969,9 +942,6 @@
                 if (st === null) {
                     countUnans++;
                     btn.classList.add('bg-slate-100', 'border-slate-300', 'text-slate-700', 'hover:bg-slate-200');
-                } else if (st === 'skipped') {
-                    countSkip++;
-                    btn.classList.add('bg-amber-400', 'border-amber-500', 'text-amber-950', 'hover:bg-amber-500');
                 } else if (typeof st === 'number') {
                     if (st === activeQuestions[i].answer) {
                         countCorr++;
@@ -984,7 +954,6 @@
             }
 
             document.getElementById('count-unanswered').innerText = countUnans;
-            document.getElementById('count-skipped').innerText = countSkip;
             document.getElementById('count-correct').innerText = countCorr;
             document.getElementById('count-wrong').innerText = countWrong;
         }
@@ -1002,9 +971,9 @@
         }
 
         function confirmFinishQuiz() {
-            let unans = userAnswers.filter(a => a === null || a === 'skipped').length;
+            let unans = userAnswers.filter(a => a === null).length;
             let msg = unans > 0 
-                ? `Masih ada ${unans} soalan yang belum dijawab / dilewati. Adakah anda pasti mahu menamatkan ujian?`
+                ? `Masih ada ${unans} soalan yang belum dijawab. Adakah anda pasti mahu menamatkan ujian?`
                 : "Adakah anda pasti mahu menamatkan ujian ini?";
 
             if (confirm(msg)) {
@@ -1019,14 +988,14 @@
             document.getElementById('header-quiz-info').classList.add('hidden');
             document.getElementById('screen-result').classList.remove('hidden');
 
-            let correct = 0, wrong = 0, skipped = 0;
+            let correct = 0, wrong = 0, unans = 0;
 
             userAnswers.forEach((ans, idx) => {
                 if (typeof ans === 'number') {
                     if (ans === activeQuestions[idx].answer) correct++;
                     else wrong++;
                 } else {
-                    skipped++;
+                    unans++;
                 }
             });
 
@@ -1036,7 +1005,7 @@
             document.getElementById('text-final-raw').innerText = `(${correct} / 100 Betul)`;
             document.getElementById('res-correct').innerText = correct;
             document.getElementById('res-wrong').innerText = wrong;
-            document.getElementById('res-skipped').innerText = skipped;
+            document.getElementById('res-unanswered').innerText = unans;
 
             let title = "", desc = "";
             if (percent >= 85) {
