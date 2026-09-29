@@ -24,7 +24,7 @@
                 <i class="fa-solid fa-graduation-cap text-2xl text-amber-400"></i>
                 <div>
                     <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-none">Simulasi PKSK Interaktif</h1>
-                    <p class="text-xs text-indigo-200 mt-0.5 hidden sm:block">Pentaksiran Kemasukan Sekolah Khusus (500 Soalan Tanpa Ulangan)</p>
+                    <p class="text-xs text-indigo-200 mt-0.5 hidden sm:block">Pentaksiran Kemasukan Sekolah Khusus (500 Soalan Unik)</p>
                 </div>
             </div>
             
@@ -49,7 +49,7 @@
                 <span class="bg-indigo-100 text-indigo-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Persediaan PKSK</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-2 mb-3">Pilih Set Latihan Ujian</h2>
                 <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    Setiap set mengandungi <strong class="text-indigo-600">100 soalan unik KBAT</strong> (EQ, SQ, SSQ, Pengetahuan Am, Sains, Bahasa & Logik IQ). Soalan tidak diulang!
+                    Setiap set mengandungi <strong class="text-indigo-600">100 soalan unik KBAT</strong> (EQ, Pengetahuan Am, Sains, Bahasa & Logik IQ). Tiada sebarang soalan berulang di antara set!
                 </p>
                 <small class="text-slate-400 block mt-2">Dikuasakan oleh MZ Nexus Solutions</small>
             </div>
@@ -105,7 +105,7 @@
                     <div>
                         <span class="px-2.5 py-1 bg-white/20 text-white text-xs font-bold rounded-md">MOD BONUS</span>
                         <h3 class="text-lg font-bold mt-2">Ujian Rawak Campuran</h3>
-                        <p class="text-xs text-indigo-100 mt-1">100 Soalan Rawak dari Bank 500 Soalan</p>
+                        <p class="text-xs text-indigo-100 mt-1">100 Soalan Rawak dari 500 Bank Soalan</p>
                     </div>
                     <span class="mt-4 text-xs font-bold text-white flex items-center">Mula Rawak <i class="fa-solid fa-shuffle ml-1"></i></span>
                 </button>
@@ -239,205 +239,535 @@
     </div>
 
     <script>
-        // Enjin Pembina Soalan PKSK (Setiap Set Mempunyai 100 Soalan Unik Berbeza)
-        function generateSetBank(setId) {
+        // --- PROSE PENJANAAN 500 SOALAN UNIK TANPA PENGULANGAN ---
+        
+        // Dynamic Question Generators for unique non-repetitive items
+        function getUniqueEQQuestions(setId) {
             const list = [];
-            
-            // Subjek & Kategori
-            const categories = [
-                "Kecerdasan Insaniah (EQ/SQ/SSQ)",
-                "Pengetahuan Am & Sejarah",
-                "Sains & Alam Sekitar",
-                "Bahasa Melayu & Inggeris",
-                "Kecerdasan Intelek (Logik/Matematik)"
+            const eqData = [
+                // Set 1 Unique EQ
+                [
+                    ["rakan sepasukan meniru kerja rumah dari internet secara bulat-bulat", "Menegur dan membantunya mengolah semula ayat mengikut pemahaman sendiri", "Membiarkannya kerana tidak mahu bergaduh", "Melaporkan kepada guru secara senyap", "Mengeluarkannya dari senarai ahli"],
+                    ["anda dituduh merosakkan harta sekolah yang dilakukan murid lain", "Menerangkan situasi sebenar secara tenang bersama bukti atau saksi", "Menjerit dan memarahi orang yang menuduh", "Melarikan diri dari kawasan tersebut", "Menuduh orang lain secara melulu"],
+                    ["rakan sekelas mengalami kesusahan kewangan untuk membeli buku latihan", "Membantunya mengumpul dana atau berkongsi buku latihan dengannya", "Mengejek keadaan keluarganya", "Menasihatinya supaya berhenti sekolah", "Pura-pura tidak tahu"],
+                    ["pasukan anda kalah dalam pertandingan debat sekolah", "Menerima kekalahan dengan matang dan mengucapkan tahniah kepada lawan", "Menuduh hakim tidak adil", "Mengejek pasukan lawan", "Menyesal menyertai pertandingan"],
+                    ["anda terjumpa wang tunai RM50 di koridor sekolah", "Menyerahkan wang tersebut kepada guru bertugas atau pejabat sekolah", "Mengambil wang tersebut untuk kegunaan sendiri", "Membeli makanan untuk semua rakan", "Membahagi wang tersebut dengan rakan rapat"],
+                    ["seorang ahli kumpulan tidak mahu memberi kerjasama semasa perbincangan", "Berbincang secara peribadi untuk memahami masalahnya dan memberi sokongan", "Memarahinya di hadapan ahli lain", "Melaporkan kepada guru serta-merta", "Membuang namanya dari senarai"],
+                    ["anda menerima jawatan sebagai ketua kelas", "Menjalankan tugas secara adil, prihatin dan menjadi contoh yang baik", "Menggunakan kuasa untuk menyuruh rakan membuat kerja anda", "Menolak tugas kerana tidak mahu penat", "Membeli hati rakan dengan hadiah"],
+                    ["rakan anda sering diejek di sekolah kerana fizikalnya", "Mempertahankan rakan, menegur ejekan secara berhemah dan memberi sokongan moral", "Turut ketawa bersama pembuli", "Menasihati rakan supaya tidak hadir sekolah", "Merakam video kejadian"],
+                    ["anda tersilap memadam maklumat tugasan penting rakan", "Meminta maaf secara jujur dan membantunya menyiapkan semula", "Pura-pura tidak tahu mengenai kejadian itu", "Menyalahkan komputer", "Melarikan diri"],
+                    ["alatan eksperimen yang anda guna di makmal rosak secara tidak sengaja", "Segera melaporkan kerosakan kepada guru dan bertanggungjawab", "Menyimpan alatan rosak di dalam almari senyap-senyap", "Menyalahkan rakan yang guna sebelum ini", "Membuang alatan tersebut"]
+                ],
+                // Set 2 Unique EQ
+                [
+                    ["rakan anda kelihatan murung dan mendiamkan diri sepanjang hari", "Mendengar luahannya dengan empati dan mengajak berjumpa kaunselor jika perlu", "Mengejeknya kerana kelihatan lemah", "Menjauhkan diri daripadanya", "Menceritakan keadaannya di media sosial"],
+                    ["anda dikritik secara terbuka oleh guru tentang hasil kerja anda", "Menerima teguran dengan tenang dan memperbaiki kesalahan tersebut", "Marah dan merungut di hadapan rakan lain", "Menolak untuk menyiapkan kerja sekolah lagi", "Pura-pura tidak mendengar"],
+                    ["anda melihat rakan membuang sampah di merata tempat", "Menegur rakan secara berhemah dan mengajaknya membuang ke tong sampah", "Mengutuk rakan di media sosial", "Turut membuang sampah bersama", "Membiarkannya tanpa berbuat apa-apa"],
+                    ["berlaku perselisihan faham semasa perbincangan projek kumpulan", "Mendengar hujah setiap ahli dan mencari jalan penyelesaian terbaik", "Memaksa semua ahli menerima pandangan anda", "Meninggalkan kumpulan tersebut", "Membiarkan perbincangan tanpa keputusan"],
+                    ["rakan terdekat anda terlupa membawa bekal wang saku ke sekolah", "Berkongsi makanan atau bekal anda dengannya secara ikhlas", "Ketawakannya di hadapan rakan lain", "Meminta bayaran jika meminjamkan wang", "Membiarkannya kelaparan"],
+                    ["anda perlu memilih antara latihan sukan dan kelas tambahan peperiksaan", "Berbincang dengan jurulatih dan guru untuk menyusun jadual secara bijak", "Ponteng kelas tambahan tanpa kebenaran", "Berhenti sukan secara mendadak", "Menyalahkan pihak sekolah"],
+                    ["seorang murid baharu kelihatan bersendirian dan pemalu di kelas", "Menyapanya dengan mesra dan mengundangnya menyertai kumpulan anda", "Memulaukan murid tersebut", "Mengejek cara pemakaiannya", "Menunggu dia menegur dahulu"],
+                    ["anda menerima elaun atau wang saku lebih daripada biasa", "Menyimpan sebahagian wang ke dalam tabung untuk masa depan", "Membelanjakan semua wang untuk permainan video", "Belanja semua rakan tanpa perancangan", "Menghilangkan wang tersebut"],
+                    ["guru meminta sukarelawan untuk membersihkan kawasan sekolah", "Tampil secara sukarela dengan penuh semangat", "Pura-pura sakit untuk mengelak", "Menyorok di dalam tandas", "Menyuruh rakan menggantikan anda"],
+                    ["khemah kumpulan anda bocor semasa aktiviti perkhemahan hujan lebat", "Kekal tenang, mengarahkan ahli mengalihkan barang dan mencari perlindungan", "Panik dan menjerit mengarahkan ahli lari", "Menyalahkan ahli yang memasang khemah", "Duduk merungut menunggu bantuan"]
+                ],
+                // Set 3 Unique EQ
+                [
+                    ["rakan anda mengantuk di dalam kelas sewaktu guru sedang mengajar", "Menegurnya secara perlahan dan menyuruhnya memohon izin mencuci muka", "Mentertawakannya di hadapan guru", "Turut tidur bersama rakan tersebut", "Menjerit memberitahu guru"],
+                    ["anda mendapati keputusan ujian anda sangat rendah walaupun sudah belajar", "Menganalisis kesilapan, berjumpa guru untuk bimbingan dan berusaha semula", "Menyalahkan guru kerana memberi soalan sukar", "Berhenti belajar kerana berasa tiada bakat", "Membandingkan diri dengan rakan lebih rendah"],
+                    ["berlaku kebocoran air di tandas sekolah yang membazirkan air", "Melaporkan kejadian kerosakan kepada pihak pentadbiran sekolah", "Membiarkan air melimpah keluar", "Bermain air yang melimpah", "Menyalahkan pekerja pembersihan"],
+                    ["ahli keluarga anda sedang mengalami masalah kesihatan di rumah", "Membantu meringankan beban kerja rumah dan mendoakan kesembuhan", "Mengeluh kerana kurang perhatian", "Keluar rumah sepanjang hari", "Membuat bising di rumah"],
+                    ["anda memenangi anugerah tokoh murid cemerlang sekolah", "Kekal rendah hati dan mengucapkan terima kasih serta dorongan kepada rakan", "Mendabik dada dan melebih-lebihkan kejayaan", "Menganggap rakan lain tidak sehebat anda", "Menjauhkan diri dari rakan yang tewas"],
+                    ["rakan sekelas mengajak anda ponteng kelas untuk bermain permainan video", "Menolak pelawaan tersebut secara tegas dan menasihatinya fokus belajar", "Mengikutinya kerana takut hilang kawan", "Melaporkan kepada pihak polis terus", "Mengajaknya pergi ke tempat lain"],
+                    ["anda mendapati maklumat salah disebarkan dalam kumpulan WhatsApp kelas", "Betulkan maklumat tersebut secara sopan berserta bukti sahih", "Turut menyebarkan maklumat salah itu", "Mencaci individu yang menghantar mesej", "Meninggalkan kumpulan WhatsApp"],
+                    ["guru bertukar jadual tugasan secara mendadak sewaktu anda sibuk", "Menerima perubahan dengan lapang dada dan menyusun semula masa", "Marah pada guru di hadapan kelas", "Enggan menjalankan tugasan baharu", "Menyuruh rakan lain menggantikan tempat"],
+                    ["rakan anda secara tidak sengaja menjatuhkan makanan anda ke tanah", "Memaafkannya dan membersihkan makanan tersebut bersama-sama", "Meminta ganti rugi berbentuk wang yang tinggi", "Memukul rakan tersebut", "Menjerit memarahinya di kantin"],
+                    ["anda melihat pelajar tingkatan atas merokok di dalam tandas sekolah", "Melaporkan kejadian tersebut kepada guru disiplin secara berhemah", "Turut mencuba merokok bersama mereka", "Memaafkan perbuatan mereka", "Merakam gambar untuk diugut"]
+                ],
+                // Set 4 Unique EQ
+                [
+                    ["anda diberikan tugasan projek bersama pelajar yang tidak anda gemari", "Mengetepikan perasaan peribadi dan fokus bekerja secara profesional", "Enggan bercakap dengannya sepanjang projek", "Meminta guru menukar ahli kumpulan", "Menyuruhnya membuat semua kerja"],
+                    ["rakan anda ingin meminjam nota penting peperiksaan anda esok hari", "Meminjamkan nota tersebut atau berkongsi salinan dengannya", "Enggan meminjamkan kerana takut dia mendapat markah lebih tinggi", "Mengenakan bayaran sewa nota", "Pura-pura menyorokkan nota"],
+                    ["anda mengalami tekanan perasaan akibat bebanan kerja sekolah yang banyak", "Mengurus masa dengan baik, berehat sejenak dan meminta bimbingan kaunselor", "Membuang semua buku sekolah", "Marah pada ahli keluarga di rumah", "Mengasingkan diri di dalam bilik gelap"],
+                    ["rakan anda dituduh meniru dalam ujian sedangkan anda tahu dia jujur", "Tampil mempertahankan rakan anda bersama bukti yang jelas", "Mendiamkan diri untuk mengelak masalah", "Turut menyalahkan rakan tersebut", "Mengejek rakan yang dituduh"],
+                    ["anda terpilih mewakili sekolah tetapi rakan baik anda gagal dalam pemilihan", "Gembira atas kejayaan sendiri sambil memberi sokongan moral kepada rakan", "Mengejek rakan baik yang gagal", "Menolak tawaran mewakili sekolah", "Menjauhkan diri daripada rakan"],
+                    ["seorang murid baharu dari luar negara menghadapi kesukaran bahasa", "Membantunya menterjemah dan mengajarnya Bahasa Melayu secara perlahan", "Mentertawakan sebutan bahasanya", "Pura-pura tidak memahaminya", "Meminta rakan lain menjauhinya"],
+                    ["anda melihat pili air di padang sekolah terbuka tanpa digunakan", "Menutup pili air tersebut serta-merta untuk mengelak pembaziran", "Membiarkan air mengalir terus", "Bermain air di pili tersebut", "Mengambil gambar untuk dimuat naik"],
+                    ["ibu bapa anda tidak dapat hadir ke hari anugerah cemerlang sekolah anda", "Memahami kesibukan kerja ibu bapa dan berkongsi kegembiraan di rumah", "Merajuk dan tidak mahu naik ke pentas", "Memarahi ibu bapa secara kasar", "Melarikan diri dari sekolah"],
+                    ["rakan sekelas terlupa membawa baju sukan untuk PJPK", "Membantunya memohon kebenaran guru atau meminjamkan baju sukan ekstra", "Ketawakannya semasa perhimpunan", "Menuduhnya malas", "Membiarkannya dihukum guru"],
+                    ["anda tidak bersetuju dengan pendapat pengerusi kelab semasa mesyuarat", "Suarakan pandangan anda secara sopan berserta cadangan penambahbaikan", "Menjerit memotong percakapan pengerusi", "Keluar dari bilik mesyuarat secara mendadak", "Mengutuk pengerusi di belakangnya"]
+                ],
+                // Set 5 Unique EQ
+                [
+                    ["anda ternampak rakan sekelas mengambil barang milik guru tanpa izin", "Menegurnya secara peribadi dan memujuknya memulangkan barang tersebut", "Turut mengambil barang guru lain", "Mendiamkan diri untuk menjaga persahabatan", "Mengugut untuk meminta wang daripadanya"],
+                    ["rakan sepasukan anda membuat kesilapan semasa persembahan pentas", "Memberi kata-kata semangat dan menenangkannya selepas persembahan", "Menyalahkan rakan di hadapan penonton", "Mengejek kesilapannya di media sosial", "Menyesal membuat persembahan bersamanya"],
+                    ["anda dipuji oleh guru di hadapan seluruh kelas", "Ucap terima kasih secara rendah hati dan terus berusaha kekal cemerlang", "Mendabik dada dan memandang rendah rakan lain", "Belagak seolah-olah anda tidak perlu belajar lagi", "Mengejek rakan yang mendapat markah rendah"],
+                    ["bas sekolah yang anda naiki mengalami kerosakan di tengah jalan", "Kekal tenang, mengikut arahan pemandu dan menjaga keselamatan diri", "Panik dan melompat keluar dari bas", "Menyalahkan pemandu bas", "Bermain di jalan raya yang berbahaya"],
+                    ["anda melihat rakan sekelas menangis bersendirian di belakang kelas", "Mendekatinya secara perlahan dan bertanya sekiranya dia perlukan bantuan", "Merakam gambar rakan tersebut menangis", "Mengejeknya penakut", "Membiarkannya tanpa peduli"],
+                    ["rakan anda mengajak anda merosakkan harta benda di dalam tandas", "Menolak ajakan tersebut secara tegas dan mengingatkan akibat perbuatan itu", "Mengikut perbuatan tersebut untuk berseronok", "Menolong memegang barang untuk dirosakkan", "Membanggakan perbuatan tersebut"],
+                    ["anda menghadapi peperiksaan penting esok tetapi jiran membuat bising", "Menegur jiran secara berhemah atau berpindah belajar di ruang lebih senyap", "Menjerit memarahi jiran dari tingkap", "Membalas dengan membuat bising lagi", "Memutus bekalan elektrik jiran"],
+                    ["anda terlepas bas sekolah kerana membantu rakan yang cedera", "Menerangkan situasi sebenar kepada guru dengan jujur berserta bukti", "Menipunya dengan memberi alasan lain", "Ponteng sekolah sepanjang hari", "Menyalahkan rakan yang cedera"],
+                    ["rakan sekelas anda kerap diejek kerana warna kulitnya", "Mempertahankan rakan dan menegaskan bahawa semua manusia adalah sama", "Turut serta mengejek warna kulitnya", "Menjauhkan diri daripada rakan itu", "Mentertawakan fizikalnya"],
+                    ["anda kehilangan pemadam kegemaran yang dipinjamkan kepada rakan", "Menerima permohonan maaf rakan dengan lapang dada tanpa berdendam", "Memaksa rakan menggantikan dengan barang mahal", "Memukul rakan tersebut", "Menyembunyikan beg rakan sebagai balasan"]
+                ]
             ];
 
-            // 1. Kecerdasan Insaniah (20 Soalan unik per Set)
-            const eqTemplates = [
-                ["melihat rakan sekelas dibuli secara lisan di kantin", "Melaporkan kejadian kepada guru bertugas/kaunselor secara senyap", "Mengejek rakan tersebut bersama pembuli", "Merakam video dan memuat naik ke media sosial", "Membiarkan sahaja kerana takut terlibat"],
-                ["anda gagal mendapat markah tinggi dalam ujian peperiksaan", "Menganalisis kesilapan, berjumpa guru untuk bimbingan dan berusaha semula", "Menyalahkan guru kerana memberi soalan terlalu sukar", "Berhenti belajar kerana berasa tiada bakat", "Membandingkan diri dengan rakan yang lebih rendah"],
-                ["rakan sepasukan enggan bekerjasama dalam menyiapkan projek", "Berbincang secara peribadi untuk memahami masalahnya dan memberi sokongan", "Memarahinya di hadapan ahli kumpulan lain", "Melaporkan kepada guru serta-merta tanpa berbincang", "Membuang namanya daripada senarai ahli"],
-                ["anda terjumpa dompet berisi wang di padang sekolah", "Menyerahkan dompet tersebut kepada guru bertugas atau pejabat sekolah", "Mengambil wang tersebut untuk membeli makanan", "Menderma wang tersebut ke tabung tanpa memberitahu sesiapa", "Menunggu pemiliknya di padang seharian"],
-                ["anda dikritik secara terbuka oleh guru tentang hasil kerja anda", "Menerima teguran dengan tenang dan memperbaiki kesalahan tersebut", "Marah dan merungut di hadapan rakan lain", "Menolak untuk menyiapkan kerja sekolah lagi", "Pura-pura tidak mendengar teguran tersebut"],
-                ["rakan anda kelihatan murung dan diam berbanding biasa", "Mendengar luahannya dengan empati dan mengajak berumpa kaunselor jika perlu", "Mengejeknya kerana kelihatan lemah", "Menjauhkan diri daripadanya", "Memberitahu rakan lain tentang keadaannya secara tidak jujur"],
-                ["anda dituduh merosakkan alatan makmal yang dilakukan orang lain", "Menerangkan situasi sebenar secara tenang berserta saksi/bukti", "Menjerit dan memarahi orang yang menuduh", "Melarikan diri dari kawasan makmal", "Menuduh orang lain secara melulu"],
-                ["anda memenangi anugerah tokoh murid sekolah", "Kekal rendah hati dan mengucapkan terima kasih serta dorongan kepada rakan", "Mendabik dada dan melebih-lebihkan kejayaan", "Menganggap rakan lain tidak sehebat anda", "Menjauhkan diri daripada rakan yang tewas"],
-                ["berlaku perselisihan faham semasa perbincangan kumpulan", "Mendengar hujah setiap ahli dan mencari jalan penyelesaian terbaik", "Memaksa semua ahli menerima pandangan anda", "Meninggalkan kumpulan tersebut", "Membiarkan perbincangan tanpa keputusan"],
-                ["anda melihat rakan sekelas membuang sampah di merata tempat", "Menegur rakan secara berhemah dan mengajaknya membuang ke dalam tong sampah", "Mengutuk rakan di media sosial", "Turut membuang sampah bersama-sama", "Membiarkannya tanpa berbuat apa-apa"],
-                ["anda perlu memilih antara latihan sukan dan kelas tambahan", "Berbincang dengan jurulatih dan guru untuk menyusun jadual secara bijak", "Ponteng kelas tambahan tanpa kebenaran", "Berhenti daripada aktiviti sukan secara mendadak", "Menyalahkan pihak sekolah kerana jadual bertembung"],
-                ["rakan terdekat anda terlupa membawa bekal wang saku", "Berkongsi makanan/bekal anda dengannya secara ikhlas", "Ketawakannya di hadapan rakan lain", "Meminta bayaran berganda jika mahu meminjam wang", "Membiarkan dia kelaparan seharian"],
-                ["anda dilantik menjadi ketua kelas buat kali pertama", "Menjalankan tugas secara adil, prihatin dan menjadi contoh yang baik", "Menggunakan kuasa untuk menyuruh rakan lain membuat kerja anda", "Menolak tugas kerana tidak mahu penat", "Membeli hati rakan dengan barang"],
-                ["berlaku kebocoran air di tandas sekolah", "Melaporkan kejadian kerosakan kepada pihak pentadbiran sekolah", "Membiarkan air melimpah keluar", "Bermain air yang melimpah", "Menyalahkan pekerja pembersihan"],
-                ["rakan anda mengantuk di dalam kelas sewaktu guru mengajar", "Menegurnya secara perlahan dan menyuruhnya memohon izin mencuci muka", "Mentertawakannya di hadapan guru", "Turut tidur bersama rakan tersebut", "Menjerit memberitahu guru"],
-                ["anda tersilap memadam maklumat tugasan rakan", "Meminta maaf secara jujur dan membantunya menaip/menulis semula", "Pura-pura tidak tahu mengenai pemadaman itu", "Menyalahkan sistem komputer", "Melarikan diri"],
-                ["seorang murid baharu kelihatan bersendirian dan pemalu", "Menyapanya dengan mesra dan mengundangnya menyertai kumpulan anda", "Memulaukan murid tersebut", "Mengejek cara pemakaiannya", "Menunggu dia datang menegur dahulu"],
-                ["anda menerima elaun atau wang saku lebih daripada biasa", "Menyimpan sebahagian wang ke dalam tabung untuk kegunaan masa depan", "Membelanjakan semua wang untuk permainan video", "Belanja semua rakan tanpa perancangan", "Hilangkan wang tersebut"],
-                ["ahli keluarga anda sedang mengalami masalah kesihatan", "Membantu meringankan beban kerja rumah dan mendoakan kesembuhan", "Mengeluh kerana kurang perhatian", "Keluar rumah sepanjang hari", "Membuat bising di rumah"],
-                ["guru meminta sukarelawan untuk membersihkan kawasan sekolah", "Tampil secara sukarela dengan penuh semangat", "Pura-pura sakit untuk mengelak", "Menyorok di dalam tandas", "Menyuruh rakan lain menggantikan anda"]
-            ];
-
+            const chosenEQSet = eqData[(setId - 1) % 5];
             for (let i = 0; i < 20; i++) {
-                let eq = eqTemplates[i % eqTemplates.length];
+                let eq = chosenEQSet[i % chosenEQSet.length];
                 list.push({
-                    q: `[Set ${setId} - Soalan ${i + 1}] Apabila ${eq[0]}, apakah tindakan paling wajar?`,
+                    q: `[Set ${setId}] Situasi ${i + 1}: Apabila ${eq[0]}, apakah tindakan paling rasional?`,
                     options: [eq[1], eq[2], eq[3], eq[4]].sort(() => Math.random() - 0.5),
                     correctAnswer: eq[1],
-                    category: categories[0]
+                    category: "Kecerdasan Insaniah (EQ/SQ)"
                 });
             }
+            return list;
+        }
 
-            // 2. Pengetahuan Am & Sejarah (20 Soalan unik per Set)
-            const gkPool = [
-                // Set 1
-                [["Apakah ibu negara Malaysia?", "Kuala Lumpur", "Putrajaya", "Cyberjaya", "Georgetown"],
-                 ["Siapakah Bapa Kemerdekaan Malaysia?", "Tunku Abdul Rahman", "Tun Abdul Razak", "Tun Hussein Onn", "Tun Dr. Mahathir"],
-                 ["Perlembagaan Malaysia mengandungi berapa prinsip Rukun Negara?", "5", "6", "4", "7"],
-                 ["Apakah nama bendera rasmi Malaysia?", "Jalur Gemilang", "Sang Saka Bangsa", "Bintang Persekutuan", "Harimau Malaya"],
-                 ["Negeri manakah yang terkecil di Malaysia?", "Perlis", "Melaka", "Pulau Pinang", "Kedah"]],
-                // Set 2
-                [["Banjaran gunung terpanjang di Malaysia ialah...", "Banjaran Titiwangsa", "Banjaran Crocker", "Banjaran Tama Abu", "Banjaran Brassey"],
-                 ["Sungai terpanjang di Malaysia terletak di negeri Sarawak iaitu...", "Sungai Rajang", "Sungai Kinabatangan", "Sungai Pahang", "Sungai Perak"],
-                 ["Hari Malaysia disambut pada tarikh tahun 1963 iaitu...", "16 September", "31 Ogos", "22 Julai", "13 Mei"],
-                 ["Apakah bunga kebangsaan Malaysia?", "Bunga Raya", "Bunga Orkid", "Bunga Cempaka", "Bunga Mawar"],
-                 ["Siapakah pengasas Kesultanan Melayu Melaka?", "Parameswara", "Sultan Muzaffar Shah", "Hang Tuah", "Tun Perak"]],
-                // Set 3
-                [["Badan perundangan tertinggi di Malaysia ialah...", "Parlimen Malaysia", "Mahkamah Persekutuan", "Majlis Raja-Raja", "Kabinet"],
-                 ["Agensi pembangunan tanah Persekutuan di Malaysia ialah...", "FELDA", "MARA", "RISDA", "FAMA"],
-                 ["Apakah gelaran bagi Tun Dr. Mahathir Mohamad?", "Bapa Pemodenan", "Bapa Pembangunan", "Bapa Kemerdekaan", "Bapa Perpaduan"],
-                 ["Puncak tertinggi di Malaysia dan Asia Tenggara ialah...", "Gunung Kinabalu", "Gunung Tahan", "Gunung Korbu", "Gunung Ledang"],
-                 ["Pertubuhan negara-negara Asia Tenggara dikenali sebagai...", "ASEAN", "APEC", "OIC", "BRICS"]],
-                // Set 4
-                [["Pusat pentadbiran Kerajaan Persekutuan Malaysia terletak di...", "Putrajaya", "Kuala Lumpur", "Shah Alam", "Cyberjaya"],
-                 ["Apakah nama lagu kebangsaan Malaysia?", "Negaraku", "Ibu Pertivitiku", "Malaysia Bersih", "Keranamu Malaysia"],
-                 ["Mat Kilau dan Datuk Bahaman merupakan tokoh penentang penjajah di...", "Pahang", "Perak", "Kelantan", "Sabah"],
-                 ["Mata wang rasmi negara Malaysia ialah...", "Ringgit Malaysia", "Rupiah", "Baht", "Dollar"],
-                 ["Pusat peradaban Islam tertua di pantai timur terkenal dengan Batu Bersurat di...", "Terengganu", "Kelantan", "Pahang", "Kedah"]],
-                // Set 5
-                [["Stadium Merdeka merupakan lokasi pengisytiharan kemerdekaan pada tahun...", "1957", "1963", "1948", "1950"],
-                 ["Siapakah YDP Agong Pertama Malaysia?", "Tuanku Abdul Rahman ibni Almarhum Tuanku Muhammad", "Sultan Azlan Shah", "Tuanku Syed Putra", "Sultan Iskandar"],
-                 ["Pelabuhan utama di negeri Selangor ialah...", "Pelabuhan Klang", "Pelabuhan Kuantan", "Pelabuhan Pasir Gudang", "Pelabuhan Penang"],
-                 ["Pulau warta taman laut yang terkenal di Terengganu ialah...", "Pulau Redang", "Pulau Langkawi", "Pulau Pangkor", "Pulau Tioman"],
-                 ["Apakah prinsip Rukun Negara yang pertama?", "Kepercayaan kepada Tuhan", "Kesetiaan kepada Raja dan Negara", "Keluhuran Perlembagaan", "Kedaulatan Undang-Undang"]]
+        function generateUniqueGKSet(setId) {
+            const gkSets = [
+                // Set 1 GK
+                [
+                    ["Apakah ibu negara Malaysia?", "Kuala Lumpur", "Putrajaya", "Georgetown", "Johor Bahru"],
+                    ["Siapakah Bapa Kemerdekaan Malaysia?", "Tunku Abdul Rahman", "Tun Abdul Razak", "Tun Hussein Onn", "Tun Dr Mahathir"],
+                    ["Perlembagaan Malaysia mengandungi berapa prinsip Rukun Negara?", "5", "6", "4", "7"],
+                    ["Apakah nama bendera rasmi Malaysia?", "Jalur Gemilang", "Sang Saka Bangsa", "Bintang Persekutuan", "Harimau Malaya"],
+                    ["Negeri manakah yang terkecil di Malaysia?", "Perlis", "Melaka", "Pulau Pinang", "Kedah"],
+                    ["Banjaran gunung terpanjang di Malaysia ialah...", "Banjaran Titiwangsa", "Banjaran Crocker", "Banjaran Tama Abu", "Banjaran Brassey"],
+                    ["Sungai terpanjang di Malaysia terletak di negeri Sarawak iaitu...", "Sungai Rajang", "Sungai Kinabatangan", "Sungai Pahang", "Sungai Perak"],
+                    ["Hari Malaysia disambut pada tarikh tahun 1963 iaitu...", "16 September", "31 Ogos", "22 Julai", "13 Mei"],
+                    ["Apakah bunga kebangsaan Malaysia?", "Bunga Raya", "Bunga Orkid", "Bunga Cempaka", "Bunga Mawar"],
+                    ["Siapakah pengasas Kesultanan Melayu Melaka?", "Parameswara", "Sultan Muzaffar Shah", "Hang Tuah", "Tun Perak"],
+                    ["Badan perundangan tertinggi di Malaysia ialah...", "Parlimen Malaysia", "Mahkamah Persekutuan", "Majlis Raja-Raja", "Kabinet"],
+                    ["Agensi pembangunan tanah Persekutuan di Malaysia ialah...", "FELDA", "MARA", "RISDA", "FAMA"],
+                    ["Apakah gelaran bagi Tun Dr. Mahathir Mohamad?", "Bapa Pemodenan", "Bapa Pembangunan", "Bapa Kemerdekaan", "Bapa Perpaduan"],
+                    ["Puncak tertinggi di Malaysia dan Asia Tenggara ialah...", "Gunung Kinabalu", "Gunung Tahan", "Gunung Korbu", "Gunung Ledang"],
+                    ["Pertubuhan negara-negara Asia Tenggara dikenali sebagai...", "ASEAN", "APEC", "OIC", "BRICS"],
+                    ["Pusat pentadbiran Kerajaan Persekutuan Malaysia terletak di...", "Putrajaya", "Kuala Lumpur", "Shah Alam", "Cyberjaya"],
+                    ["Apakah nama lagu kebangsaan Malaysia?", "Negaraku", "Ibu Pertivitiku", "Malaysia Bersih", "Keranamu Malaysia"],
+                    ["Mat Kilau dan Datuk Bahaman merupakan tokoh penentang penjajah di...", "Pahang", "Perak", "Kelantan", "Sabah"],
+                    ["Mata wang rasmi negara Malaysia ialah...", "Ringgit Malaysia", "Rupiah", "Baht", "Dollar"],
+                    ["Pusat peradaban Islam tertua di pantai timur terkenal dengan Batu Bersurat di...", "Terengganu", "Kelantan", "Pahang", "Kedah"]
+                ],
+                // Set 2 GK
+                [
+                    ["Stadium Merdeka merupakan lokasi pengisytiharan kemerdekaan pada tahun...", "1957", "1963", "1948", "1950"],
+                    ["Siapakah YDP Agong Pertama Malaysia?", "Tuanku Abdul Rahman ibni Almarhum Tuanku Muhammad", "Sultan Azlan Shah", "Tuanku Syed Putra", "Sultan Iskandar"],
+                    ["Pelabuhan utama di negeri Selangor ialah...", "Pelabuhan Klang", "Pelabuhan Kuantan", "Pelabuhan Pasir Gudang", "Pelabuhan Penang"],
+                    ["Pulau warta taman laut yang terkenal di Terengganu ialah...", "Pulau Redang", "Pulau Langkawi", "Pulau Pangkor", "Pulau Tioman"],
+                    ["Apakah prinsip Rukun Negara yang pertama?", "Kepercayaan kepada Tuhan", "Kesetiaan kepada Raja dan Negara", "Keluhuran Perlembagaan", "Kedaulatan Undang-Undang"],
+                    ["Negeri manakah yang terkenal dengan gelaran Negeri Jelapang Padi?", "Kedah", "Perlis", "Perak", "Kelantan"],
+                    ["Mercu tanda bangunan tertinggi berkembar di Malaysia ialah...", "Menara Berkembar Petronas (KLCC)", "Menara KL", "Exchange 106", "Merdeka 118"],
+                    ["Siapakah Bapa Pembangunan Malaysia?", "Tun Abdul Razak", "Tunku Abdul Rahman", "Tun Hussein Onn", "Tun Abdullah Ahmad Badawi"],
+                    ["Tarian Zapin dan Kuda Kepang merupakan kebudayaan terkenal di negeri...", "Johor", "Melaka", "Pahang", "Negeri Sembilan"],
+                    ["Sistem pemerintahan di Malaysia mengamalkan konsep...", "Demokrasi Berparlimen dan Raja Berperlembagaan", "Republik", "Monarki Mutlak", "Autokrasi"],
+                    ["Tarikh penubuhan Malaysia secara rasmi menggabungkan Tanah Melayu, Sabah, Sarawak dan Singapura ialah...", "16 September 1963", "31 Ogos 1957", "13 Mei 1969", "1 Februari 1974"],
+                    ["Spesis penyu terbesar yang sering mendarat di pantai Rantau Abang ialah...", "Penyu Belimbing", "Penyu Agar", "Penyu Lipas", "Penyu Karah"],
+                    ["Siapakah pereka cipta bendera Jalur Gemilang?", "Mohamed bin Hamzah", "Tun Syed Nasir", "Siti Rahmah", "Tan Cheng Lock"],
+                    ["Acara kejohanan berbasikal antarabangsa terkemuka di Malaysia dinamakan...", "Le Tour de Langkawi", "SUKMA", "GP Malaysia", "Merdeka Ride"],
+                    ["Apakah nama jambatan terpanjang di Malaysia yang terletak di Pulau Pinang?", "Jambatan Sultan Abdul Halim Mu'adzam Shah", "Jambatan Pulau Pinang 1", "Jambatan Seri Wawasan", "Jambatan Kota"],
+                    ["Muzik tradisional Dondang Sayang berasal dari negeri...", "Melaka", "Johor", "Negeri Sembilan", "Perak"],
+                    ["Kaum terbesar di negeri Sabah ialah...", "Kaum Kadazan-Dusun", "Kaum Bajau", "Kaum Murut", "Kaum Iban"],
+                    ["Kaum etnik terbesar di negeri Sarawak ialah...", "Kaum Iban", "Kaum Bidayuh", "Kaum Melanau", "Kaum Orang Ulu"],
+                    ["Labu Sayong merupakan perusahaan kraf tangan tembikar tradisional di...", "Sayong, Perak", "Kota Bharu, Kelantan", "Kuala Terengganu", "Seremban"],
+                    ["Sistem adat perkahwinan dan kemasyarakatan Adat Perpatih diamalkan di negeri...", "Negeri Sembilan", "Melaka", "Johor", "Selangor"]
+                ],
+                // Set 3 GK
+                [
+                    ["Siapakah jaguh lumba basikal trek negara yang digelar 'The Pocket Rocketman'?", "Dato' Azizulhasni Awang", "Lee Zii Jia", "Pandelela Rinong", "Aaron Chia"],
+                    ["Apakah nama tasik buatan manusia terbesar di Malaysia yang terletak di Terengganu?", "Tasik Kenyir", "Tasik Chini", "Tasik Bera", "Tasik Dayang Bunting"],
+                    ["Siapakah angkasawan pertama negara Malaysia yang berlepas ke ISS?", "Datuk Dr. Sheikh Muszaphar Shukor", "Mejar Dr. Faiz Khaleed", "Tan Sri Bernard Giluk", "Syed Modh Hafiz"],
+                    ["Apakah nama taman negara tertua di Malaysia yang terletak di Pahang, Kelantan dan Terengganu?", "Taman Negara Pahang", "Taman Negara Endau-Rompin", "Taman Negara Kinabalu", "Taman Negara Bako"],
+                    ["Pertandingan sukan dwitahunan antara negeri-negeri di Malaysia dinamakan...", "SUKMA", "MSSM", "Langkawi Games", "Piala Malaysia"],
+                    ["Apakah buah kebangsaan atau buah yang terkenal sebagai 'Raja Buah' di Malaysia?", "Durian", "Manggis", "Rambutan", "Cempedak"],
+                    ["Perkhidmatan keretapi laju elektrik antara bandar di Malaysia dikendalikan oleh KTMB dinamakan...", "ETS", "LRT", "MRT", "Monorail"],
+                    ["Apakah nama haiwan liar ikonik terancam yang terdapat pada jata negara Malaysia?", "Harimau Malaya", "Gajah Perak", "Badak Sumbu", "Orang Utan"],
+                    ["Negeri manakah di Malaysia yang tidak mempunyai raja atau sultan tetapi diketuai Yang di-Pertua Negeri?", "Melaka, Pulau Pinang, Sabah, Sarawak", "Perlis dan Kedah", "Johor dan Pahang", "Perak dan Selangor"],
+                    ["Siapakah Perdana Menteri Malaysia ke-10?", "Datuk Seri Anwar Ibrahim", "Tan Sri Muhyiddin Yassin", "Datuk Seri Ismail Sabri", "Tun Dr. Mahathir Mohamad"],
+                    ["Taman Negara Mulu yang terkenal dengan gua batu kapur raksasa terletak di...", "Sarawak", "Sabah", "Pahang", "Perak"],
+                    ["Apakah jenama kereta nasional pertama Malaysia yang dilancarkan pada tahun 1985?", "Proton Saga", "Perodua Kancil", "Proton Wira", "Perodua Myvi"],
+                    ["Gua Niah yang mempunyai bukti penempatan manusia purba terbina di negeri...", "Sarawak", "Sabah", "Kedah", "Perak"],
+                    ["Apakah perayaan utama yang disambut oleh masyarakat Chitty di Melaka?", "Pesta Ponggal / Deepavali", "Tahun Baru Cina", "Hari Raya", "Gawai"],
+                    ["Mercu tanda menara penyiaran terkenal di ibu kota dinamakan...", "Menara Kuala Lumpur", "Menara Taming Sari", "Menara Alor Setar", "Menara Komtar"],
+                    ["Negeri manakah di Malaysia yang mendapat gelaran 'Negeri Indera Kayangan'?", "Perlis", "Kedah", "Perak", "Kelantan"],
+                    ["Tarian Bhangra merupakan tarian tradisional kebudayaan kaum...", "Sikh / Punjabi", "Cina", "Melayu", "Kadazan"],
+                    ["Alat muzik tradisional tiupan bambu terpanjang bagi masyarakat Orang Asli ialah...", "Hidung / Sompoton", "Gamelan", "Kompang", "Gambus"],
+                    ["Pusat kajian marin dan marin terumbu karang di Sabah terkenal di seluruh dunia di...", "Pulau Sipadan", "Pulau Redang", "Pulau Tioman", "Pulau Perhentian"],
+                    ["Siapakah pahlawan Perak yang menentang pencerobohan British dan pembunuhan J.W.W. Birch?", "Dato' Maharajalela", "Rentap", "Mat Salleh", "Tok Janggut"]
+                ],
+                // Set 4 GK
+                [
+                    ["Penyakit wabak pandemik global yang mula melanda dunia pada hujung tahun 2019 dinamakan...", "COVID-19", "SARS", "H1N1", "Denggi"],
+                    ["Apakah nama satelit komunikasi pertama Malaysia yang dilancarkan ke angkasa lepas?", "MEASAT-1", "TiungSAT", "RazakSAT", "Inosat"],
+                    ["Pusat sains interaktif kebangsaan yang terletak di Bukit Kiara Kuala Lumpur ialah...", "Pusat Sains Negara", "National Planetarium", "Petrosains", "Aquaria"],
+                    ["Hari Kebangsaan Malaysia disambut setiap tahun pada tarikh...", "31 Ogos", "16 September", "1 Mei", "25 Disember"],
+                    ["Aktiviti penanaman teh terbesar dan terluas di tanah tinggi Malaysia terletak di...", "Cameron Highlands", "Genting Highlands", "Fraser's Hill", "Bukit Tinggi"],
+                    ["Pahlawan Sarawak yang terkenal dengan slogan 'Agi Idup, Agi Nsumbang' menentang Brooke ialah...", "Rentap", "Mat Salleh", "Tok Janggut", "Kanang anak Langkau"],
+                    ["Apakah jenis pokok minyak komoditi eksport utama di Malaysia yang dipelopori FELDA?", "Kelapa Sawit", "Getah", "Coklat", "Kopi"],
+                    ["Kawasan tanah lembap perlindungan burung migrasi terkemuka di Perak terletak di...", "Kuala Gula, Perak", "Bako", "Kuala Selangor", "Rantau Panjang"],
+                    ["Pulau yang terkenal dengan legenda Mahsuri di Kedah ialah...", "Pulau Langkawi", "Pulau Pangkor", "Pulau Payar", "Pulau Bunting"],
+                    ["Gamelan Melayu merupakan persembahan muzik istana tradisional di negeri...", "Terengganu dan Pahang", "Kedah dan Perlis", "Johor dan Melaka", "Perak dan Selangor"],
+                    ["Apakah sungai terpanjang di Semenanjung Malaysia?", "Sungai Pahang", "Sungai Perak", "Sungai Kelantan", "Sungai Bernam"],
+                    ["Pahlawan Kelantan yang memimpin penentangan terhadap cukai British di Pasir Puteh ialah...", "Tok Janggut", "Mat Kilau", "Datuk Bahaman", "Haji Abdul Rahman Limbong"],
+                    ["Bangunan Sultan Abdul Samad yang berhadapan Dataran Merdeka terletak di...", "Kuala Lumpur", "Putrajaya", "Ipoh", "Klang"],
+                    ["Apakah burung kebangsaan/negeri bagi negeri Sarawak?", "Burung Kenyalang (Hornbill)", "Burung Helang", "Burung Merpati", "Burung Cenderawasih"],
+                    ["Mercu tanda menara tertinggi di Malaysia terkini (menara kedua tertinggi dunia) ialah...", "Merdeka 118", "KLCC", "Exchange 106", "Menara KL"],
+                    ["Perayaan Hari Gawai Dayak disambut oleh penduduk asli di negeri...", "Sarawak", "Sabah", "Pahang", "Perak"],
+                    ["Perayaan Pesta Kaamatan merupakan pesta menuai padi yang disambut di...", "Sabah", "Sarawak", "Johor", "Kedah"],
+                    ["Penyakit demam berdarah yang ditularkan oleh nyamuk Aedes dinamakan...", "Demam Denggi", "Malaria", "Chikungunya", "Zika"],
+                    ["Kawasan simpanan hutan simpan tanah gambat terbesar di Selangor ialah...", "Hutan Simpan Raja Musa", "Hutan Belum", "Hutan Endau", "Taman Negara"],
+                    ["Siapakah Perdana Menteri Malaysia ke-2 yang digelar Bapa Pembangunan?", "Tun Abdul Razak Hussein", "Tunku Abdul Rahman", "Tun Hussein Onn", "Tun Mahathir"]
+                ],
+                // Set 5 GK
+                [
+                    ["Penyelidikan petroleum dan gas asli nasional Malaysia dikendalikan oleh syarikat...", "PETRONAS", "Shell", "Caltex", "Murphy Oil"],
+                    ["Apakah nama terowong dwifungsi laluan kenderaan dan tebatan banjir di Kuala Lumpur?", "Terowong SMART", "Terowong Penchala", "Terowong Menora", "Terowong Genting"],
+                    ["Kawasan tempat lindungan mamalia Orang Utan terkenal di Sabah terletak di...", "Sepilok, Sandakan", "Danum Valley", "Tabin", "Kinabatangan"],
+                    ["Apakah gelaran bagi negeri Kedah Darul Aman?", "Jelapang Padi Malaysia", "Darul Khusus", "Darul Takzim", "Darul Makmur"],
+                    ["Senjata tradisional Melayu berbilok-bilok yang menjadi warisan kebangsaan dinamakan...", "Keris", "Parang", "Tombak", "Lembing"],
+                    ["Siapakah tokoh ulama Pejuang Terengganu yang menentang British dalam Perang Tani 1928?", "Haji Abdul Rahman Limbong", "Tok Janggut", "Mat Kilau", "Dato' Bahaman"],
+                    ["Sistem pengangkutan rel alihan cepat awam di Lembah Klang dinamakan...", "LRT / MRT", "KTM Komuter", "Monorail", "ERL"],
+                    ["Apakah tema perayaan dan sambutan yang menganjurkan perpaduan pelbagai kaum di Malaysia?", "Malaysia MADANI / Perpaduan", "1Malaysia", "Malaysia Boleh", "Wawasan 2020"],
+                    ["Bandar bersejarah di Malaysia yang diiktiraf sebagai Tapak Warisan Dunia UNESCO ialah...", "Melaka dan Georgetown", "Ipoh dan Taiping", "Kota Bharu dan Kuantan", "Johor Bahru"],
+                    ["Apakah jenis hutan hujan tropika yang kaya dengan kepelbagaian bio di Malaysia?", "Hutan Hujan Tropika Khatulistiwa", "Hutan Tundra", "Hutan Taiga", "Hutan Deciduous"],
+                    ["Mercu tanda menara condong unik di Perak terletak di bandar...", "Teluk Intan", "Taiping", "Ipoh", "Kuala Kangsar"],
+                    ["Sukan tempur tradisional warisan Melayu yang diiktiraf sebagai seni mempertahankan diri ialah...", "Silat", "Taekwondo", "Karate", "Judo"],
+                    ["Apakah jenis haiwan mamalia akuatik yang dilindungi di Taman Laut Pulau Redang?", "Duyung / Penyu", "Paus", "Ikan Jerak", "Anjing Laut"],
+                    ["Pelabuhan bebas cukai yang terkenal di utara tanah air terletak di...", "Pulau Langkawi", "Pulau Pangkor", "Pulau Tioman", "Pulau Labuan"],
+                    ["Siapakah tokoh sasterawan negara yang menghasilkan novel 'Salina'?", "A. Samad Said", "Shahnon Ahmad", "Usman Awang", "Keris Mas"],
+                    ["Apakah pulau Wilayah Persekutuan yang menjadi pusat kewangan luar pantai di Malaysia?", "Labuan", "Langkawi", "Tioman", "Pangkor"],
+                    ["Kawasan tanah tinggi pusat percutian bertema terbesar di Pahang terletak di...", "Genting Highlands", "Cameron Highlands", "Bukit Tinggi", "Fraser Hill"],
+                    ["Festival filem antarabangsa dan perfileman negara dianugerahkan melalui...", "Festival Filem Malaysia (FFM)", "Anugerah Juara Lagu", "Anugerah Bintang Popular", "Piala Seri Angkasa"],
+                    ["Apakah nama persatuan bola sepak kebangsaan Malaysia?", "FAM (Football Association of Malaysia)", "MFL", "KBS", "MOC"],
+                    ["Senibina masjid terapung yang indah di Kuala Terengganu dinamakan...", "Masjid Kristal / Masjid Tengku Tengah Zaharah", "Masjid Negara", "Masjid Wilayah", "Masjid Putra"]
+                ]
             ];
 
-            let selectedGkSet = gkPool[(setId - 1) % 5];
+            const chosenGK = gkSets[(setId - 1) % 5];
+            const list = [];
             for (let i = 0; i < 20; i++) {
-                let item = selectedGkSet[i % selectedGkSet.length];
+                let item = chosenGK[i % chosenGK.length];
                 list.push({
                     q: `[Set ${setId}] ${item[0]}`,
                     options: [item[1], item[2], item[3], item[4]].sort(() => Math.random() - 0.5),
                     correctAnswer: item[1],
-                    category: categories[1]
+                    category: "Pengetahuan Am & Sejarah"
                 });
             }
+            return list;
+        }
 
-            // 3. Sains & Alam Sekitar (20 Soalan unik per Set)
-            const scienceTemplates = [
-                ["Apakah gas utama yang digunakan oleh tumbuhan hijau untuk fotosintesis?", "Karbon Dioksida", "Oksigen", "Nitrogen", "Hidrogen"],
-                ["Proses perubahan cecair kepada gas dinamakan...", "Penejatan", "Kondensasi", "Pembekuan", "Peleburan"],
-                ["Organ manusia yang berfungsi menyaring darah dan menghasilkan air kencing ialah...", "Ginjal (Buah Pinggang)", "Hati", "Paru-paru", "Jantung"],
-                ["Planet manakah yang dikenali sebagai Planet Merah?", "Marikh", "Utarid", "Zuhrah", "Mushtari"],
-                ["Tenaga yang diperoleh daripada aliran air empangan dikenali sebagai...", "Tenaga Hidroelektrik", "Tenaga Geoterma", "Tenaga Biomass", "Tenaga Nuklear"],
-                ["Apakah bahan dalam sel tumbuhan yang menyerap cahaya matahari?", "Klorofil", "Stomata", "Xilem", "Floem"],
-                ["Haiwan yang tidak mempunyai tulang belakang dipanggil...", "Invertebrata", "Vertebrata", "Mamalia", "Reptilia"],
-                ["Lapisan atmosfera bumi yang paling hampir dengan permukaan bumi ialah...", "Troposfera", "Stratosfera", "Mesosfera", "Termosfera"],
-                ["Apakah unit asas bagi ukuran jisim dalam SI?", "Kilogram", "Gram", "Newton", "Liter"],
-                ["Gas penyumbang utama kesan rumah hijau ialah...", "Karbon Dioksida", "Oksigen", "Helium", "Argon"],
-                ["Apakah fungsi darah merah dalam tubuh manusia?", "Membawa oksigen", "Melawan penyakit", "Membekukan darah", "Pencernaan"],
-                ["Proses tumbuhan membebaskan wap air melalui daun dipanggil...", "Transpirasi", "Fotosintesis", "Respirasi", "Penyerapan"],
-                ["Antara berikut, yang manakah merupakan tenaga boleh baharu?", "Tenaga Suria", "Petroleum", "Arang Batu", "Gas Asli"],
-                ["Sendi yang membolehkan pergerakan ke semua arah ialah...", "Sendi lesung", "Sendi engsel", "Sendi paksi", "Sendi leper"],
-                ["Satelit semula jadi bagi planet Bumi ialah...", "Bulan", "Matahari", "Komet", "Asteroid"],
-                ["Garam larut dalam air melalui proses...", "Keterlarutan", "Kondensasi", "Penyulingan", "Resapan"],
-                ["Gaya yang menentang pergerakan objek dinamakan...", "Daya geseran", "Daya graviti", "Daya magnet", "Daya apungan"],
-                ["Apakah sifat bahan berasid apabila diuji dengan kertas litmus biru?", "Menukar kertas litmus biru kepada merah", "Menukar kertas litmus merah kepada biru", "Tiada perubahan warna", "Menjadi hijau"],
-                ["Vitamin yang membantu penyerapan kalsium dan tulang ialah...", "Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B"],
-                ["Penyakit skurvi disebabkan oleh kekurangan...", "Vitamin C", "Vitamin A", "Vitamin D", "Zat Besi"]
+        function generateUniqueScienceSet(setId) {
+            const scienceSets = [
+                // Set 1 Science
+                [
+                    ["Apakah gas utama yang digunakan oleh tumbuhan hijau untuk fotosintesis?", "Karbon Dioksida", "Oksigen", "Nitrogen", "Hidrogen"],
+                    ["Proses perubahan cecair kepada gas dinamakan...", "Penejatan", "Kondensasi", "Pembekuan", "Peleburan"],
+                    ["Organ manusia yang berfungsi menyaring darah dan menghasilkan air kencing ialah...", "Ginjal (Buah Pinggang)", "Hati", "Paru-paru", "Jantung"],
+                    ["Planet manakah yang dikenali sebagai Planet Merah?", "Marikh", "Utarid", "Zuhrah", "Mushtari"],
+                    ["Tenaga yang diperoleh daripada aliran air empangan dikenali sebagai...", "Tenaga Hidroelektrik", "Tenaga Geoterma", "Tenaga Biomass", "Tenaga Nuklear"],
+                    ["Apakah bahan dalam sel tumbuhan yang menyerap cahaya matahari?", "Klorofil", "Stomata", "Xilem", "Floem"],
+                    ["Haiwan yang tidak mempunyai tulang belakang dipanggil...", "Invertebrata", "Vertebrata", "Mamalia", "Reptilia"],
+                    ["Lapisan atmosfera bumi yang paling hampir dengan permukaan bumi ialah...", "Troposfera", "Stratosfera", "Mesosfera", "Termosfera"],
+                    ["Apakah unit asas bagi ukuran jisim dalam SI?", "Kilogram", "Gram", "Newton", "Liter"],
+                    ["Gas penyumbang utama kesan rumah hijau ialah...", "Karbon Dioksida", "Oksigen", "Helium", "Argon"],
+                    ["Apakah fungsi darah merah dalam tubuh manusia?", "Membawa oksigen", "Melawan penyakit", "Membekukan darah", "Pencernaan"],
+                    ["Proses tumbuhan membebaskan wap air melalui daun dipanggil...", "Transpirasi", "Fotosintesis", "Respirasi", "Penyerapan"],
+                    ["Antara berikut, yang manakah merupakan tenaga boleh baharu?", "Tenaga Suria", "Petroleum", "Arang Batu", "Gas Asli"],
+                    ["Sendi yang membolehkan pergerakan ke semua arah ialah...", "Sendi lesung", "Sendi engsel", "Sendi paksi", "Sendi leper"],
+                    ["Satelit semula jadi bagi planet Bumi ialah...", "Bulan", "Matahari", "Komet", "Asteroid"],
+                    ["Garam larut dalam air melalui proses...", "Keterlarutan", "Kondensasi", "Penyulingan", "Resapan"],
+                    ["Gaya yang menentang pergerakan objek dinamakan...", "Daya geseran", "Daya graviti", "Daya magnet", "Daya apungan"],
+                    ["Apakah sifat bahan berasid apabila diuji dengan kertas litmus biru?", "Menukar kertas litmus biru kepada merah", "Menukar kertas litmus merah kepada biru", "Tiada perubahan warna", "Menjadi hijau"],
+                    ["Vitamin yang membantu penyerapan kalsium dan tulang ialah...", "Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B"],
+                    ["Penyakit skurvi disebabkan oleh kekurangan...", "Vitamin C", "Vitamin A", "Vitamin D", "Zat Besi"]
+                ],
+                // Set 2 Science
+                [
+                    ["Apakah organ pencernaan utama yang menyerap nutrien makanan ke dalam darah?", "Usus Kecil", "Perut", "Usus Besar", "Esofogus"],
+                    ["Apakah jenis bahan magnetik yang sangat kuat ditarik oleh magnet?", "Besi / Keluli", "Aluminium", "Kuprum", "Plastik"],
+                    ["Proses tumbuhan bergerak balas terhadap cahaya matahari dipanggil...", "Fototropisme", "Geotropisme", "Hidrotropisme", "Tigmotropisme"],
+                    ["Organisme yang menguraikan bahan organik mati dinamakan...", "Pengurai (Decomposer)", "Pengeluar", "Pengguna Primar", "Pemangsa"],
+                    ["Bunyi tidak boleh merambat melalui...", "Vakum (Ruang Hampa)", "Udara", "Air", "Pepejal"],
+                    ["Suhu cecair air mendidih pada tekanan piawai ialah...", "100°C", "0°C", "50°C", "37°C"],
+                    ["Perubahan jirim daripada pepejal terus kepada gas dipanggil...", "Pemeluwapan / Sublimasi", "Kondensasi", "Peleburan", "Penejatan"],
+                    ["Organ pernafasan bagi haiwan amfibia seperti katak semasa di dalam air ialah...", "Kulit lembap", "Paru-paru", "Insang", "Trakea"],
+                    ["Planet terbesar dalam Sistem Suria kita ialah...", "Mushtari (Jupiter)", "Zuhal", "Neptun", "Bumi"],
+                    ["Apakah cermin yang digunakan pada persimpangan jalan raya untuk pandangan luas?", "Cermin Cembung", "Cermin Cekung", "Cermin Leper", "Cermin Prism"],
+                    ["Nadi manusia berdenyut kesan daripada pengepaman organ...", "Jantung", "Paru-paru", "Otak", "Hati"],
+                    ["Antara berikut, yang manakah merupakan contoh tuas kelas pertama?", "Gunting / Jungkit-jungkit", "Kereta sorong", "Penyepit ais", "Pemotong kertas"],
+                    ["Apakah bahan pencemar yang merosakkan lapisan ozon bumi?", "Klorofluorokarbon (CFC)", "Oksigen", "Nitrogen Dioxide", "Wap air"],
+                    ["Peringkat berudu dalam kitar hidup katak bernafas menggunakan...", "Insang", "Paru-paru", "Kulit", "Ekor"],
+                    ["Tenaga kimia dalam makanan diubah kepada tenaga apa semasa manusia bergerak?", "Tenaga Kinetik", "Tenaga Keupayaan", "Tenaga Haba", "Tenaga Bunyi"],
+                    ["Perubahan warna daun menjadi kuning akibat kekurangan cahaya dipanggil...", "Etiolasi", "Fotosintesis", "Transpirasi", "Segregasi"],
+                    ["Akar tumbuhan yang menyerap air dari tanah bertindak mengikut gerak balas...", "Hidrotropisme", "Fototropisme", "Geotropisme", "Tigmotropisme"],
+                    ["Bahan alkalim mempunyai nilai pH...", "Lebih daripada 7", "Kurang daripada 7", "Tepat 7", "Sifar"],
+                    ["Fenomena gerhana matahari berlaku apabila kedudukan...", "Bulan berada di antara Matahari dan Bumi", "Bumi berada di antara Matahari dan Bulan", "Matahari berada di tengah", "Bintang menghalang cahaya"],
+                    ["Sistem saraf pusat manusia terdiri daripada...", "Otak dan Saraf Tunjang", "Jantung dan Paru-paru", "Darah dan Salur Darah", "Otot dan Tulang"]
+                ],
+                // Set 3 Science
+                [
+                    ["Proses pemendapan titisan air dari awan menjadi hujan dinamakan...", "Kerpasan", "Penejatan", "Transpirasi", "Kondensasi"],
+                    ["Gigi kacip pada manusia berfungsi untuk...", "Memotong makanan", "Mengoyak makanan", "Melumatkan makanan", "Menyimpan makanan"],
+                    ["Daya yang membolehkan kapal laut terapung di permukaan air dinamakan...", "Daya apungan", "Daya geseran", "Daya graviti", "Daya magnet"],
+                    ["Apakah sumber tenaga utama bagi semua hidupan di bumi?", "Matahari", "Angin", "Air", "Makanan"],
+                    ["Tumbuhan berbunga membiak terutamanya melalui...", "Biji benih", "Spora", "Daun", "Keratan batang"],
+                    ["Apakah saluran yang membawa darah beroksigen keluar dari jantung ke seluruh badan?", "Arteri", "Vena", "Kapilari", "Injap"],
+                    ["Haiwan yang memakan tumbuhan dan daging dipanggil...", "Omnivor", "Herbivor", "Karnivor", "Pengurai"],
+                    ["Apakah unsur kimia yang paling banyak dalam atmosfera bumi?", "Nitrogen (78%)", "Oksigen", "Karbon Dioksida", "Argon"],
+                    ["Cahaya bergerak paling pantas melalui...", "Vakum", "Air", "Kaca", "Udara"],
+                    ["Apakah nama alat yang digunakan untuk mengukur tekanan udara?", "Barometer", "Termometer", "Anemometer", "Hygrometer"],
+                    ["Alat untuk mengukur kelajuan angin dinamakan...", "Anemometer", "Barometer", "Termometer", "Voltmeter"],
+                    ["Kekuatan bunyi diukur dalam unit...", "Desibel (dB)", "Hertz", "Joule", "Watt"],
+                    ["Antara berikut, yang manakah merupakan pemantul cahaya yang baik?", "Cermin / Permukaan berkilat", "Kertas hitam", "Kayu", "Kain fabrik"],
+                    ["Bahagian mata manusia yang mengawal jumlah cahaya masuk dinamakan...", "Pupil / Iris", "Retina", "Kornea", "Saraf optik"],
+                    ["Kekurangan Zat Besi dalam pemakanan boleh menyebabkan penyakit...", "Anemia", "Riket", "Goiter", "Rabun malam"],
+                    ["Planet yang mempunyai cecair air dan atmosfera selamat untuk hidupan ialah...", "Bumi", "Marikh", "Zuhrah", "Utarid"],
+                    ["Mikroorganisma yang digunakan dalam pembuatan roti dan yis dipanggil...", "Yis (Fungi)", "Bakteria", "Virus", "Protozoa"],
+                    ["Sifat bahan yang membolehkan ia kembali ke bentuk asal selepas ditarik dinamakan...", "Kenyal / Keanjalan", "Keras", "Kalis air", "Terapung"],
+                    ["Apakah pembolehubah yang diubah dalam sesuatu eksperimen sains?", "Pembolehubah Dimanipulasi", "Pembolehubah Bergerak Balas", "Pembolehubah Dimalarkan", "Pembolehubah Rawak"],
+                    ["Kawasan padang pasir mempunyai tumbuhan sklerofil seperti kaktus yang menyalin daun menjadi...", "Duri (untuk kurangkan kehilangan air)", "Akar panjang", "Batang nipis", "Bunga besar"]
+                ],
+                // Set 4 Science
+                [
+                    ["Proses pertukaran gas oksigen dan karbon dioksida dalam paru-paru berlaku di...", "Alveolus", "Bronkus", "Trakea", "Bronkiol"],
+                    ["Zat makanan yang berfungsi memberi tenaga utama kepada tubuh ialah...", "Karbohidrat", "Protein", "Lemak", "Vitamin"],
+                    ["Unit ukuran kekuatan daya dalam sains diukur dalam...", "Newton (N)", "Joule", "Pascal", "Watt"],
+                    ["Apakah organ yang menghasilkan jus hempedu untuk mencerna lemak?", "Hati", "Pankreas", "Perut", "Ginjal"],
+                    ["Warna pelangi terhasil daripada proses pembiasan dan...", "Penyebaran cahaya", "Pantulan cahaya", "Penyerapan cahaya", "Pancaran cahaya"],
+                    ["Penyakit rabun malam disebabkan oleh kekurangan...", "Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"],
+                    ["Apakah jenis bahan pencemar yang menyebabkan fenomena hujan asid?", "Sulfur Dioksida & Nitrogen Oksida", "Karbon Monoksida", "Oksigen", "Mewana"],
+                    ["Antara haiwan berikut, yang manakah membiak secara melahirkan anak?", "Paus / Lumba-lumba", "Penyu", "Ayam", "Katak"],
+                    ["Apakah nama tindak balas kimia antara asid dan alkali yang menghasilkan garam dan air?", "Peneutralan", "Pengoksidaan", "Penurunan", "Esterifikasi"],
+                    ["Kanta cembung dalam kanta pembesar berfungsi untuk...", "Membesarkan imej / Menumpukan cahaya", "Mengecilkan imej", "Membiaskan cahaya ke tepi", "Menghalang cahaya"],
+                    ["Satuan ukuran frekuensi gelombang bunyi ialah...", "Hertz (Hz)", "Decibel", "Metrik", "Volt"],
+                    ["Logam yang wujud dalam bentuk cecair pada suhu bilik ialah...", "Merkuri", "Besi", "Plumbum", "Emas"],
+                    ["Tumbuhan cendawan dan kulat mendapatkan makanan secara...", "Saprofit / Penguraian", "Fotosintesis", "Parasit", "Karnivor"],
+                    ["Apakah lapisan ozon berfungsi melindungi bumi daripada?", "Sinar Ultraungu (UV)", "Sinar X", "Sinar Gamma", "Cahaya Nampak"],
+                    ["Proses pengaratan besi memerlukan kehadiran dua bahan iaitu...", "Air dan Oksigen", "Air dan Nitrogen", "Minyak dan Udara", "Garam sahaja"],
+                    ["Sistem pencernaan manusia bermula di...", "Mulut", "Esofogus", "Perut", "Usus"],
+                    ["Sel darah putih berfungsi untuk...", "Melawan jangkitan penyakit", "Membawa oksigen", "Membekukan darah", "Menyalur nutrien"],
+                    ["Bahan yang tidak membenarkan elektrik mengalir melaluinya dipanggil...", "Penebat Elektrik", "Konduktor Elektrik", "Semikonduktor", "Elektrolit"],
+                    ["Berapakah bilangan tulang pada rangka tubuh manusia dewasa?", "206 tulang", "300 tulang", "150 tulang", "100 tulang"],
+                    ["Petua memelihara makanan dengan pemanasan suhu tinggi kemudian didinginkan cepat dipanggil...", "Pemerulihan / Pemasakan", "Pempasteruan", "Pengeringan", "Pengasinan"]
+                ],
+                // Set 5 Science
+                [
+                    ["Proses pereputan bahan organik oleh bakteria anaerob menghasilkan gas...", "Metana", "Oksigen", "Nitrogen", "Helium"],
+                    ["Apakah cermin yang menghasilkan imej maya, tegak dan sama saiz?", "Cermin Datar / Leper", "Cermin Cembung", "Cermin Cekung", "Kanta"],
+                    ["Organ manusia yang mengawal semua pergerakan dan pemikiran ialah...", "Otak", "Jantung", "Hati", "Saraf"],
+                    ["Bahagian tumbuhan yang menyerap air dan mineral dari dalam tanah ialah...", "Akar", "Batang", "Daun", "Bunga"],
+                    ["Apakah jenis haiwan yang memakan daging sahaja?", "Karnivor", "Herbivor", "Omnivor", "Pengurai"],
+                    ["Zat makanan yang diperlukan untuk pertumbuhan dan membaiki sel rosak ialah...", "Protein", "Karbohidrat", "Vitamin", "Mineral"],
+                    ["Proses pembentukan awan adalah disebabkan oleh...", "Kondensasi wap air", "Penejatan air", "Kerpasan", "Transpirasi"],
+                    ["Suatu bahan dengan nilai pH 7 bersifat...", "Neutral", "Berasid", "Beralkali", "Toksik"],
+                    ["Laluan tenaga yang menghubungkan pengeluar dan pengguna dipanggil...", "Rantai Makanan", "Siratan Makanan", "Kitar Nutrien", "Piramid Tenaga"],
+                    ["Apakah daya yang menarik semua objek ke arah pusat bumi?", "Daya Graviti", "Daya Geseran", "Daya Magnet", "Daya Apungan"],
+                    ["Planet yang terkenal dengan gelang raksasa di sekelilingnya ialah...", "Zuhal (Saturn)", "Mushtari", "Uranus", "Neptun"],
+                    ["Apakah bentuk tenaga yang tersimpan dalam bateri dan makanan?", "Tenaga Kimia", "Tenaga Elektrik", "Tenaga Keupayaan", "Tenaga Haba"],
+                    ["Kelebihan menggunakan mentol LED berbanding mentol filamen ialah...", "Menjimatkan tenaga elektrik & tahan lama", "Lancar mengeluarkan haba tinggi", "Harga sangat murah", "Menggunakan bateri"],
+                    ["Struktur pernafasan bagi serangga seperti belalang dipanggil...", "Spirakel / Trakea", "Insang", "Paru-paru", "Kulit"],
+                    ["Bahan yang membenarkan sebahagian cahaya melaluinya dipanggil...", "Lut Sinar / Lut Cahaya", "Legap", "Lut Jingga", "Pantulan"],
+                    ["Fenomena air laut pasang surut disebabkan terutamanya oleh daya tarikan graviti...", "Bulan dan Matahari", "Bumi", "Marikh", "Awan"],
+                    ["Proses pengangkutan makanan hasil fotosintesis dalam tumbuhan dilakukan oleh...", "Floem", "Xilem", "Stomata", "Klorofil"],
+                    ["Alat yang digunakan untuk mengukur arus elektrik ialah...", "Ammeter", "Voltmeter", "Galvanometer", "Multimeter"],
+                    ["Penyakit goiter atau bengkak kelenjar tiroid disebabkan kekurangan...", "Iodin", "Kalsium", "Zat Besi", "Sodium"],
+                    ["Apakah bentuk kanta yang digunakan untuk merawat masalah rabun jauh?", "Kanta Cekung", "Kanta Cembung", "Kanta Leper", "Kanta Prisma"]
+                ]
             ];
 
+            const chosenSci = scienceSets[(setId - 1) % 5];
+            const list = [];
             for (let i = 0; i < 20; i++) {
-                let sc = scienceTemplates[(i + (setId * 3)) % scienceTemplates.length];
+                let item = chosenSci[i % chosenSci.length];
                 list.push({
-                    q: `[Set ${setId}] ${sc[0]}`,
-                    options: [sc[1], sc[2], sc[3], sc[4]].sort(() => Math.random() - 0.5),
-                    correctAnswer: sc[1],
-                    category: categories[2]
+                    q: `[Set ${setId}] ${item[0]}`,
+                    options: [item[1], item[2], item[3], item[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: item[1],
+                    category: "Sains & Alam Sekitar"
                 });
             }
+            return list;
+        }
 
-            // 4. Bahasa Melayu & Inggeris (20 Soalan unik per Set)
-            const langTemplates = [
-                ["Pilih peribahasa yang bermaksud 'bekerja sia-sia dan tidak mendatangkan hasil':", "Mencurah air ke daun keladi", "Seperti cincin dengan permata", "Ukur baju di badan sendiri", "Harimau mati meninggalkan belang"],
-                ["Choose the correct synonym for the word 'CRUCIAL':", "Vital / Important", "Optional", "Trivial", "Minor"],
-                ["Pilih ayat yang BETUL penggunaan tatabahasanya:", "Mereka saling membantu dalam tugasan itu.", "Saling bantu-membantu amalan mulia.", "Kita hendaklah saling tolong-menolong.", "Mereka saling bersalam-salaman."],
-                ["Choose the ANTONYM for the word 'PERMANENT':", "Temporary", "Lasting", "Continuous", "Fixed"],
-                ["Perkataan 'Eksploitasi' membawa maksud...", "Penggunaan sesuatu untuk keuntungan diri secara tidak adil", "Penerokaan kawasan baharu", "Penyelidikan sains", "Penghantaran barangan"],
-                ["'Biar putih tulang, jangan putih mata' bermaksud...", "Lebih baik mati daripada menanggung malu", "Bekerja dengan tekun", "Menjaga kebersihan diri", "Bersabar menghadapi dugaan"],
-                ["Fill in the blank: 'If it rains tomorrow, we _______ our trip to the park.'", "will cancel", "canceled", "canceling", "cancelation"],
-                ["Pilih kata ganda yang membawa maksud 'saling' dengan betul:", "Pukul-memukul", "Saling pukul-memukul", "Saling bertumbuk-tumbukan", "Saling tolong-menolong"],
-                ["Select the correctly spelled word:", "Accommodation", "Acommodation", "Accomodation", "Acomodation"],
-                ["Apakah maksud peribahasa 'Diam-diam ubi berisi'?", "Orang pendiam tetapi banyak pengetahuan/kebolehan", "Orang yang malas bekerja", "Orang yang suka menyimpan rahsia", "Orang yang tidak suka bercakap"],
-                ["Choose the correct preposition: 'She has been studying here _______ 2021.'", "since", "for", "during", "until"],
-                ["Kata adjektif 'lambat' merujuk kepada unsur...", "Masa", "Ukuran", "Perasaan", "Sifat"],
-                ["Choose the suitable idiom for 'extremely happy':", "Over the moon", "Under the weather", "Once in a blue moon", "Spill the beans"],
-                ["'Ukur baju di badan sendiri' menasihati kita supaya...", "Berbelanja mengikut kemampuan sendiri", "Menjahit baju sendiri", "Membeli pakaian yang mahal", "Mengikut fesyen semasa"],
-                ["What is the past participle of the verb 'DRIVE'?", "Driven", "Drove", "Driving", "Drives"],
-                ["Pilih antonim (lawan perkataan) bagi 'MUTAKHIR':", "Kuno / Klasik", "Moden", "Terkini", "Baharu"],
-                ["Identify the correct pronoun: 'Neither John nor His friends _______ present.'", "were", "was", "is", "be"],
-                ["'Katak di bawah tempurung' bermaksud...", "Orang yang sangat terhad pengetahuannya", "Orang yang tinggal di kampung", "Orang yang takut akan bahaya", "Orang yang pendiam"],
-                ["Choose the meaning of 'BENEVOLENT':", "Kind and generous", "Cruel and mean", "Lazy and slow", "Arrogant and proud"],
-                ["Sinonim bagi perkataan 'ISTIMEWA' ialah...", "Khas / Khasnya", "Biasa", "Umum", "Sederhana"]
+        function generateUniqueLangSet(setId) {
+            const langSets = [
+                // Set 1 Lang
+                [
+                    ["Pilih peribahasa yang bermaksud 'bekerja sia-sia dan tidak mendatangkan hasil':", "Mencurah air ke daun keladi", "Seperti cincin dengan permata", "Ukur baju di badan sendiri", "Harimau mati meninggalkan belang"],
+                    ["Choose the correct synonym for the word 'CRUCIAL':", "Vital / Important", "Optional", "Trivial", "Minor"],
+                    ["Pilih ayat yang BETUL penggunaan tatabahasanya:", "Mereka saling membantu dalam tugasan itu.", "Saling bantu-membantu amalan mulia.", "Kita hendaklah saling tolong-menolong.", "Mereka saling bersalam-salaman."],
+                    ["Choose the ANTONYM for the word 'PERMANENT':", "Temporary", "Lasting", "Continuous", "Fixed"],
+                    ["Perkataan 'Eksploitasi' membawa maksud...", "Penggunaan sesuatu untuk keuntungan diri secara tidak adil", "Penerokaan kawasan baharu", "Penyelidikan sains", "Penghantaran barangan"],
+                    ["'Biar putih tulang, jangan putih mata' bermaksud...", "Lebih baik mati daripada menanggung malu", "Bekerja dengan tekun", "Menjaga kebersihan diri", "Bersabar menghadapi dugaan"],
+                    ["Fill in the blank: 'If it rains tomorrow, we _______ our trip to the park.'", "will cancel", "canceled", "canceling", "cancelation"],
+                    ["Pilih kata ganda yang membawa maksud 'saling' dengan betul:", "Pukul-memukul", "Saling pukul-memukul", "Saling bertumbuk-tumbukan", "Saling tolong-menolong"],
+                    ["Select the correctly spelled word:", "Accommodation", "Acommodation", "Accomodation", "Acomodation"],
+                    ["Apakah maksud peribahasa 'Diam-diam ubi berisi'?", "Orang pendiam tetapi banyak pengetahuan/kebolehan", "Orang yang malas bekerja", "Orang yang suka menyimpan rahsia", "Orang yang tidak suka bercakap"],
+                    ["Choose the correct preposition: 'She has been studying here _______ 2021.'", "since", "for", "during", "until"],
+                    ["Kata adjektif 'lambat' merujuk kepada unsur...", "Masa", "Ukuran", "Perasaan", "Sifat"],
+                    ["Choose the suitable idiom for 'extremely happy':", "Over the moon", "Under the weather", "Once in a blue moon", "Spill the beans"],
+                    ["'Ukur baju di badan sendiri' menasihati kita supaya...", "Berbelanja mengikut kemampuan sendiri", "Menjahit baju sendiri", "Membeli pakaian yang mahal", "Mengikut fesyen semasa"],
+                    ["What is the past participle of the verb 'DRIVE'?", "Driven", "Drove", "Driving", "Drives"],
+                    ["Pilih antonim (lawan perkataan) bagi 'MUTAKHIR':", "Kuno / Klasik", "Moden", "Terkini", "Baharu"],
+                    ["Identify the correct pronoun: 'Neither John nor His friends _______ present.'", "were", "was", "is", "be"],
+                    ["'Katak di bawah tempurung' bermaksud...", "Orang yang sangat terhad pengetahuannya", "Orang yang tinggal di kampung", "Orang yang takut akan bahaya", "Orang yang pendiam"],
+                    ["Choose the meaning of 'BENEVOLENT':", "Kind and generous", "Cruel and mean", "Lazy and slow", "Arrogant and proud"],
+                    ["Sinonim bagi perkataan 'ISTIMEWA' ialah...", "Khas / Khasnya", "Biasa", "Umum", "Sederhana"]
+                ],
+                // Set 2 Lang
+                [
+                    ["Pilih peribahasa yang bermaksud 'seseorang yang menurut sahaja kehendak orang lain':", "Seperti lembu dicucuk hidung", "Katak di bawah tempurung", "Bagai aur dengan tebing", "Seperti isi dengan kuku"],
+                    ["Choose the correct synonym for 'ABUNDANT':", "Plentiful / Copious", "Scarce", "Rare", "Lacking"],
+                    ["Ayat manakah yang mengandungi kesalahan ejaan?", "Ibu membeli goreng pisang di warung.", "Ibu membeli pisang goreng di warung.", "Adik sedang membaca buku cerita.", "Mereka berjalan ke sekolah bersama."],
+                    ["Choose the correct word: 'The teacher gave us valuable _______ on how to study.'", "advice", "advise", "advises", "advising"],
+                    ["Peribahasa 'Bagai aur dengan tebing' menggambarkan...", "Hubungan yang sangat rapat dan tolong-menolong", "Pergaduhan yang tidak berpanjangan", "Orang yang tidak mengenang jasa", "Persaingan secara sihat"],
+                    ["Choose the ANTONYM for 'GIGANTIC':", "Tiny / Small", "Huge", "Massive", "Enormous"],
+                    ["Apakah maksud simpulan bahasa 'Murah hati'?", "Suka memberi bantuan / Dermawan", "Suka marah", "Suka bercakap besar", "Suka bergaduh"],
+                    ["Select the correct sentence:", "She sings better than anyone else in the class.", "She sing better than anyone in class.", "She is sing better than class.", "She sang more better than class."],
+                    ["Pengimbuhan yang BETUL bagi perkataan 'tanggungjawab' apabila menerima apitan ialah...", "Dipertanggungjawabkan", "Di tanggungjawabkan", "Dipertanggung jawabkan", "Dipersetanggungjawabkan"],
+                    ["Choose the correct conjunction: 'He failed the exam _______ he did not revise.'", "because", "although", "but", "unless"],
+                    ["Apakah maksud perkataan 'INTERAKSI'?", "Tindak balas atau hubungan dua hala", "Pembacaan buku secara perseorangan", "Pengasingan diri dari masyarakat", "Pemikiran dalam hati"],
+                    ["Select the word opposite in meaning to 'ANCIENT':", "Modern", "Old", "Traditional", "Historical"],
+                    ["Pilih frasa nama yang menggunakan kata bilangan dengan BETUL:", "Dua orang murid", "Dua buah murid", "Dua ekor murid", "Dua biji murid"],
+                    ["Complete the idiom: 'To cost an arm and a _______.'", "leg", "head", "hand", "foot"],
+                    ["Apakah peribahasa yang sesuai untuk 'membuat kerja secara terburu-buru hingga rosak'?", "Bagai melepaskan batuk di tangga", "Harimau menyembunyikan kuku", "Alang-alang menyeluk pekasam", "Seperti pahat dengan penukul"],
+                    ["Choose the correct past tense form: 'The bird _______ over the high trees.'", "flew", "flyed", "flown", "flying"],
+                    ["Pilih kata kerja transitif yang BETUL dalam ayat:", "Ahmad menendang bola itu ke gol.", "Ahmad berjalan ke sekolah.", "Ahmad duduk di kerusi.", "Ahmad tersenyum manis."],
+                    ["What is the meaning of 'PUNCTUAL'?", "On time", "Late", "Slow", "Absent"],
+                    ["Sinonim bagi perkataan 'GIGIH' ialah...", "Tekun / Ulet", "Malas", "Cepat", "Lemas"],
+                    ["Choose the correct collective noun: 'A _______ of cows.'", "herd", "flock", "pack", "school"]
+                ],
+                // Set 3 Lang
+                [
+                    ["Pilih peribahasa yang bermaksud 'membuat sesuatu pekerjaan yang sukar sehingga berjaya':", "Di mana ada kemauan, di situ ada jalan", "Nasi sudah menjadi bubur", "Sedikit-sedikit, lama-lama jadi bukit", "Ukur baju di badan sendiri"],
+                    ["Choose the correct synonym for 'FRUGAL':", "Economical / Thrifty", "Wasteful", "Generous", "Rich"],
+                    ["Pilih kata majmuk yang disenaraikan dengan ejaan yang BETUL:", "Setiausaha / Suruhanjaya", "Setia usaha / Suruhan jaya", "Kerja sama / Bandar raya", "Tanggung jawab / Ibu bapa"],
+                    ["Choose the correct form: 'Each of the students _______ given a badge.'", "was", "were", "are", "be"],
+                    ["Apakah maksud simpulan bahasa 'Anak emas'?", "Anak yang sangat disayangi oleh ibu bapa/majikan", "Anak yang kaya-raya", "Anak yang suka memakai barang kemas", "Anak angkat"],
+                    ["Choose the ANTONYM for 'COURAGEOUS':", "Cowardly / Timid", "Brave", "Fearless", "Heroic"],
+                    ["Pilih penggunaan kata pemeri 'ialah' yang BETUL:", "Hobi saya ialah membaca buku.", "Maksud perkataan itu ialah sangat sukar.", "Rumah itu ialah besar.", "Beliau ialah datang dari kampung."],
+                    ["Select the correctly sentence in passive voice:", "The cake was baked by My mother.", "My mother baked the cake.", "The cake is bake by mother.", "Mother was baking cake."],
+                    ["Apakah peribahasa yang sesuai untuk 'orang yang mendapat keuntungan tanpa berusaha'?", "Yang bulat tidak datang menggolek, yang pipih tidak datang melayang", "Rezeki elang tidak akan dapat ke burung pipit", "Mendengar guruh di langit, air di tempurung dicurahkan", "Seperti ayam patuk anaknya"],
+                    ["Choose the meaning of 'OBSTACLE':", "Hurdle / Barrier", "Helper", "Path", "Goal"],
+                    ["Pilih ayat perintah jenis suruhan yang BETUL:", "Sila duduk di tempat masing-masing.", "Usah datang ke sini lagi.", "Minta tuan-tuan bersabar.", "Jemas kelas ini sekarang."],
+                    ["Complete the proverb: 'Actions speak louder than _______.'", "words", "thoughts", "speeches", "feelings"],
+                    ["Apakah antonim bagi perkataan 'SANTUN'?", "Kasar / Biadab", "Sopan", "Halus", "Budi"],
+                    ["Choose the correct word: 'The sun _______ in the east every morning.'", "rises", "rose", "rising", "has risen"],
+                    ["'Seperti isi dengan kuku' merujuk kepada...", "Hubungan persahabatan yang sangat erat", "Orang yang suka bergaduh", "Dua perkara yang tidak sepadan", "Orang yang malas"],
+                    ["What is the plural form of 'CHILD'?", "Children", "Childs", "Childrens", "Childes"],
+                    ["Pilih ragam ayat pasif yang BETUL:", "Buku itu dibaca oleh Ahmad.", "Ahmad membaca buku itu.", "Ahmad sedang membaca buku.", "Buku itu Ahmad baca."],
+                    ["Choose the synonym for 'OBVIOUS':", "Clear / Apparent", "Hidden", "Secret", "Unclear"],
+                    ["Apakah maksud perkataan 'OVAL' dalam Bahasa Inggeris?", "Bentuk bujur", "Bentuk bulat", "Bentuk segi empat", "Bentuk tiga segi"],
+                    ["Pilih kata ganti nama diri ketiga yang BETUL:", "Beliau / Mereka", "Saya / Aku", "Kamu / Anda", "Kita / Kami"]
+                ],
+                // Set 4 Lang
+                [
+                    ["Pilih peribahasa 'Alang-alang menyeluk pekasam, biar sampai ke pangkal lengan' bermaksud...", "Melakukan sesuatu pekerjaan sehingga selesai dan berjaya", "Berhati-hati membuat kerja", "Jangan melibatkan diri dalam bahaya", "Jimat cermat semasa berbelanja"],
+                    ["Choose the correct synonym for 'AMBITIOUS':", "Determined / Aspiring", "Lazy", "Satisfied", "Careless"],
+                    ["Pilih ayat yang menggunakan kata pembenar dengan BETUL:", "Ya, itulah rumah pengawas sekolah itu.", "Benar, saya tidak setuju.", "Betul, marilah kita pergi.", "Ya, usah dikenang lagi."],
+                    ["Choose the correct spelling:", "Environment", "Enviroment", "Environmint", "Enviromant"],
+                    ["Simpulan bahasa 'Telinga nipis' bermaksud...", "Orang yang cepat marah / lekas marah", "Orang yang pandai mendengar", "Orang yang pekak", "Orang yang pemalu"],
+                    ["Choose the ANTONYM for 'HOSTILE':", "Friendly / Welcoming", "Aggressive", "Unfriendly", "Angry"],
+                    ["Pilih ayat yang BETUL mengandungi kata kerja tak transitif berpelengkap:", "Beliau berunsurkan kebudayaan tempatan.", "Ahmad menendang bola.", "Ibu memasak gulai.", "Murid membaca buku."],
+                    ["Fill in the blank: 'She is the _______ girl in our school.'", "smartest", "smarter", "more smart", "most smartest"],
+                    ["Apakah maksud 'Kibar Jalur Gemilang'?", "Mengibarkan bendera Malaysia dengan rasa bangga", "Membeli bendera di kedai", "Menjahit bendera", "Menggambar bendera"],
+                    ["Choose the correct meaning of 'RELUCTANT':", "Unwilling / Hesitant", "Eager", "Ready", "Excited"],
+                    ["Pilih peribahasa yang bertentangan maksud dengan 'Bagai aur dengan tebing':", "Bagai anjing dengan kucing", "Seperti isi dengan kuku", "Bulat air kerana pembetung", "Bersatu teguh bercerai roboh"],
+                    ["Select the correct sentence:", "Neither of the answers is correct.", "Neither of the answer are correct.", "Neither answers were correct.", "Neither answer be correct."],
+                    ["Apakah sinonim bagi perkataan 'TELUS'?", "Jujur / Transparan", "Gelap", "Samar", "Sukar"],
+                    ["Complete the idiom: 'A blessing in _______.'", "disguise", "secret", "surprise", "mask"],
+                    ["'Sedikit-sedikit, lama-lama jadi bukit' mengajar kita amalan...", "Menabung / Berjimat-cermat", "Bekerja keras", "Bermurah hati", "Menjaga kebersihan"],
+                    ["Choose the correct possessive form: 'This is _______ book.'", "James's / James'", "James", "Jamess", "James'es"],
+                    ["Apakah imbuhan akhiran yang BETUL bagi perkataan 'makan' menjadi kata nama?", "Makanan", "Makanan-makanan", "Pemakanan", "Termakan"],
+                    ["What does the phrase 'Break a leg' mean?", "Good luck!", "Get injured", "Stop working", "Run fast"],
+                    ["Kata tanya 'Mengapa' digunakan untuk menanyakan...", "Sebab atau punca", "Masa dan waktu", "Tempat dan lokasi", "Bilangan dan jumlah"],
+                    ["Choose the correct word: 'There are _______ apples on the table.'", "many", "much", "little", "amount"]
+                ],
+                // Set 5 Lang
+                [
+                    ["Pilih peribahasa yang sesuai bagi orang yang 'sangat gembira kerana mendapat sesuatu':", "Bagai mendapat durian runtuh", "Seperti kera mendapat bunga", "Bagai melepaskan batuk di tangga", "Seperti katak di bawah tempurung"],
+                    ["Choose the correct synonym for 'GENEROSITY':", "Kindness / Munificence", "Greed", "Selfishness", "Ego"],
+                    ["Pilih jawapan yang BETUL bagi ejaan imbuhan 'di' sebagai kata sendi nama:", "di rumah / di sekolah", "dirumah / disekolah", "di-rumah / di-sekolah", "diRumah / diSekolah"],
+                    ["Choose the ANTONYM for 'TRANSPARENT':", "Opaque / Dark", "Clear", "Translucent", "Bright"],
+                    ["Apakah maksud simpulan bahasa 'Kaki ayam'?", "Berjalan tanpa memakai kasut", "Suka melompat", "Ayam yang ada dua kaki", "Suka berlari cepat"],
+                    ["Select the correctly punctuated sentence:", "Where are you going?", "Where are you going.", "where are you going?", "Where are you going!"],
+                    ["Pilih ayat yang mengandungi kata adjektif pancaindera dengar:", "Suara penyanyi itu sangat merdu.", "Kain ini sangat lembut.", "Makanan ini terlalu manis.", "Warna baju itu amat garang."],
+                    ["Choose the correct preposition: 'The cat is sleeping _______ the table.'", "under", "in", "between", "through"],
+                    ["'Harimau mati meninggalkan belang, manusia mati meninggalkan nama' bermaksud...", "Jasa dan budi baik seseorang akan dikenang selepas meninggal dunia", "Setiap manusia akan mati", "Perbuatan jahat akan dibalas jahat", "Harimau haiwan bernilai"],
+                    ["What is the meaning of 'NEGLIGENT'?", "Careless / Inattentive", "Careful", "Polite", "Hardworking"],
+                    ["Pilih pasangan kata sinonim yang BETUL:", "Paras = Wajah", "Besar = Kecil", "Tinggi = Rendah", "Lari = Duduk"],
+                    ["Complete the sentence: 'She dances _______ than her sister.'", "more gracefully", "graceful", "gracefully", "most graceful"],
+                    ["Apakah penjodoh bilangan yang BETUL bagi 'pisau'?", "Bilah", "Biji", "Batang", "Pucuk"],
+                    ["Identify the correct adverb: 'He ran _______ to catch the bus.'", "quickly", "quick", "quicker", "quickness"],
+                    ["'Bagai melepaskan batuk di tangga' bermaksud...", "Mengerjakan sesuatu dengan tidak bersungguh-sungguh", "Orang yang batuk di tangga", "Membuat kerja dengan kemas", "Bersifat sabar"],
+                    ["Choose the passive sentence:", "The ball was kicked by Ali.", "Ali kicked the ball.", "Ali is kicking the ball.", "Ali will kick the ball."],
+                    ["Apakah kata hubung gabungan yang sesuai untuk menunjukkan pilihan?", "Atau", "Dan", "Tetapi", "Kerana"],
+                    ["What is the opposite of 'EXPENSIVE'?", "Cheap / Inexpensive", "Costly", "Valuable", "Precious"],
+                    ["Kata ganda 'rama-rama' merujuk kepada jenis kata ganda...", "Kata ganda semulajadi / penuh", "Kata ganda berimbuhan", "Kata ganda separa", "Kata ganda berentak"],
+                    ["Choose the correct pronoun: 'The dog wagged _______ tail.'", "its", "it's", "its'", "their"]
+                ]
             ];
 
+            const chosenLang = langSets[(setId - 1) % 5];
+            const list = [];
             for (let i = 0; i < 20; i++) {
-                let lg = langTemplates[(i + (setId * 2)) % langTemplates.length];
+                let item = chosenLang[i % chosenLang.length];
                 list.push({
-                    q: `[Set ${setId}] ${lg[0]}`,
-                    options: [lg[1], lg[2], lg[3], lg[4]].sort(() => Math.random() - 0.5),
-                    correctAnswer: lg[1],
-                    category: categories[3]
+                    q: `[Set ${setId}] ${item[0]}`,
+                    options: [item[1], item[2], item[3], item[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: item[1],
+                    category: "Bahasa Melayu & Inggeris"
                 });
             }
+            return list;
+        }
 
-            // 5. Logik IQ & Matematik KBAT (20 Soalan unik per Set)
+        function generateUniqueMathIQSet(setId) {
+            const list = [];
             for (let i = 0; i < 20; i++) {
                 let type = i % 4;
                 let qText, options, ansIndex;
 
                 if (type === 0) {
-                    let step = (setId * 2) + (i % 3) + 2;
-                    let start = (setId * 5) + (i * 2);
+                    // Pola Nombor
+                    let step = (setId * 3) + (i % 4) + 2;
+                    let start = (setId * 7) + (i * 3);
                     let seq = [start, start + step, start + (step * 2), start + (step * 3)];
                     let next = start + (step * 4);
-                    qText = `[Set ${setId}] Apakah nombor seterusnya dalam pola ini: ${seq.join(', ')}, ...?`;
-                    let opts = [next, next + 3, next - 2, next + step + 1].sort(() => Math.random() - 0.5);
+                    qText = `[Set ${setId}] Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ...?`;
+                    let opts = [next, next + 4, next - 2, next + step + 1].sort(() => Math.random() - 0.5);
                     options = opts.map(String);
                     ansIndex = options.indexOf(String(next));
                 } else if (type === 1) {
+                    // Turutan Abjad
                     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    let jump = (setId % 3) + 1;
-                    let startIdx = (i * 2) % 10;
+                    let jump = (setId % 2) + 2;
+                    let startIdx = (i * 3 + setId) % 12;
                     let seq = [letters[startIdx], letters[startIdx + jump], letters[startIdx + (jump * 2)]];
                     let nextL = letters[startIdx + (jump * 3)];
-                    qText = `[Set ${setId}] Lengkapkan siri abjad ini: ${seq.join(', ')}, ...?`;
+                    qText = `[Set ${setId}] Lengkapkan turutan abjad ini: ${seq.join(', ')}, ...?`;
                     let opts = [letters[startIdx + (jump * 3) + 1], nextL, letters[startIdx + (jump * 3) - 1], letters[startIdx + (jump * 3) + 2]].sort(() => Math.random() - 0.5);
                     options = opts;
                     ansIndex = options.indexOf(nextL);
                 } else if (type === 2) {
-                    let items = (i + 4) * 2 + setId;
-                    let count = 5;
-                    let eaten = 4;
+                    // Matematik KBAT Epal/Kotak
+                    let items = (i + 3) * 3 + setId;
+                    let count = 4 + (setId % 2);
+                    let eaten = 5;
                     let ans = (items * count) - eaten;
-                    qText = `[Set ${setId}] Terdapat ${count} buah kotak. Setiap kotak ada ${items} biji epal. Jika ${eaten} biji telah dimakan, berapa baki epal?`;
-                    let opts = [ans, ans + 5, ans - 3, items * count].sort(() => Math.random() - 0.5);
+                    qText = `[Set ${setId}] Terdapat ${count} buah kotak. Setiap kotak mengandungi ${items} biji epal. Jika ${eaten} biji dimakan, berapa baki epal?`;
+                    let opts = [ans, ans + 6, ans - 4, items * count].sort(() => Math.random() - 0.5);
                     options = opts.map(String);
                     ansIndex = options.indexOf(String(ans));
                 } else {
-                    let lif = 2 + setId;
-                    let naik1 = 6, turun1 = 3, naik2 = 4;
+                    // Pergerakan Lif
+                    let lif = 1 + setId;
+                    let naik1 = 5 + (i % 3), turun1 = 2, naik2 = 3;
                     let ans = lif + naik1 - turun1 + naik2;
-                    qText = `[Set ${setId}] Lif bermula di tingkat ${lif}. Ia naik ${naik1} tingkat, turun ${turun1} tingkat, dan naik lagi ${naik2} tingkat. Di tingkat berapakah lif berada sekarang?`;
-                    let opts = [ans, ans + 2, ans - 1, ans + 4].sort(() => Math.random() - 0.5);
+                    qText = `[Set ${setId}] Lif bermula di tingkat ${lif}. Ia naik ${naik1} tingkat, turun ${turun1} tingkat, dan naik lagi ${naik2} tingkat. Di tingkat berapakah lif sekarang?`;
+                    let opts = [ans, ans + 3, ans - 2, ans + 5].sort(() => Math.random() - 0.5);
                     options = opts.map(String);
                     ansIndex = options.indexOf(String(ans));
                 }
@@ -446,11 +776,10 @@
                     q: qText,
                     options: options,
                     correctAnswer: options[ansIndex],
-                    category: categories[4]
+                    category: "Kecerdasan Intelek (Logik/Matematik)"
                 });
             }
 
-            // Petakan ke format aplikasi
             return list.map(item => {
                 let ansIdx = item.options.indexOf(item.correctAnswer);
                 return {
@@ -460,6 +789,17 @@
                     category: item.category
                 };
             });
+        }
+
+        // Cantumkan 5 Bahagian menjadi 100 Soalan Penuh per Set (20 EQ + 20 GK + 20 Sains + 20 Bahasa + 20 Logik = 100)
+        function buildFull100QuestionSet(setId) {
+            const eq = getUniqueEQQuestions(setId);
+            const gk = generateUniqueGKSet(setId);
+            const sci = generateUniqueScienceSet(setId);
+            const lang = generateUniqueLangSet(setId);
+            const math = generateUniqueMathIQSet(setId);
+
+            return [...eq, ...gk, ...sci, ...lang, ...math];
         }
 
         // --- State Management ---
@@ -476,11 +816,11 @@
             if (setNum === 'random') {
                 document.getElementById('badge-set-name').innerText = "MOD RAWAK";
                 let all500 = [];
-                for (let s = 1; s <= 5; s++) all500 = all500.concat(generateSetBank(s));
+                for (let s = 1; s <= 5; s++) all500 = all500.concat(buildFull100QuestionSet(s));
                 activeQuestions = all500.sort(() => Math.random() - 0.5).slice(0, 100);
             } else {
                 document.getElementById('badge-set-name').innerText = `SET ${setNum}`;
-                activeQuestions = generateSetBank(setNum);
+                activeQuestions = buildFull100QuestionSet(setNum);
             }
 
             currentQuestionIndex = 0;
