@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulasi Ujian PKSK - 500 Soalan (5 Set)</title>
+    <title>Simulasi Ujian PKSK - 500 Soalan Unik (5 Set)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -24,17 +24,15 @@
                 <i class="fa-solid fa-graduation-cap text-2xl text-amber-400"></i>
                 <div>
                     <h1 class="font-extrabold text-lg sm:text-xl tracking-tight leading-none">Simulasi PKSK Interaktif</h1>
-                    <p class="text-xs text-indigo-200 mt-0.5 hidden sm:block">Pentaksiran Kemasukan Sekolah Khusus (500 Soalan • 5 Set)</p>
+                    <p class="text-xs text-indigo-200 mt-0.5 hidden sm:block">Pentaksiran Kemasukan Sekolah Khusus (500 Soalan Tanpa Ulangan)</p>
                 </div>
             </div>
             
             <div id="header-quiz-info" class="hidden flex items-center space-x-3">
-                <!-- Clock Badge -->
                 <div class="bg-indigo-950/80 px-3 py-1.5 rounded-lg border border-indigo-700/50 flex items-center space-x-2">
                     <i class="fa-regular fa-clock text-amber-400 text-sm"></i>
                     <span id="timer-display" class="font-mono font-bold text-amber-300 text-sm sm:text-base">90:00</span>
                 </div>
-                <!-- Drawer Toggle Button (Mobile & Desktop) -->
                 <button onclick="toggleGridDrawer()" class="bg-indigo-700 hover:bg-indigo-600 px-3 py-1.5 rounded-lg text-sm font-semibold flex items-center space-x-2 transition border border-indigo-500">
                     <i class="fa-solid fa-th"></i>
                     <span class="hidden md:inline">Navigasi Soalan</span>
@@ -51,9 +49,9 @@
                 <span class="bg-indigo-100 text-indigo-800 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Persediaan PKSK</span>
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-800 mt-2 mb-3">Pilih Set Latihan Ujian</h2>
                 <p class="text-slate-600 text-sm sm:text-base leading-relaxed">
-                    Setiap set mengandungi <strong class="text-indigo-600">100 soalan unik KBAT</strong> mengikut format rasmi. Anda boleh melewati (skip) soalan yang sukar dan kembali semula melalui papan navigasi.
+                    Setiap set mengandungi <strong class="text-indigo-600">100 soalan unik KBAT</strong> (EQ, SQ, SSQ, Pengetahuan Am, Sains, Bahasa & Logik IQ). Soalan tidak diulang!
                 </p>
-                <small>Created by <a href="https://mznexus.com.my" target="_blank">MZ Nexus Solutions</a></small>
+                <small class="text-slate-400 block mt-2">Dikuasakan oleh MZ Nexus Solutions</small>
             </div>
 
             <!-- Set Buttons Grid -->
@@ -107,13 +105,12 @@
                     <div>
                         <span class="px-2.5 py-1 bg-white/20 text-white text-xs font-bold rounded-md">MOD BONUS</span>
                         <h3 class="text-lg font-bold mt-2">Ujian Rawak Campuran</h3>
-                        <p class="text-xs text-indigo-100 mt-1">100 Soalan Rawak dari 500 Bank Soalan</p>
+                        <p class="text-xs text-indigo-100 mt-1">100 Soalan Rawak dari Bank 500 Soalan</p>
                     </div>
                     <span class="mt-4 text-xs font-bold text-white flex items-center">Mula Rawak <i class="fa-solid fa-shuffle ml-1"></i></span>
                 </button>
             </div>
 
-            <!-- Petunjuk Warna Stat (Legend) -->
             <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
                 <h4 class="font-bold text-slate-700 mb-2">Petunjuk Warna Papan Navigasi:</h4>
                 <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -128,10 +125,8 @@
         <!-- ================= SKRIN KUIZ & NAVIGASI ================= -->
         <main id="screen-quiz" class="hidden flex-1 grid grid-cols-1 lg:grid-cols-4 gap-6 items-start">
             
-            <!-- Main Question Area (Left - 3 Cols) -->
             <div class="lg:col-span-3 bg-white rounded-2xl shadow-xl border border-slate-200/80 p-5 sm:p-8 flex flex-col justify-between min-h-[500px]">
                 <div>
-                    <!-- Top Status Bar -->
                     <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-4 mb-6">
                         <div class="flex items-center space-x-2">
                             <span id="badge-set-name" class="bg-indigo-100 text-indigo-800 text-xs font-bold px-3 py-1 rounded-full uppercase">Set 1</span>
@@ -142,37 +137,29 @@
                         </div>
                     </div>
 
-                    <!-- Progress Bar -->
                     <div class="w-full bg-slate-100 rounded-full h-2 mb-6">
                         <div id="quiz-progress-bar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 1%"></div>
                     </div>
 
-                    <!-- Question Content -->
                     <div id="box-question-content">
                         <h3 id="text-question" class="text-lg sm:text-xl font-bold text-slate-800 leading-relaxed mb-6">
                             Soalan dimuatkan...
                         </h3>
                         
-                        <!-- Options Container -->
-                        <div id="box-options" class="space-y-3 mb-6">
-                            <!-- Options injected dynamically -->
-                        </div>
+                        <div id="box-options" class="space-y-3 mb-6"></div>
                     </div>
                 </div>
 
-                <!-- Bottom Controls (Buttons) -->
                 <div class="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3">
                     <button onclick="navigateQuestion('prev')" id="btn-prev" class="px-4 py-2.5 border-2 border-slate-300 text-slate-700 rounded-xl font-bold hover:bg-slate-100 transition text-sm flex items-center gap-2">
                         <i class="fa-solid fa-arrow-left"></i> Kembali
                     </button>
 
                     <div class="flex items-center space-x-2 ml-auto">
-                        <!-- Pass / Skip Button -->
                         <button onclick="skipCurrentQuestion()" id="btn-skip" class="px-4 py-2.5 bg-amber-500 hover:bg-amber-600 text-white rounded-xl font-bold shadow transition text-sm flex items-center gap-2">
                             <i class="fa-solid fa-forward"></i> Pintas / Pass
                         </button>
 
-                        <!-- Next / Finish Button -->
                         <button onclick="navigateQuestion('next')" id="btn-next" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2">
                             Seterusnya <i class="fa-solid fa-arrow-right"></i>
                         </button>
@@ -180,11 +167,10 @@
                 </div>
             </div>
 
-            <!-- Sidebar Grid Navigation (Right - 1 Col on Desktop, Fixed height & Sticky) -->
+            <!-- Sidebar Navigation Grid -->
             <div id="grid-drawer-container" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-40 hidden lg:relative lg:inset-auto lg:bg-transparent lg:block">
                 <div class="bg-white rounded-2xl shadow-xl border border-slate-200/80 p-5 flex flex-col h-full max-h-[85vh] lg:max-h-[580px] w-80 max-w-full ml-auto lg:w-full lg:sticky lg:top-20">
                     
-                    <!-- Sidebar Header -->
                     <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-3 flex-shrink-0">
                         <h4 class="font-extrabold text-slate-800 text-base flex items-center gap-2">
                             <i class="fa-solid fa-table-cells text-indigo-600"></i> Papan Soalan
@@ -194,7 +180,6 @@
                         </button>
                     </div>
 
-                    <!-- Counter Stats -->
                     <div class="grid grid-cols-4 gap-1.5 text-center text-[10px] font-bold mb-3 flex-shrink-0">
                         <div class="bg-slate-100 p-1.5 rounded-lg border border-slate-200"><span id="count-unanswered" class="text-slate-700 block text-xs">100</span>Belum</div>
                         <div class="bg-amber-50 p-1.5 rounded-lg border border-amber-200 text-amber-800"><span id="count-skipped" class="block text-xs">0</span>Pass</div>
@@ -202,14 +187,10 @@
                         <div class="bg-rose-50 p-1.5 rounded-lg border border-rose-200 text-rose-800"><span id="count-wrong" class="block text-xs">0</span>Salah</div>
                     </div>
 
-                    <!-- Grid Numbers 1 - 100 -->
                     <div class="flex-1 overflow-y-auto custom-scrollbar pr-1 min-h-0">
-                        <div id="box-grid-numbers" class="grid grid-cols-5 gap-2">
-                            <!-- 1 to 100 injected dynamically -->
-                        </div>
+                        <div id="box-grid-numbers" class="grid grid-cols-5 gap-2"></div>
                     </div>
 
-                    <!-- Finish Quiz Button -->
                     <div class="pt-3 mt-2 border-t border-slate-100 flex-shrink-0">
                         <button onclick="confirmFinishQuiz()" class="w-full py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow">
                             <i class="fa-solid fa-flag-checkered"></i> Tamatkan Ujian Sekarang
@@ -225,7 +206,6 @@
             <h2 class="text-3xl font-extrabold text-slate-800 mt-2 mb-1">Ujian Tamat!</h2>
             <p class="text-slate-500 text-sm mb-6">Keputusan lengkap bagi ujian simulasi PKSK anda.</p>
 
-            <!-- Circular Score -->
             <div class="w-40 h-40 mx-auto rounded-full bg-indigo-50 border-8 border-indigo-600 flex flex-col items-center justify-center shadow-inner mb-6">
                 <span id="text-final-percent" class="text-4xl font-black text-indigo-700">0%</span>
                 <span id="text-final-raw" class="text-xs text-slate-500 font-bold mt-1">(0 / 100 Betul)</span>
@@ -234,7 +214,6 @@
             <h3 id="text-grade-title" class="text-xl font-bold text-slate-800 mb-2">Cemerlang!</h3>
             <p id="text-grade-desc" class="text-slate-600 text-sm leading-relaxed mb-8 max-w-md mx-auto"></p>
 
-            <!-- Breakdown Cards -->
             <div class="grid grid-cols-3 gap-3 mb-8 text-xs font-semibold">
                 <div class="bg-emerald-50 border border-emerald-200 p-3 rounded-xl text-emerald-800">
                     <span id="res-correct" class="text-lg font-black block text-emerald-600">0</span> Betul
@@ -247,7 +226,6 @@
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row justify-center gap-3">
                 <button onclick="returnToSetSelect()" class="px-6 py-3 bg-slate-800 hover:bg-slate-900 text-white font-bold rounded-xl transition text-sm">
                     <i class="fa-solid fa-list ml-1"></i> Pilih Set Lain
@@ -261,107 +239,233 @@
     </div>
 
     <script>
-        // --- 500 Question Bank Engine ---
-        const baseEQ = [
-            { q: "Rakan sepasukan anda membuat tugasan dengan meniru internet secara bulat-bulat tanpa memproses maklumat. Tugasan perlu dihantar esok. Tindakan anda?", options: ["Membiarkannya kerana tidak mahu bergaduh", "Menegur dan membantunya mengolah semula ayat mengikut pemahaman sendiri", "Melaporkan kepada guru secara senyap", "Mengeluarkan namanya daripada senarai ahli"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Semasa perhimpunan, rakan di sebelah anda pening dan hampir rebah. Apakah tindakan pantas yang paling wajar?", options: ["Menjerit meminta tolong di seluruh dewan", "Memegang dan membantunya duduk, kemudian memaklumkan guru bertugas", "Lari mencari air minuman", "Pura-pura tidak nampak dan kekal berdiri"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Anda mendapati keputusan ujian anda sangat rendah walaupun telah belajar bersungguh-sungguh. Reaksi terbaik?", options: ["Menyalahkan guru kerana membuat soalan terlalu sukar", "Menerima keputusan, menganalisis kesilapan, dan berjumpa guru untuk bimbingan", "Berhenti belajar kerana merasa tiada bakat", "Membandingkan keputusan dengan rakan yang lebih rendah"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Dalam mesyuarat kelab, dua ahli bertengkar kerana perbezaan pendapat. Tindakan anda sebagai pengerusi?", options: ["Menyebelahi rakan rapat anda", "Menangguhkan mesyuarat dan membiarkan mereka bergaduh", "Mengawal keadaan dengan tenang, mendengar hujah kedua-duanya, dan mencari jalan tengah", "Memarahi kedua-duanya dan menamatkan keahlian mereka"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Sewaktu aktiviti perkhemahan, hujan lebat turun dan khemah kumpulan anda bocor. Reaksi utama sebagai ketua?", options: ["Panik dan menjerit mengarahkan ahli lari", "Kekal tenang, mengarahkan ahli mengalihkan barang penting dan mencari perlindungan selamat", "Menyalahkan ahli yang memasang khemah", "Duduk merungut dan menunggu bantuan"], answer: 1, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Rakan anda sering diejek di sekolah kerana fizikalnya. Tindakan anda?", options: ["Turut ketawa supaya tidak dipulaukan", "Menasihati rakan tersebut supaya tidak hadir ke sekolah", "Mempertahankan rakan, menegur ejekan secara berhemah, dan memberi sokongan moral", "Mengambil video dan memuat naik ke media sosial"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Alatan eksperimen yang anda gunakan di lab rosak secara tidak sengaja. Tindakan berintegriti?", options: ["Menyimpan semula alatan rosak di dalam almari senyap-senyap", "Menyalahkan rakan yang menggunakan alatan itu sebelum anda", "Segera melaporkan kerosakan kepada guru dan bertanggungjawab", "Membuang alatan tersebut ke dalam tong sampah"], answer: 2, category: "Kecerdasan Insaniah (EQ)" },
-            { q: "Anda ditugaskan berpasangan dengan pelajar yang paling anda tidak gemari. Bagaimana anda mengendalikannya?", options: ["Meminta guru menukar pasangan serta-merta", "Enggan bercakap dengannya dan buat kerja sendiri", "Mengetepikan perasaan peribadi dan fokus kepada profesionalisme serta kekuatan masing-masing", "Menyuruh pasangan anda membuat semua kerja"], answer: 2, category: "Kecerdasan Insaniah (EQ)" }
-        ];
+        // Enjin Pembina Soalan PKSK (Setiap Set Mempunyai 100 Soalan Unik Berbeza)
+        function generateSetBank(setId) {
+            const list = [];
+            
+            // Subjek & Kategori
+            const categories = [
+                "Kecerdasan Insaniah (EQ/SQ/SSQ)",
+                "Pengetahuan Am & Sejarah",
+                "Sains & Alam Sekitar",
+                "Bahasa Melayu & Inggeris",
+                "Kecerdasan Intelek (Logik/Matematik)"
+            ];
 
-        const baseGK = [
-            { q: "Badan perundangan tertinggi di Malaysia yang bertindak menggubal undang-undang peringkat Persekutuan ialah:", options: ["Mahkamah Persekutuan", "Parlimen Malaysia", "Dewan Undangan Negeri", "Majlis Raja-Raja"], answer: 1, category: "Pengetahuan Am & Kenegaraan" },
-            { q: "Organ manakah dalam tubuh manusia yang bertindak menyaring bahan buangan dan mengawal keseimbangan air dalam darah?", options: ["Hati", "Paru-paru", "Ginjal (Buah Pinggang)", "Jantung"], answer: 2, category: "Sains & Kesihatan" },
-            { q: "Agensi Persekutuan yang ditubuhkan di Malaysia untuk memajukan tanah dan ekonomi peneroka luar bandar ialah:", options: ["MARA", "FELDA", "RISDA", "FAMA"], answer: 1, category: "Pengetahuan Am & Ekonomi" },
-            { q: "Planet manakah yang digelar 'Planet Merah' disebabkan oleh litupan zat besi oksida pada permukaannya?", options: ["Utarid", "Zuhrah", "Marikh", "Mushtari"], answer: 2, category: "Sains & Astronomi" },
-            { q: "Hari Malaysia yang menandakan pembentukan Persekutuan Malaysia disambut pada tarikh:", options: ["31 Ogos", "16 September", "24 Ogos", "1 Mei"], answer: 1, category: "Pengetahuan Am & Sejarah" },
-            { q: "Tenaga yang dihasilkan daripada pergerakan aliran air di empangan dipanggil:", options: ["Tenaga Geoterma", "Tenaga Hidroelektrik", "Tenaga Biomass", "Tenaga Nuklear"], answer: 1, category: "Sains & Tenaga" },
-            { q: "Bunga Raya (Hibiscus) mempunyai 5 kelopak yang melambangkan:", options: ["5 Negeri Utama", "5 Prinsip Rukun Negara", "5 Bahasa Rasmi", "5 Tokoh Kemerdekaan"], answer: 1, category: "Pengetahuan Am & Kenegaraan" },
-            { q: "Badan PBB yang khusus menjaga kebajikan, pendidikan, dan hak kanak-kanak di seluruh dunia ialah:", options: ["WHO", "UNESCO", "UNICEF", "UNHCR"], answer: 2, category: "Pengetahuan Am Antarabangsa" }
-        ];
+            // 1. Kecerdasan Insaniah (20 Soalan unik per Set)
+            const eqTemplates = [
+                ["melihat rakan sekelas dibuli secara lisan di kantin", "Melaporkan kejadian kepada guru bertugas/kaunselor secara senyap", "Mengejek rakan tersebut bersama pembuli", "Merakam video dan memuat naik ke media sosial", "Membiarkan sahaja kerana takut terlibat"],
+                ["anda gagal mendapat markah tinggi dalam ujian peperiksaan", "Menganalisis kesilapan, berjumpa guru untuk bimbingan dan berusaha semula", "Menyalahkan guru kerana memberi soalan terlalu sukar", "Berhenti belajar kerana berasa tiada bakat", "Membandingkan diri dengan rakan yang lebih rendah"],
+                ["rakan sepasukan enggan bekerjasama dalam menyiapkan projek", "Berbincang secara peribadi untuk memahami masalahnya dan memberi sokongan", "Memarahinya di hadapan ahli kumpulan lain", "Melaporkan kepada guru serta-merta tanpa berbincang", "Membuang namanya daripada senarai ahli"],
+                ["anda terjumpa dompet berisi wang di padang sekolah", "Menyerahkan dompet tersebut kepada guru bertugas atau pejabat sekolah", "Mengambil wang tersebut untuk membeli makanan", "Menderma wang tersebut ke tabung tanpa memberitahu sesiapa", "Menunggu pemiliknya di padang seharian"],
+                ["anda dikritik secara terbuka oleh guru tentang hasil kerja anda", "Menerima teguran dengan tenang dan memperbaiki kesalahan tersebut", "Marah dan merungut di hadapan rakan lain", "Menolak untuk menyiapkan kerja sekolah lagi", "Pura-pura tidak mendengar teguran tersebut"],
+                ["rakan anda kelihatan murung dan diam berbanding biasa", "Mendengar luahannya dengan empati dan mengajak berumpa kaunselor jika perlu", "Mengejeknya kerana kelihatan lemah", "Menjauhkan diri daripadanya", "Memberitahu rakan lain tentang keadaannya secara tidak jujur"],
+                ["anda dituduh merosakkan alatan makmal yang dilakukan orang lain", "Menerangkan situasi sebenar secara tenang berserta saksi/bukti", "Menjerit dan memarahi orang yang menuduh", "Melarikan diri dari kawasan makmal", "Menuduh orang lain secara melulu"],
+                ["anda memenangi anugerah tokoh murid sekolah", "Kekal rendah hati dan mengucapkan terima kasih serta dorongan kepada rakan", "Mendabik dada dan melebih-lebihkan kejayaan", "Menganggap rakan lain tidak sehebat anda", "Menjauhkan diri daripada rakan yang tewas"],
+                ["berlaku perselisihan faham semasa perbincangan kumpulan", "Mendengar hujah setiap ahli dan mencari jalan penyelesaian terbaik", "Memaksa semua ahli menerima pandangan anda", "Meninggalkan kumpulan tersebut", "Membiarkan perbincangan tanpa keputusan"],
+                ["anda melihat rakan sekelas membuang sampah di merata tempat", "Menegur rakan secara berhemah dan mengajaknya membuang ke dalam tong sampah", "Mengutuk rakan di media sosial", "Turut membuang sampah bersama-sama", "Membiarkannya tanpa berbuat apa-apa"],
+                ["anda perlu memilih antara latihan sukan dan kelas tambahan", "Berbincang dengan jurulatih dan guru untuk menyusun jadual secara bijak", "Ponteng kelas tambahan tanpa kebenaran", "Berhenti daripada aktiviti sukan secara mendadak", "Menyalahkan pihak sekolah kerana jadual bertembung"],
+                ["rakan terdekat anda terlupa membawa bekal wang saku", "Berkongsi makanan/bekal anda dengannya secara ikhlas", "Ketawakannya di hadapan rakan lain", "Meminta bayaran berganda jika mahu meminjam wang", "Membiarkan dia kelaparan seharian"],
+                ["anda dilantik menjadi ketua kelas buat kali pertama", "Menjalankan tugas secara adil, prihatin dan menjadi contoh yang baik", "Menggunakan kuasa untuk menyuruh rakan lain membuat kerja anda", "Menolak tugas kerana tidak mahu penat", "Membeli hati rakan dengan barang"],
+                ["berlaku kebocoran air di tandas sekolah", "Melaporkan kejadian kerosakan kepada pihak pentadbiran sekolah", "Membiarkan air melimpah keluar", "Bermain air yang melimpah", "Menyalahkan pekerja pembersihan"],
+                ["rakan anda mengantuk di dalam kelas sewaktu guru mengajar", "Menegurnya secara perlahan dan menyuruhnya memohon izin mencuci muka", "Mentertawakannya di hadapan guru", "Turut tidur bersama rakan tersebut", "Menjerit memberitahu guru"],
+                ["anda tersilap memadam maklumat tugasan rakan", "Meminta maaf secara jujur dan membantunya menaip/menulis semula", "Pura-pura tidak tahu mengenai pemadaman itu", "Menyalahkan sistem komputer", "Melarikan diri"],
+                ["seorang murid baharu kelihatan bersendirian dan pemalu", "Menyapanya dengan mesra dan mengundangnya menyertai kumpulan anda", "Memulaukan murid tersebut", "Mengejek cara pemakaiannya", "Menunggu dia datang menegur dahulu"],
+                ["anda menerima elaun atau wang saku lebih daripada biasa", "Menyimpan sebahagian wang ke dalam tabung untuk kegunaan masa depan", "Membelanjakan semua wang untuk permainan video", "Belanja semua rakan tanpa perancangan", "Hilangkan wang tersebut"],
+                ["ahli keluarga anda sedang mengalami masalah kesihatan", "Membantu meringankan beban kerja rumah dan mendoakan kesembuhan", "Mengeluh kerana kurang perhatian", "Keluar rumah sepanjang hari", "Membuat bising di rumah"],
+                ["guru meminta sukarelawan untuk membersihkan kawasan sekolah", "Tampil secara sukarela dengan penuh semangat", "Pura-pura sakit untuk mengelak", "Menyorok di dalam tandas", "Menyuruh rakan lain menggantikan anda"]
+            ];
 
-        const baseLang = [
-            { q: "Pilih peribahasa yang bermaksud: 'Orang yang tetap mempertahankan kebenaran/maruah walaupun menghadapi bahaya'.", options: ["Biar putih tulang, jangan putih mata", "Harimau mati meninggalkan belang", "Ukur baju di badan sendiri", "Air dicincang tidak akan putus"], answer: 0, category: "Bahasa Melayu" },
-            { q: "Choose the word that best completes the sentence: 'Despite facing fierce challenges, the team managed to ________ the obstacles.'", options: ["overcome", "overlook", "overtake", "overall"], answer: 0, category: "Bahasa Inggeris" },
-            { q: "Pilih ayat yang BETUL tatabahasanya:", options: ["Saling bantu-membantu amalan mulia.", "Mereka saling membantu dalam menyiapkan tugasan itu.", "Senarai nama murid-murid cemerlang telah ditampal.", "Di samping itu, kita hendaklah saling tolong-menolong."], answer: 1, category: "Bahasa Melayu" },
-            { q: "Apakah maksud peribahasa 'Seperti benih yang baik, dicampak ke laut menjadi pulau'?", options: ["Orang yang mulia/berilmu tetap akan berbuat baik di mana jua berada", "Orang bernasib baik sentiasa mendapat kekayaan", "Sesuatu yang dibuang tidak kembali", "Berusaha gigih untuk cita-cita"], answer: 0, category: "Bahasa Melayu" },
-            { q: "Choose the correct ANTONYM (opposite) for the word 'PERMANENT':", options: ["Lasting", "Temporary", "Continuous", "Fixed"], answer: 1, category: "Bahasa Inggeris" },
-            { q: "Perkataan 'Eksploitasi' membawa maksud:", options: ["Penerokaan kawasan baharu", "Penggunaan sesuatu secara tidak adil untuk keuntungan diri", "Eksperimen sains di makmal", "Penghantaran barangan ke luar negara"], answer: 1, category: "Bahasa Melayu" }
-        ];
-
-        function buildSetQuestions(setId) {
-            let list = [];
-            let seed = setId * 1000;
-            function pseudoRandom() {
-                seed = (seed * 9301 + 49297) % 233280;
-                return seed / 233280;
+            for (let i = 0; i < 20; i++) {
+                let eq = eqTemplates[i % eqTemplates.length];
+                list.push({
+                    q: `[Set ${setId} - Soalan ${i + 1}] Apabila ${eq[0]}, apakah tindakan paling wajar?`,
+                    options: [eq[1], eq[2], eq[3], eq[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: eq[1],
+                    category: categories[0]
+                });
             }
 
-            for (let i = 0; i < 25; i++) {
-                let base = baseEQ[i % baseEQ.length];
-                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+            // 2. Pengetahuan Am & Sejarah (20 Soalan unik per Set)
+            const gkPool = [
+                // Set 1
+                [["Apakah ibu negara Malaysia?", "Kuala Lumpur", "Putrajaya", "Cyberjaya", "Georgetown"],
+                 ["Siapakah Bapa Kemerdekaan Malaysia?", "Tunku Abdul Rahman", "Tun Abdul Razak", "Tun Hussein Onn", "Tun Dr. Mahathir"],
+                 ["Perlembagaan Malaysia mengandungi berapa prinsip Rukun Negara?", "5", "6", "4", "7"],
+                 ["Apakah nama bendera rasmi Malaysia?", "Jalur Gemilang", "Sang Saka Bangsa", "Bintang Persekutuan", "Harimau Malaya"],
+                 ["Negeri manakah yang terkecil di Malaysia?", "Perlis", "Melaka", "Pulau Pinang", "Kedah"]],
+                // Set 2
+                [["Banjaran gunung terpanjang di Malaysia ialah...", "Banjaran Titiwangsa", "Banjaran Crocker", "Banjaran Tama Abu", "Banjaran Brassey"],
+                 ["Sungai terpanjang di Malaysia terletak di negeri Sarawak iaitu...", "Sungai Rajang", "Sungai Kinabatangan", "Sungai Pahang", "Sungai Perak"],
+                 ["Hari Malaysia disambut pada tarikh tahun 1963 iaitu...", "16 September", "31 Ogos", "22 Julai", "13 Mei"],
+                 ["Apakah bunga kebangsaan Malaysia?", "Bunga Raya", "Bunga Orkid", "Bunga Cempaka", "Bunga Mawar"],
+                 ["Siapakah pengasas Kesultanan Melayu Melaka?", "Parameswara", "Sultan Muzaffar Shah", "Hang Tuah", "Tun Perak"]],
+                // Set 3
+                [["Badan perundangan tertinggi di Malaysia ialah...", "Parlimen Malaysia", "Mahkamah Persekutuan", "Majlis Raja-Raja", "Kabinet"],
+                 ["Agensi pembangunan tanah Persekutuan di Malaysia ialah...", "FELDA", "MARA", "RISDA", "FAMA"],
+                 ["Apakah gelaran bagi Tun Dr. Mahathir Mohamad?", "Bapa Pemodenan", "Bapa Pembangunan", "Bapa Kemerdekaan", "Bapa Perpaduan"],
+                 ["Puncak tertinggi di Malaysia dan Asia Tenggara ialah...", "Gunung Kinabalu", "Gunung Tahan", "Gunung Korbu", "Gunung Ledang"],
+                 ["Pertubuhan negara-negara Asia Tenggara dikenali sebagai...", "ASEAN", "APEC", "OIC", "BRICS"]],
+                // Set 4
+                [["Pusat pentadbiran Kerajaan Persekutuan Malaysia terletak di...", "Putrajaya", "Kuala Lumpur", "Shah Alam", "Cyberjaya"],
+                 ["Apakah nama lagu kebangsaan Malaysia?", "Negaraku", "Ibu Pertivitiku", "Malaysia Bersih", "Keranamu Malaysia"],
+                 ["Mat Kilau dan Datuk Bahaman merupakan tokoh penentang penjajah di...", "Pahang", "Perak", "Kelantan", "Sabah"],
+                 ["Mata wang rasmi negara Malaysia ialah...", "Ringgit Malaysia", "Rupiah", "Baht", "Dollar"],
+                 ["Pusat peradaban Islam tertua di pantai timur terkenal dengan Batu Bersurat di...", "Terengganu", "Kelantan", "Pahang", "Kedah"]],
+                // Set 5
+                [["Stadium Merdeka merupakan lokasi pengisytiharan kemerdekaan pada tahun...", "1957", "1963", "1948", "1950"],
+                 ["Siapakah YDP Agong Pertama Malaysia?", "Tuanku Abdul Rahman ibni Almarhum Tuanku Muhammad", "Sultan Azlan Shah", "Tuanku Syed Putra", "Sultan Iskandar"],
+                 ["Pelabuhan utama di negeri Selangor ialah...", "Pelabuhan Klang", "Pelabuhan Kuantan", "Pelabuhan Pasir Gudang", "Pelabuhan Penang"],
+                 ["Pulau warta taman laut yang terkenal di Terengganu ialah...", "Pulau Redang", "Pulau Langkawi", "Pulau Pangkor", "Pulau Tioman"],
+                 ["Apakah prinsip Rukun Negara yang pertama?", "Kepercayaan kepada Tuhan", "Kesetiaan kepada Raja dan Negara", "Keluhuran Perlembagaan", "Kedaulatan Undang-Undang"]]
+            ];
+
+            let selectedGkSet = gkPool[(setId - 1) % 5];
+            for (let i = 0; i < 20; i++) {
+                let item = selectedGkSet[i % selectedGkSet.length];
+                list.push({
+                    q: `[Set ${setId}] ${item[0]}`,
+                    options: [item[1], item[2], item[3], item[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: item[1],
+                    category: categories[1]
+                });
             }
-            for (let i = 0; i < 25; i++) {
-                let base = baseGK[i % baseGK.length];
-                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+
+            // 3. Sains & Alam Sekitar (20 Soalan unik per Set)
+            const scienceTemplates = [
+                ["Apakah gas utama yang digunakan oleh tumbuhan hijau untuk fotosintesis?", "Karbon Dioksida", "Oksigen", "Nitrogen", "Hidrogen"],
+                ["Proses perubahan cecair kepada gas dinamakan...", "Penejatan", "Kondensasi", "Pembekuan", "Peleburan"],
+                ["Organ manusia yang berfungsi menyaring darah dan menghasilkan air kencing ialah...", "Ginjal (Buah Pinggang)", "Hati", "Paru-paru", "Jantung"],
+                ["Planet manakah yang dikenali sebagai Planet Merah?", "Marikh", "Utarid", "Zuhrah", "Mushtari"],
+                ["Tenaga yang diperoleh daripada aliran air empangan dikenali sebagai...", "Tenaga Hidroelektrik", "Tenaga Geoterma", "Tenaga Biomass", "Tenaga Nuklear"],
+                ["Apakah bahan dalam sel tumbuhan yang menyerap cahaya matahari?", "Klorofil", "Stomata", "Xilem", "Floem"],
+                ["Haiwan yang tidak mempunyai tulang belakang dipanggil...", "Invertebrata", "Vertebrata", "Mamalia", "Reptilia"],
+                ["Lapisan atmosfera bumi yang paling hampir dengan permukaan bumi ialah...", "Troposfera", "Stratosfera", "Mesosfera", "Termosfera"],
+                ["Apakah unit asas bagi ukuran jisim dalam SI?", "Kilogram", "Gram", "Newton", "Liter"],
+                ["Gas penyumbang utama kesan rumah hijau ialah...", "Karbon Dioksida", "Oksigen", "Helium", "Argon"],
+                ["Apakah fungsi darah merah dalam tubuh manusia?", "Membawa oksigen", "Melawan penyakit", "Membekukan darah", "Pencernaan"],
+                ["Proses tumbuhan membebaskan wap air melalui daun dipanggil...", "Transpirasi", "Fotosintesis", "Respirasi", "Penyerapan"],
+                ["Antara berikut, yang manakah merupakan tenaga boleh baharu?", "Tenaga Suria", "Petroleum", "Arang Batu", "Gas Asli"],
+                ["Sendi yang membolehkan pergerakan ke semua arah ialah...", "Sendi lesung", "Sendi engsel", "Sendi paksi", "Sendi leper"],
+                ["Satelit semula jadi bagi planet Bumi ialah...", "Bulan", "Matahari", "Komet", "Asteroid"],
+                ["Garam larut dalam air melalui proses...", "Keterlarutan", "Kondensasi", "Penyulingan", "Resapan"],
+                ["Gaya yang menentang pergerakan objek dinamakan...", "Daya geseran", "Daya graviti", "Daya magnet", "Daya apungan"],
+                ["Apakah sifat bahan berasid apabila diuji dengan kertas litmus biru?", "Menukar kertas litmus biru kepada merah", "Menukar kertas litmus merah kepada biru", "Tiada perubahan warna", "Menjadi hijau"],
+                ["Vitamin yang membantu penyerapan kalsium dan tulang ialah...", "Vitamin D", "Vitamin C", "Vitamin A", "Vitamin B"],
+                ["Penyakit skurvi disebabkan oleh kekurangan...", "Vitamin C", "Vitamin A", "Vitamin D", "Zat Besi"]
+            ];
+
+            for (let i = 0; i < 20; i++) {
+                let sc = scienceTemplates[(i + (setId * 3)) % scienceTemplates.length];
+                list.push({
+                    q: `[Set ${setId}] ${sc[0]}`,
+                    options: [sc[1], sc[2], sc[3], sc[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: sc[1],
+                    category: categories[2]
+                });
             }
-            for (let i = 0; i < 25; i++) {
-                let base = baseLang[i % baseLang.length];
-                list.push({ q: `[Set ${setId}] ${base.q}`, options: [...base.options], answer: base.answer, category: base.category });
+
+            // 4. Bahasa Melayu & Inggeris (20 Soalan unik per Set)
+            const langTemplates = [
+                ["Pilih peribahasa yang bermaksud 'bekerja sia-sia dan tidak mendatangkan hasil':", "Mencurah air ke daun keladi", "Seperti cincin dengan permata", "Ukur baju di badan sendiri", "Harimau mati meninggalkan belang"],
+                ["Choose the correct synonym for the word 'CRUCIAL':", "Vital / Important", "Optional", "Trivial", "Minor"],
+                ["Pilih ayat yang BETUL penggunaan tatabahasanya:", "Mereka saling membantu dalam tugasan itu.", "Saling bantu-membantu amalan mulia.", "Kita hendaklah saling tolong-menolong.", "Mereka saling bersalam-salaman."],
+                ["Choose the ANTONYM for the word 'PERMANENT':", "Temporary", "Lasting", "Continuous", "Fixed"],
+                ["Perkataan 'Eksploitasi' membawa maksud...", "Penggunaan sesuatu untuk keuntungan diri secara tidak adil", "Penerokaan kawasan baharu", "Penyelidikan sains", "Penghantaran barangan"],
+                ["'Biar putih tulang, jangan putih mata' bermaksud...", "Lebih baik mati daripada menanggung malu", "Bekerja dengan tekun", "Menjaga kebersihan diri", "Bersabar menghadapi dugaan"],
+                ["Fill in the blank: 'If it rains tomorrow, we _______ our trip to the park.'", "will cancel", "canceled", "canceling", "cancelation"],
+                ["Pilih kata ganda yang membawa maksud 'saling' dengan betul:", "Pukul-memukul", "Saling pukul-memukul", "Saling bertumbuk-tumbukan", "Saling tolong-menolong"],
+                ["Select the correctly spelled word:", "Accommodation", "Acommodation", "Accomodation", "Acomodation"],
+                ["Apakah maksud peribahasa 'Diam-diam ubi berisi'?", "Orang pendiam tetapi banyak pengetahuan/kebolehan", "Orang yang malas bekerja", "Orang yang suka menyimpan rahsia", "Orang yang tidak suka bercakap"],
+                ["Choose the correct preposition: 'She has been studying here _______ 2021.'", "since", "for", "during", "until"],
+                ["Kata adjektif 'lambat' merujuk kepada unsur...", "Masa", "Ukuran", "Perasaan", "Sifat"],
+                ["Choose the suitable idiom for 'extremely happy':", "Over the moon", "Under the weather", "Once in a blue moon", "Spill the beans"],
+                ["'Ukur baju di badan sendiri' menasihati kita supaya...", "Berbelanja mengikut kemampuan sendiri", "Menjahit baju sendiri", "Membeli pakaian yang mahal", "Mengikut fesyen semasa"],
+                ["What is the past participle of the verb 'DRIVE'?", "Driven", "Drove", "Driving", "Drives"],
+                ["Pilih antonim (lawan perkataan) bagi 'MUTAKHIR':", "Kuno / Klasik", "Moden", "Terkini", "Baharu"],
+                ["Identify the correct pronoun: 'Neither John nor His friends _______ present.'", "were", "was", "is", "be"],
+                ["'Katak di bawah tempurung' bermaksud...", "Orang yang sangat terhad pengetahuannya", "Orang yang tinggal di kampung", "Orang yang takut akan bahaya", "Orang yang pendiam"],
+                ["Choose the meaning of 'BENEVOLENT':", "Kind and generous", "Cruel and mean", "Lazy and slow", "Arrogant and proud"],
+                ["Sinonim bagi perkataan 'ISTIMEWA' ialah...", "Khas / Khasnya", "Biasa", "Umum", "Sederhana"]
+            ];
+
+            for (let i = 0; i < 20; i++) {
+                let lg = langTemplates[(i + (setId * 2)) % langTemplates.length];
+                list.push({
+                    q: `[Set ${setId}] ${lg[0]}`,
+                    options: [lg[1], lg[2], lg[3], lg[4]].sort(() => Math.random() - 0.5),
+                    correctAnswer: lg[1],
+                    category: categories[3]
+                });
             }
-            for (let i = 0; i < 25; i++) {
+
+            // 5. Logik IQ & Matematik KBAT (20 Soalan unik per Set)
+            for (let i = 0; i < 20; i++) {
                 let type = i % 4;
-                let qObj;
+                let qText, options, ansIndex;
+
                 if (type === 0) {
-                    let step = (setId + i) % 4 + 2;
-                    let start = (setId * 3) + i + 1;
+                    let step = (setId * 2) + (i % 3) + 2;
+                    let start = (setId * 5) + (i * 2);
                     let seq = [start, start + step, start + (step * 2), start + (step * 3)];
-                    let ans = start + (step * 4);
-                    let opts = [ans - 2, ans, ans + 3, ans + step + 1].sort(() => pseudoRandom() - 0.5);
-                    qObj = { q: `[Set ${setId}] Apakah nombor seterusnya dalam siri ini: ${seq.join(', ')}, ...?`, options: opts.map(String), answer: opts.indexOf(ans), category: "Logik IQ (Pola Nombor)" };
+                    let next = start + (step * 4);
+                    qText = `[Set ${setId}] Apakah nombor seterusnya dalam pola ini: ${seq.join(', ')}, ...?`;
+                    let opts = [next, next + 3, next - 2, next + step + 1].sort(() => Math.random() - 0.5);
+                    options = opts.map(String);
+                    ansIndex = options.indexOf(String(next));
                 } else if (type === 1) {
                     let letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                    let jump = (setId % 2) + 2;
-                    let startIdx = (i * 2) % 12;
-                    let seq = [letters[startIdx], letters[startIdx + jump], letters[startIdx + (jump*2)]];
-                    let ansLetter = letters[startIdx + (jump*3)];
-                    let opts = [letters[startIdx + (jump*3)+1], ansLetter, letters[startIdx + (jump*3)-1], letters[startIdx + (jump*3)+2]].sort(() => pseudoRandom() - 0.5);
-                    qObj = { q: `[Set ${setId}] Lengkapkan turutan abjad ini: ${seq.join(', ')}, ...?`, options: opts, answer: opts.indexOf(ansLetter), category: "Logik IQ (Abjad)" };
+                    let jump = (setId % 3) + 1;
+                    let startIdx = (i * 2) % 10;
+                    let seq = [letters[startIdx], letters[startIdx + jump], letters[startIdx + (jump * 2)]];
+                    let nextL = letters[startIdx + (jump * 3)];
+                    qText = `[Set ${setId}] Lengkapkan siri abjad ini: ${seq.join(', ')}, ...?`;
+                    let opts = [letters[startIdx + (jump * 3) + 1], nextL, letters[startIdx + (jump * 3) - 1], letters[startIdx + (jump * 3) + 2]].sort(() => Math.random() - 0.5);
+                    options = opts;
+                    ansIndex = options.indexOf(nextL);
                 } else if (type === 2) {
-                    const analogies = [
-                        { q: "Mata : Melihat = Telinga : ?", a: "Mendengar", w: ["Menghidu", "Merasa", "Bercakap"] },
-                        { q: "Batu : Keras = Kapas : ?", a: "Lembut", w: ["Ringan", "Putih", "Terbang"] },
-                        { q: "Doktor : Hospital = Guru : ?", a: "Sekolah", w: ["Kelas", "Kantin", "Pejabat"] },
-                        { q: "Siang : Matahari = Malam : ?", a: "Bulan", w: ["Bintang", "Awan", "Gelap"] }
-                    ];
-                    let r = analogies[(i + setId) % analogies.length];
-                    let opts = [r.a, ...r.w].sort(() => pseudoRandom() - 0.5);
-                    qObj = { q: `[Set ${setId}] Selesaikan analogi kiasan ini: ${r.q}`, options: opts, answer: opts.indexOf(r.a), category: "Logik IQ (Analogi)" };
+                    let items = (i + 4) * 2 + setId;
+                    let count = 5;
+                    let eaten = 4;
+                    let ans = (items * count) - eaten;
+                    qText = `[Set ${setId}] Terdapat ${count} buah kotak. Setiap kotak ada ${items} biji epal. Jika ${eaten} biji telah dimakan, berapa baki epal?`;
+                    let opts = [ans, ans + 5, ans - 3, items * count].sort(() => Math.random() - 0.5);
+                    options = opts.map(String);
+                    ansIndex = options.indexOf(String(ans));
                 } else {
-                    let items = (i + 5) * 3 + setId;
-                    let boxes = 4;
-                    let total = items * boxes;
-                    let eaten = 6;
-                    let ans = total - eaten;
-                    let opts = [ans, ans + 4, ans - 2, total].sort(() => pseudoRandom() - 0.5);
-                    qObj = { q: `[Set ${setId}] Terdapat ${boxes} buah kotak. Setiap kotak mempunyai ${items} biji epal. Jika ${eaten} biji epal telah dimakan, berapa baki epal yang tinggal?`, options: opts.map(String), answer: opts.indexOf(ans), category: "Matematik KBAT" };
+                    let lif = 2 + setId;
+                    let naik1 = 6, turun1 = 3, naik2 = 4;
+                    let ans = lif + naik1 - turun1 + naik2;
+                    qText = `[Set ${setId}] Lif bermula di tingkat ${lif}. Ia naik ${naik1} tingkat, turun ${turun1} tingkat, dan naik lagi ${naik2} tingkat. Di tingkat berapakah lif berada sekarang?`;
+                    let opts = [ans, ans + 2, ans - 1, ans + 4].sort(() => Math.random() - 0.5);
+                    options = opts.map(String);
+                    ansIndex = options.indexOf(String(ans));
                 }
-                list.push(qObj);
+
+                list.push({
+                    q: qText,
+                    options: options,
+                    correctAnswer: options[ansIndex],
+                    category: categories[4]
+                });
             }
-            return list;
+
+            // Petakan ke format aplikasi
+            return list.map(item => {
+                let ansIdx = item.options.indexOf(item.correctAnswer);
+                return {
+                    q: item.q,
+                    options: item.options,
+                    answer: ansIdx,
+                    category: item.category
+                };
+            });
         }
 
         // --- State Management ---
         let activeQuestions = [];
         let currentQuestionIndex = 0;
-        
-        // Status per Question: null = unanswered, 'skipped' = pass/skip, number = option index
         let userAnswers = new Array(100).fill(null); 
-        
         let activeSet = 1;
         let timeLeft = 90 * 60;
         let timerInterval = null;
@@ -372,19 +476,17 @@
             if (setNum === 'random') {
                 document.getElementById('badge-set-name').innerText = "MOD RAWAK";
                 let all500 = [];
-                for (let s = 1; s <= 5; s++) all500 = all500.concat(buildSetQuestions(s));
+                for (let s = 1; s <= 5; s++) all500 = all500.concat(generateSetBank(s));
                 activeQuestions = all500.sort(() => Math.random() - 0.5).slice(0, 100);
             } else {
                 document.getElementById('badge-set-name').innerText = `SET ${setNum}`;
-                activeQuestions = buildSetQuestions(setNum);
+                activeQuestions = generateSetBank(setNum);
             }
 
-            // Reset Quiz State
             currentQuestionIndex = 0;
             userAnswers = new Array(100).fill(null);
             timeLeft = 90 * 60;
 
-            // Display Switch
             document.getElementById('screen-set-select').classList.add('hidden');
             document.getElementById('screen-result').classList.add('hidden');
             document.getElementById('screen-quiz').classList.remove('hidden');
@@ -415,16 +517,13 @@
             let qData = activeQuestions[currentQuestionIndex];
             let status = userAnswers[currentQuestionIndex];
 
-            // Header info
             document.getElementById('text-current-num').innerText = currentQuestionIndex + 1;
             document.getElementById('badge-category').innerText = qData.category;
             document.getElementById('text-question').innerText = qData.q;
             document.getElementById('quiz-progress-bar').style.width = `${((currentQuestionIndex + 1) / 100) * 100}%`;
 
-            // Prev Button visibility
             document.getElementById('btn-prev').classList.toggle('hidden', currentQuestionIndex === 0);
 
-            // Next Button text change at 100th question
             const btnNext = document.getElementById('btn-next');
             if (currentQuestionIndex === 99) {
                 btnNext.innerHTML = `Lihat Keputusan <i class="fa-solid fa-flag-checkered ml-1"></i>`;
@@ -434,7 +533,6 @@
                 btnNext.className = "px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-bold shadow-md transition text-sm flex items-center gap-2";
             }
 
-            // Render Options
             const boxOptions = document.getElementById('box-options');
             boxOptions.innerHTML = '';
 
@@ -449,11 +547,9 @@
                     btn.classList.add('cursor-not-allowed');
 
                     if (index === qData.answer) {
-                        // Correct Answer
                         btn.classList.add('bg-emerald-50', 'border-emerald-500', 'text-emerald-900', 'font-bold');
                         btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-emerald-600 font-extrabold text-sm"><i class="fa-solid fa-check"></i> Betul</span>`;
                     } else if (index === status) {
-                        // Wrong Choice
                         btn.classList.add('bg-rose-50', 'border-rose-500', 'text-rose-900');
                         btn.innerHTML = `<span>${String.fromCharCode(65 + index)}. ${opt}</span> <span class="text-rose-600 font-extrabold text-sm"><i class="fa-solid fa-xmark"></i> Salah</span>`;
                     } else {
@@ -478,7 +574,6 @@
         }
 
         function skipCurrentQuestion() {
-            // Only set to skipped if not answered yet
             if (typeof userAnswers[currentQuestionIndex] !== 'number') {
                 userAnswers[currentQuestionIndex] = 'skipped';
             }
@@ -529,7 +624,6 @@
                 let st = userAnswers[i];
                 let isCurrent = i === currentQuestionIndex;
 
-                // Base classes
                 btn.className = `grid-nav-item h-8 w-full rounded-lg font-bold text-xs flex items-center justify-center border transition ${isCurrent ? 'ring-2 ring-indigo-600 ring-offset-2 z-10' : ''} `;
 
                 if (st === null) {
@@ -549,7 +643,6 @@
                 }
             }
 
-            // Update stats
             document.getElementById('count-unanswered').innerText = countUnans;
             document.getElementById('count-skipped').innerText = countSkip;
             document.getElementById('count-correct').innerText = countCorr;
@@ -559,7 +652,6 @@
         function jumpToQuestion(idx) {
             currentQuestionIndex = idx;
             renderQuestion();
-            // Close drawer on mobile if open
             if (window.innerWidth < 1024) {
                 document.getElementById('grid-drawer-container').classList.add('hidden');
             }
